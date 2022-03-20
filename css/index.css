@@ -63,7 +63,7 @@ nav a {
 .partner {
     border: 1px solid rgba(0, 0, 0, 0.3);
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 5px;
 }
 
 .style-none {
@@ -84,6 +84,10 @@ main {
     font-size: 3.4vw;
     font-weight: bolder;
     color: black;
+}
+.icone{
+    height: 30px;
+    margin: 5px;
 }
 
 .draft {
@@ -166,7 +170,7 @@ header img {
 .tableControl1 {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    background: linear-gradient(45deg, var(--primary-color), #FF0663, #E88A50);
+    background: linear-gradient(45deg, var(--primary-color), #ff0015, #E88A50);
     padding: 6%;
 }
 
@@ -428,6 +432,18 @@ footer div:nth-child(4) {
     color: black;
     margin-top: var(--margin-top);
 }
+.line{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    margin-bottom: 40px;
+}
+.column{
+    flex-direction: column;
+}
+footer{
+    display: flex;
+}
 
 @media only screen and (max-width: 767px) {
     .table {
@@ -576,7 +592,7 @@ footer div:nth-child(4) {
 }
 
 :root {
-    --primary-color: #ea1d2c;
+    --primary-color: #ff0015;
     --margin-top: 30px;
     --mobile-animate-timer: 20s;
     --mobile-animate-delay: calc(var(--mobile-animate-timer) / 2);
