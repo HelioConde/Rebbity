@@ -228,8 +228,40 @@ footer div:nth-child(4) {
 
 .flexForm2 {}
 
+.flexForm3 {
+    display: inline-block;
+}
+
+.flexForm3 input {
+    width: auto;
+}
+
 .flexDIV {
     width: 45%;
+}
+
+.flexDIV2 {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 11px;
+}
+
+.auto {
+    margin: auto;
+}
+
+.submit {
+    width: 200px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #D41C19;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    justify-content: center;
+    cursor: pointer;
 }
 
 form {

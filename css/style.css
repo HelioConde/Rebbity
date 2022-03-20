@@ -231,6 +231,12 @@ nav {
     padding: 2px 10px;
 }
 
+.flexForm3 {
+    display: inline-block;
+}
+
+
+
 @media only screen and (max-width: 1060px) {
     .table {
         flex-direction: column;

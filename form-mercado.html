@@ -29,7 +29,7 @@
 
     <main>
 
-        <form action="" method="post">
+        <form action="./insert_market.php" method="post">
             <div class="flexForm">
                 <div class="flexDIV">
                     <label for="cnpj">
@@ -50,11 +50,11 @@
             </div>
             <div class="flexForm">
                 <div class="flexDIV">
-                    <label for="storeName" title="Nome que aparecerá no app">
+                    <label for="name" title="Nome que aparecerá no app">
                         Nome da loja
                     </label>
                     <div class="flexForm2">
-                        <input name="storeName" id="storeName" placeholder="Exemplo: Loja da Ana"
+                        <input name="name" id="name" placeholder="Exemplo: Loja da Ana"
                             title="Nome que aparecerá no app" required>
                     </div>
                 </div>
@@ -78,11 +78,11 @@
                     </div>
                 </div>
                 <div class="flexDIV">
-                    <label for="status">
+                    <label for="state">
                         Estado
                     </label>
                     <div class="flexForm2">
-                        <select name="status" id="status">
+                        <select name="state" id="state">
                             <option value="AC"> Acre</option>
                             <option value="AL"> Alagoas</option>
                             <option value="AP"> Amapá</option>
@@ -138,7 +138,7 @@
                         Endereço
                     </label>
                     <div class="flexForm2">
-                        <input name="address" id="address" placeholder="xemplo: Avenida Brasil" required>
+                        <input name="address" id="address" placeholder="Exemplo: Avenida Brasil" required>
                     </div>
                 </div>
                 <div class="flexDIV">
@@ -150,57 +150,73 @@
                     </div>
                 </div>
             </div>
-        </form>
-
-        <!--
-  
-                    <p class="title-form"> Cidade </p>
-                    <input name="cidade" class="input-form-city" placeholder="Cidade do seu negócio" required>
-                    <p class="text-form"> Bairro </p>
-                    <input name="bairro" class="input-form" placeholder="Exemplo: Centro" required>
-                    <p class="text-form"> Endereço </p>
-                    <input name="endereco" class="input-form" placeholder="Exemplo: Avenida Brasil" required>
-                    <p class="text-form"> Número </p>
-                    <input name="numero" type="number" class="input-form" placeholder="Exemplo: 123" required>
-                    <p class="text-form"> Complemento (opcional) </p>
-                    <input name="complemento" class="input-form" placeholder="Exemplo: 2° Andar">
-                    <p class="text-form-question"> A sua loja tem serviço de entrega ? </p>
-                    <input name="entrega" class="input-form-radio" type="radio" value="true"> Sim <br>
-                    <input name="entrega" class="input-form-radio" type="radio" value="false"> Não <br>
-
-                   
-                    <h5 class="main-title">Insira os dados de login</h5>
-                    <p class="text-form">Digite o email para login</p>
-                    <input class="input-form" type="email" name="email" placeholder="email@email.com" required>
-                    <p class="text-form">Digite a sua senha</p>
-                    <input name="senha1" type="password" class="input-form" placeholder="••••••••••" required>
-                    <p class="text-form">Repita a senha</p>
-                    <input name="senha2" type="password" class="input-form" placeholder="••••••••••" required>
-
-                
-                    <p class="info-cartao"> Informações do Cartão </p>
-                    <p class="text-form"> Número do Cartão </p>
-                    <input name="cartão-numero" type="number" class="input-form" placeholder="Número do Cartão"
-                        required>
-                    <p class="text-form"> Nome do Titular do Cartão </p>
-                    <input name="nome-titular" type="text" class="input-form" placeholder="Ex: Júnior Gomes" required>
-                    <!--<p class="text-form"> Mês de vencimento </p>
-                    <input name="MM" type="number" class="input-form" placeholder="MM" required>
-                    <p class="text-form"> Ano de vencimento</p>
-                    <input name="AA" type="number" class="input-form" placeholder="AA" required>
-                    <p class="text-form">Data de vencimento</p>
-                    <div class="data"><input name="MM" type="number" class="input-form dois-digitos" placeholder="MM"
-                            size="2" required>
-                        <input name="AA" type="number" class="input-form dois-digitos" placeholder="AA" size="2"
-                            required>
+            <div class="flexForm">
+                <div class="flexDIV">
+                    <label for="complement">
+                        Complemento (opcional)
+                    </label>
+                    <div class="flexForm2">
+                        <input name="complement" id="complement" placeholder="Exemplo: 2° Andar" required>
                     </div>
-
-                    <input name="enviar" class="button-enviar" type="submit" value="Enviar">
-
+                </div>
+                <div class="flexDIV2">
+                    <label for="DeliveryName">
+                        Serviço de Entrega?
+                    </label>
+                    <div>
+                        <div class="flexForm3">
+                            <input type="radio" id="DeliveryTrue" name="Delivery" value="true" checked>
+                            <label for="DeliveryTrue">Sim</label>
+                        </div>
+                        <div class="flexForm3">
+                            <input type="radio" id="DeliveryFalse" name="Delivery" value="false" checked>
+                            <label for="DeliveryFalse">Não</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flexForm">
+                <div class="flexDIV">
+                    <label for="email">
+                        Digite o seu email
+                    </label>
+                    <div class="flexForm2">
+                        <input type="email" name="email" id="email" placeholder="email@email.com" required>
+                    </div>
+                </div>
+                <div class="flexDIV">
+                    <label for="email">
+                        Repita o seu email
+                    </label>
+                    <div class="flexForm2">
+                        <input type="email" name="email" id="email" placeholder="email@email.com" required>
+                    </div>
+                </div>
+            </div>
+            <div class="flexForm">
+                <div class="flexDIV">
+                    <label for="password">
+                        Digite a sua senha
+                    </label>
+                    <div class="flexForm2">
+                        <input type="password" name="password" id="password" placeholder="email@email.com" required>
+                    </div>
+                </div>
+                <div class="flexDIV">
+                    <label for="password2">
+                        Repita a sua senha
+                    </label>
+                    <div class="flexForm2">
+                        <input type="password" name="password2" id="password2" placeholder="email@email.com" required>
+                    </div>
+                </div>
+            </div>
+            <div class="flexForm">
+                <div class="flexDIV auto">
+                    <input type="submit" class="submit" value="Enviar">
                 </div>
             </div>
         </form>
--->
     </main>
     <header>
         <div class="box">
