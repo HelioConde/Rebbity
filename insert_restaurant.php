@@ -1,20 +1,52 @@
 <?php
-include("conexao_teste.php");
-try{
-$nome = $_POST['nome'];
-$tel = $_POST['tel'];
-$email = $_POST['email'];
-$senha = $_POST['senha'];
+include("config.php");
+
+try {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $phone = $_POST['phone'];
+    $cep = $_POST['cep'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $district = $_POST['district'];
+    $address = $_POST['address'];
+    $complement = $_POST['complement'];
+    $corporateName = $_POST['corporateName'];
+    $cnpj = $_POST['cnpj'];
 
 
-$sql = "INSERT INTO cliente_restaurante(nome,tel,email,senha)
- values ('$nome','$tel','$email','$senha')";
-$conn->query($sql); 
-echo "<a href='/lucas/testando/form_dados_restaurante.php'><center><h1>ESTAMOS QUASE LA!<br> PARA CONCLUIR SEU CADASTRO COMPLETE SEUS DADOS<br>NECESSARIOS</h1></center></a>";
-}catch(PDOException $ex){
-  
+    mysqli_query($conn, "INSERT INTO `insert_restaurant` (
+        `name`,
+        `email`,
+        `password`,
+        `phone`,
+        `cep`,
+        `city`,
+        `state`,
+        `district`,
+        `address`,
+        `complement`,
+        `corporateName`,
+        `cnpj`
+    ) 
+    VALUES (
+        '$name',
+        '$email',
+        '$password',
+        '$phone',
+        '$cep',
+        '$city',
+        '$state',
+        '$district',
+        '$address',
+        '$complement',
+        '$corporateName',
+        '$cnpj'
+    )");
+
+
+} catch(PDOException $ex) {
     echo'Erro'.$ex->getmessage();
-    
 }
-?> 
-</form>
+?>
