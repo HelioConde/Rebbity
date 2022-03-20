@@ -1,0 +1,409 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    color: #4f4e4e;
+    transition: 0.5s all;
+}
+
+nav {
+    font-family: var(--font-nav);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4f4e4e;
+    box-shadow: 0px 2px 6px rgb(0 0 0 / 40%);
+    height: 60px;
+}
+
+nav img {
+    width: 110px;
+}
+
+nav a {
+    padding: 0 2%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    list-style: none;
+    color: #4f4e4e;
+}
+
+.partner {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.style-none {
+    text-decoration: none;
+    list-style: none;
+    color: #4f4e4e;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-family: var(--font);
+    margin-top: var(--margin-top);
+    font-size: 3.4vw;
+    font-weight: bolder;
+    color: black;
+}
+
+.draft {
+    color: var(--primary-color);
+}
+
+.draft2 {
+    color: var(--primary-color);
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+header {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 6%;
+    margin-top: var(--margin-top);
+}
+
+header img {
+    max-height: 130px;
+    max-width: 100%;
+}
+
+.box {
+    align-items: center;
+    text-align: center;
+    display: grid;
+    background: white;
+}
+
+.box div:nth-child(1) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.box div:nth-child(2) {
+    font-weight: bolder;
+    font-size: 1rem;
+    color: black;
+}
+
+.box div:nth-child(3) {
+    font-size: 0.8rem;
+}
+
+.box div {
+    margin: 2%;
+}
+
+.table {
+    display: flex;
+    width: 60%;
+    text-align: center;
+    margin-top: calc(var(--margin-top) * 2);
+}
+
+.table img {
+    width: 50%;
+    border-radius: 100px;
+    margin-top: -24%;
+}
+
+.tableControl {
+    border-radius: 20px;
+    margin: 0 2%;
+    box-shadow: 0px 2px 10px black;
+}
+
+.tableControl1 {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background: linear-gradient(45deg, var(--primary-color), #FF0663, #E88A50);
+    padding: 6%;
+}
+
+.tableControl1 div {
+    text-align: left;
+    color: white;
+    font-size: 15px;
+}
+
+.tableControl1 div div:nth-child(2) {
+    font-weight: bolder;
+}
+
+.tableControl2 {
+    display: flex;
+    align-items: center;
+    padding: 5%;
+    justify-content: space-around;
+}
+
+.tableControl2 div {
+    margin: 2% 0;
+}
+
+.tableControl2 button {
+    cursor: pointer;
+}
+
+.tableControl2 div:nth-child(1) div:nth-child(1) {
+    color: black;
+    font-weight: bolder;
+}
+
+.tableControl2 div:nth-child(1) div:nth-child(2) {
+    font-size: 0.8rem;
+}
+
+.mais {
+    background: var(--primary-color);
+    border: none;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 10px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+
+.about {
+    margin-top: var(--margin-top);
+    display: flex;
+    width: 80%;
+    align-items: center;
+    text-align: center;
+}
+
+footer {
+    padding: 50px 10% 10px 10%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: var(--margin-top);
+    background: #F2F2F2;
+    justify-items: center;
+}
+
+footer div {
+    display: flex;
+    flex-direction: column;
+}
+
+footer div span {
+    padding-top: 10px;
+}
+
+footer div span:nth-child(1) {
+    padding-bottom: 10px;
+}
+
+footer div:nth-child(4) {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    z-index: 2;
+    margin-top: var(--margin-top);
+    font-size: 12px;
+}
+
+.flexForm {
+    display: flex;
+    margin-top: var(--margin-top);
+    justify-content: space-between;
+}
+
+.flexForm2 {}
+
+.flexDIV {
+    width: 45%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 2px 10px black;
+    margin-top: var(--margin-top);
+    padding: 50px;
+    width: 50%;
+}
+
+form input {
+    padding: 10px;
+    border-radius: 6px;
+    width: 89%;
+}
+
+form select {
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .table {
+        flex-direction: column;
+    }
+
+    header {
+        display: -webkit-box;
+        height: 310px;
+        width: 80%;
+    }
+
+    .box {
+        position: absolute;
+        opacity: 0;
+        transition: all 1s;
+        width: 100%;
+    }
+
+    .tableControl {
+        margin-top: var(--margin-top);
+    }
+
+    .title {
+        font-size: 8.4vw;
+        text-align: center;
+    }
+
+    #timer {
+        position: absolute;
+        width: 0%;
+        height: 5px;
+        background: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        margin: 0 10%;
+        border-radius: 50px;
+        box-shadow: 0px 0px 4px black;
+        animation: timer 5s infinite;
+        opacity: 1;
+    }
+
+    @keyframes timer {
+        0% {
+            width: 0%;
+            opacity: 1;
+        }
+
+
+        90% {
+            width: 80%;
+            opacity: 1;
+        }
+
+        100% {
+            width: 0%;
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(1) {
+        animation: timer-1 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-1 {
+
+        0% {
+            opacity: 0;
+        }
+
+        5%,
+        20% {
+            opacity: 1;
+        }
+
+        25%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(2) {
+        animation: timer-2 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-2 {
+
+        0%,
+        20% {
+            opacity: 0;
+        }
+
+        25%,
+        45% {
+            opacity: 1;
+        }
+
+        50%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(3) {
+        animation: timer-3 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-3 {
+
+        0%,
+        45% {
+            opacity: 0;
+        }
+
+        50%,
+        70% {
+            opacity: 1;
+        }
+
+        75%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(4) {
+        animation: timer-4 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-4 {
+
+        0%,
+        70% {
+            opacity: 0;
+        }
+
+        75%,
+        90% {
+            opacity: 1;
+        }
+
+        95%,
+        100% {
+            opacity: 0;
+        }
+    }
+}
+
+:root {
+    --primary-color: #ea1d2c;
+    --margin-top: 30px;
+    --mobile-animate-timer: 20s;
+    --mobile-animate-delay: calc(var(--mobile-animate-timer) / 2);
+    --font: Verdana, sans-serif;
+    --font-nav: Verdana, sans-serif;
+}
