@@ -160,7 +160,7 @@
                         Complemento (opcional)
                     </label>
                     <div class="flexForm2">
-                        <input name="complement" id="complement" placeholder="Exemplo: 2° Andar" required>
+                        <input name="complement" id="complement" placeholder="Exemplo: 2° Andar">
                     </div>
                 </div>
                 <div class="flexDIV2">
@@ -329,7 +329,7 @@
                             console.log(data);
                             $("#city").val(data.localidade)
                             $("#district").val(data.bairro)
-                            $("#status").val(data.uf).change();
+                            $("#state").val(data.uf).change();
                             $("#address").val(data.logradouro);
                         }
                     });

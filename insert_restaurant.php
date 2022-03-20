@@ -16,7 +16,7 @@ try {
     $cnpj = $_POST['cnpj'];
 
 
-    mysqli_query($conn, "INSERT INTO `insert_restaurant` (
+    mysqli_query($conn, "INSERT INTO `client` (
         `name`,
         `email`,
         `password`,
@@ -28,7 +28,8 @@ try {
         `address`,
         `complement`,
         `corporateName`,
-        `cnpj`
+        `cnpj`,
+        `typeTable`
     ) 
     VALUES (
         '$name',
@@ -42,7 +43,8 @@ try {
         '$address',
         '$complement',
         '$corporateName',
-        '$cnpj'
+        '$cnpj',
+        'restaurant'
     )");
 
 
