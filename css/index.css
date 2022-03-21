@@ -85,7 +85,8 @@ main {
     font-weight: bolder;
     color: black;
 }
-.icone{
+
+.icone {
     height: 30px;
     margin: 5px;
 }
@@ -261,7 +262,7 @@ footer div:nth-child(4) {
 
 .flexForm {
     display: flex;
-    margin-top: var(--margin-top);
+    margin-top: 15px;
     justify-content: space-between;
     font-weight: bold;
     font-family: "Sul Sans", sans-serif;
@@ -269,9 +270,9 @@ footer div:nth-child(4) {
     line-height: 24px;
     color: rgb(62, 62, 62);
     margin-bottom: 4px;
+    flex-wrap: wrap;
 }
 
-.flexForm2 {}
 
 .flexForm3 {
     display: inline-block;
@@ -340,8 +341,9 @@ footer div:nth-child(4) {
     padding: 50px;
     background: white;
     border-radius: 25px;
-    min-width: 500px;
+    min-width: 470px;
     margin-right: 2%;
+    max-width: 500px;
 }
 
 #form input {
@@ -432,17 +434,27 @@ footer div:nth-child(4) {
     color: black;
     margin-top: var(--margin-top);
 }
-.line{
+
+.line {
     display: flex;
     justify-content: space-around;
     flex-direction: row;
     margin-bottom: 40px;
 }
-.column{
+
+.column {
     flex-direction: column;
 }
-footer{
+
+footer {
     display: flex;
+}
+
+.erro {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    color: red;
 }
 
 @media only screen and (max-width: 767px) {
