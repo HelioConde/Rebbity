@@ -1,4 +1,27 @@
 window.onload = function () {
+
+    var query = location.search.slice(1);
+    var partes = query.split('&');
+    var data = {};
+    partes.forEach(function (parte) {
+        var chaveValor = parte.split('=');
+        var chave = chaveValor[0];
+        var valor = chaveValor[1];
+        data[chave] = valor;
+    });
+
+    if (data.erro == 'email') {
+        $("#alert").css("display", "flex");
+        $(".alertText").html('O E-mail já está em uso!');
+    } else if (data.erro == 'cnpj') {
+        $("#alert").css("display", "flex");
+        $(".alertText").html('O CNPJ já está em uso!');
+    }
+
+    $("#confirmBox").on('mouseup', function () {
+        $("#alert").css("display", "none");
+    })
+
     $("#cep").on('keyup', function () {
         if ($("#cep").val().length == 9) {
             $.ajax({
@@ -97,7 +120,7 @@ window.onload = function () {
             erro++;
             $("#email2").focus()
             $("#erro7").html('Por favor repita o seu E-mail')
-        } else if ($("#email").val() == $("#email2").val()) {
+        } else if ($("#email").val() != $("#email2").val()) {
             erro++;
             $("#email").focus()
             $("#erro7").html('Os E-mails não são iguais. tente novamente')
@@ -109,7 +132,7 @@ window.onload = function () {
             erro++;
             $("#password2").focus()
             $("#erro8").html('Por favor repita a sua Senha')
-        } else if ($("#password").val() == $("#password2").val()) {
+        } else if ($("#password").val() != $("#password2").val()) {
             erro++;
             $("#password").focus()
             $("#erro8").html('Os Senhas não são iguais. tente novamente')

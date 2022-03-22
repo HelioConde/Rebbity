@@ -5,6 +5,17 @@ include("./config.php");
 $email = $_POST['email'];
 $password = $_POST['password'];
 
+$resultToken = "";
+
+
+$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+$count = mb_strlen($chars);
+
+for ($i = 0; $i < 64; $i++) {
+    $index = Rand(0, $count - 1);
+    $resultToken .= mb_substr($chars, $index, 1);
+}
+
 $result = mysqli_query($conn, "SELECT * FROM `client` WHERE email='".$email."' LIMIT 1");
 
 if (!$result){
@@ -14,12 +25,14 @@ if (!$result){
         $member = mysqli_fetch_assoc($result);
         if (password_verify($password, $member['password']))
         {
-            echo 'Logado';
+
+            mysqli_query($conn, "UPDATE `client` SET `token`='".$resultToken."' WHERE id='".$member['id']."'");
+            echo '<script> window.location = "./portal/index.html"; </script>';
         } else {
-            echo 'Erro password';
+            echo '<script> window.location = "acess.html?erro=password"; </script>';
         }
     } else {
-        echo 'Erro email';
+        echo '<script> window.location = "acess.html?erro=email"; </script>';
     }
 }
 ?>

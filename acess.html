@@ -28,9 +28,19 @@
     </nav>
 
     <main>
+        <div id="alert">
+            <div class="alertBox">
+                <div class="alertText">
+                    O E-mail já está em uso!
+                </div>
+                <div>
+                    <button id="confirmBox">Confirma</button>
+                </div>
+            </div>
+        </div>
         <div id="acess">
             <div id="formAcessImg">
-               
+
             </div>
             <div id="formAcess">
                 <form action="./authentication.php" method="post">
@@ -49,7 +59,7 @@
                                 E-mail
                             </label>
                             <div class="flexForm2">
-                                <input type="email" name="email" id="email" placeholder="email@email.com" required>
+                                <input type="email" name="email" id="email" placeholder="Digite o seu E-mail" required>
                             </div>
                         </div>
                     </div>
@@ -59,7 +69,7 @@
                                 Senha
                             </label>
                             <div class="flexForm2">
-                                <input type="password" name="password" id="password" placeholder="email@email.com"
+                                <input type="password" name="password" id="password" placeholder="Digite a sua senha"
                                     required>
                             </div>
                         </div>
@@ -73,33 +83,30 @@
             </div>
         </div>
     </main>
+    <script>
+        var query = location.search.slice(1);
+        var partes = query.split('&');
+        var data = {};
+        partes.forEach(function (parte) {
+            var chaveValor = parte.split('=');
+            var chave = chaveValor[0];
+            var valor = chaveValor[1];
+            data[chave] = valor;
+        });
 
-    <footer class="column">
-        
-        <div class="line">
-        <div class="footer">
-           <a href="#"><img src="./img/rebbity.png" width="100px"></a>
-            
-        </div>
-        <div class="footer">
-            <p>© Copyright 2022 - Rebbity - Todos os direitos<br>
-                 reservados Rebbity Agência de Delivery</p>
-        </div>
-        <div class="footer">
-            <p>CNPJ<br>
-            Brasília/DF - CEP: 70635-815</p>
-        </div>
-        <div class="footer">
-            <a href="./doc/Aviso de privacidade da Rebbity.docx"><p>Privacidade</p></a>
-        </div>
-        <div class="footer">
-            <a href="./doc/TERMOS E CONDIÇÕES GERAIS DA REBBITY PARA EMPRESAS.docx"><p>Termos de uso</p></a>
-        </div>
-        </div>
-        
-        
-    
-    </footer>
+        if (data.erro == 'password') {
+            $("#alert").css("display", "flex");
+            $(".alertText").html('Senha incorreta!');
+        }
+        if (data.erro == 'email') {
+            $("#alert").css("display", "flex");
+            $(".alertText").html('E-mail incorreto!');
+        }
+
+        $("#confirmBox").on('mouseup', function () {
+            $("#alert").css("display", "none");
+        })
+    </script>
 </body>
 
 </html>
