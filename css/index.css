@@ -46,7 +46,14 @@ nav {
     height: 60px;
     background: white;
 }
-
+.botao-nav{
+    padding: 10px;
+    transition: border-radius 200ms, box-shadow 200ms;
+}
+.botao-nav:hover{
+    border-radius: 4px;
+    box-shadow: 3px 2px 2px #4f4e4e;
+}
 nav img {
     width: 110px;
 }
@@ -245,8 +252,11 @@ header img {
     border-radius: 10px;
     color: whitesmoke;
     font-weight: bold;
+    transition: box-shadow 500ms;
 }
-
+.mais:hover{
+    box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);
+}
 
 .about {
     margin-top: var(--margin-top);
@@ -314,8 +324,15 @@ footer {
     color: rgb(62, 62, 62);
     text-decoration: none;
     font-size: 14px;
+    
 }
-
+.column2 a{
+    transition: font-weight 250ms;
+}
+.column2 a:hover{
+    font-size: 14px;
+    font-weight:600;
+}
 
 .footerCenter hr {
     border-width: 0px 0px 1px;
@@ -368,7 +385,10 @@ footer div a {
 .flexForm3 input {
     width: auto;
 }
+.flexForm input:focus{
 
+    box-shadow: 6px 5px 4px #4f4e4e;
+}
 .flexDIV {
     width: 45%;
 }
@@ -428,14 +448,43 @@ footer div a {
     padding: 10px;
     border-radius: 6px;
     width: 89%;
+    transition: 50ms;
+}
+
+#form input:hover{
+    box-shadow: 3px 2px 2px #4f4e4e;
 }
 
 #form select {
     padding: 10px;
     border-radius: 6px;
     width: 100%;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    margin: 0em;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    height: 39px;
+    transition: 100ms;
 }
-
+#form select:hover{
+    box-shadow: 3px 2px 2px #4f4e4e;
+}
 #acess {
     position: fixed;
     top: 64px;
