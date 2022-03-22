@@ -2,16 +2,22 @@
 include("config.php");
 
 try {
+    $name = $_POST['name'];
+    $password;
+    $email;
 
-    function block(){
-        /*
+    if($_POST['email'] == $_POST['email2']){
+        $email = $_POST['email'];
+    } else {
         echo '<script> window.location = "form-market.html"; </script>';
-        return;*/
     }
 
-    $name = $_POST['name'];
-    $email;
-    $password;
+    if($_POST['password'] == $_POST['password2']){
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    } else {
+        echo '<script> window.location = "form-market.html"; </script>';
+    }
+
     $phone = $_POST['phone'];
     $cep = $_POST['cep'];
     $city = $_POST['city'];
@@ -21,88 +27,6 @@ try {
     $complement = $_POST['complement'];
     $corporateName = $_POST['corporateName'];
     $cnpj = $_POST['cnpj'];
-
-    if($_POST['email'] == $_POST['email2']){
-        $email = $_POST['email'];
-    } else {
-        echo 'Erro E-mail';
-        return;
-        block();
-    }
-
-    if($_POST['password'] == $_POST['password2']){
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    } else {
-        echo 'Erro Senha';
-        return;
-        block();
-    }
-
-    if ($name == ""){
-        echo 'Erro Name';
-        return;
-        block();
-    }
-
-    if ($email == ""){
-        echo 'Erro E-mail';
-        return;
-        block();
-    }
-
-    if ($password == ""){
-        echo 'Erro Senha';
-        return;
-        block();
-    }
-
-    if ($phone == ""){
-        echo 'Erro Telefone';
-        return;
-        block();
-    }
-
-    if ($cep == ""){
-        echo 'Erro Cep';
-        return;
-        block();
-    }
-
-    if ($city == ""){
-        echo 'Erro Cidade';
-        return;
-        block();
-    }
-
-    if ($state == ""){
-        echo 'Erro Estado';
-        return;
-        block();
-    }
-
-    if ($district == ""){
-        echo 'Erro Bairro';
-        return;
-        block();
-    }
-
-    if ($address == ""){
-        echo 'Erro Endereço';
-        return;
-        block();
-    }
-
-    if ($corporateName == ""){
-        echo 'Erro Nome2';
-        return;
-        block();
-    }
-
-    if ($cnpj == ""){
-        echo 'Erro CNPJ';
-        return;
-        block();
-    }
 
     $result = mysqli_query($conn, "SELECT * FROM `client` WHERE email='".  $email ."' LIMIT 1");
     $result2 = mysqli_query($conn, "SELECT * FROM `client` WHERE cnpj='".  $cnpj ."' LIMIT 1");
