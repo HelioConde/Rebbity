@@ -54,6 +54,11 @@ nav {
     border-radius: 4px;
     box-shadow: 3px 2px 2px #4f4e4e;
 }
+.botao-nav:active{
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 1px #4f4e4e;
+
+}
 nav img {
     width: 110px;
 }
@@ -257,6 +262,10 @@ header img {
 .mais:hover{
     box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);
 }
+.mais:active{
+    background-color: #ff0015d5;
+}
+
 
 .about {
     margin-top: var(--margin-top);
@@ -333,6 +342,9 @@ footer {
     font-size: 14px;
     font-weight:600;
 }
+.column2 a:active{
+    color: rgb(117, 117, 117)
+}
 
 .footerCenter hr {
     border-width: 0px 0px 1px;
@@ -353,6 +365,10 @@ footer div a {
     color: #4f4e4e;
     list-style: none;
     text-decoration: none;
+}
+footer div a:active{
+    color: #383737;
+    background-color: rgb(199, 199, 199);
 }
 
 .flexForm {
@@ -419,7 +435,7 @@ footer div a {
     margin: auto;
 }
 
-.submit {
+input.submit {
     width: 200px;
     height: 40px;
     border-radius: 6px;
@@ -429,8 +445,13 @@ footer div a {
     margin-top: 20px;
     justify-content: center;
     cursor: pointer;
+    margin-bottom: 3px;
 }
-
+input.submit:active{
+    background-color: #790f0de1;
+    box-shadow: 1px 1px 1px #4f4e4e;
+    margin-bottom: none;
+}
 #form {
     display: flex;
     flex-direction: column;
