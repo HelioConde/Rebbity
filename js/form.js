@@ -23,6 +23,7 @@ $("#confirmBox").on('mouseup', function () {
 /*https://receitaws.com.br/v1/cnpj/14380200000121*/
 let cnpj = false;
 $("#cnpj").on('keyup', function () {
+    $("#erro1").html('')
     if ($("#cnpj").val().length == 18) {
         if (cnpj == false) {
             $.ajax({

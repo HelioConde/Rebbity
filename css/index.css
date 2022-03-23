@@ -86,7 +86,7 @@ nav a {
 }
 
 .mobileBar {
-    display: flex;
+    display: none;
 }
 
 .partner {
@@ -812,6 +812,10 @@ input.submit:active {
     }
 
     #formAcess {
+        display: flex;
+    }
+
+    .mobileBar {
         display: flex;
     }
 }
