@@ -1,33 +1,29 @@
-window.onload = function () {
-    console.log('Onload disparado');
+let navMobile = false;
 
-    let navMobile = false;
+$(".mobileBar").on('mouseup', function () {
+    if (navMobile == false) {
+        $('.bar').css({
+            'display': 'flex'
+        })
 
-    $(".mobileBar").on('mouseup', function () {
-        if (navMobile == false) {
+        $(".bar").animate({
+            'left': '0px'
+        })
+
+        navMobile = true;
+    } else {
+        $(".bar").animate({
+            'left': '-280px'
+        })
+
+        setTimeout(() => {
             $('.bar').css({
-                'display': 'flex'
+                'display': 'none'
             })
-
-            $(".bar").animate({
-                'left': '0px'
-            })
-
-            navMobile = true;
-        } else {
-            $(".bar").animate({
-                'left': '-280px'
-            })
-
-            setTimeout(() => {
-                $('.bar').css({
-                    'display': 'none'
-                })
-                $(".bar").removeAttr("style");
-            }, 500);
-            setTimeout(() => {
-                navMobile = false;
-            }, 600);
-        }
-    })
-}
+            $(".bar").removeAttr("style");
+        }, 500);
+        setTimeout(() => {
+            navMobile = false;
+        }, 600);
+    }
+})

@@ -46,19 +46,23 @@ nav {
     height: 60px;
     background: white;
 }
-.botao-nav{
+
+.botao-nav {
     padding: 10px;
     transition: border-radius 200ms, box-shadow 200ms;
+    border-radius: 15px;
 }
-.botao-nav:hover{
-    border-radius: 4px;
-    box-shadow: 3px 2px 2px #4f4e4e;
-}
-.botao-nav:active{
-    background-color: whitesmoke;
-    box-shadow: 1px 1px 1px #4f4e4e;
 
+.botao-nav:hover {
+    border-radius: 15px;
+    color: black;
 }
+
+.botao-nav:active {
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 4px #4f4e4e;
+}
+
 nav img {
     width: 110px;
 }
@@ -259,10 +263,12 @@ header img {
     font-weight: bold;
     transition: box-shadow 500ms;
 }
-.mais:hover{
+
+.mais:hover {
     box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);
 }
-.mais:active{
+
+.mais:active {
     background-color: #ff0015d5;
 }
 
@@ -333,16 +339,19 @@ footer {
     color: rgb(62, 62, 62);
     text-decoration: none;
     font-size: 14px;
-    
+
 }
-.column2 a{
+
+.column2 a {
     transition: font-weight 250ms;
 }
-.column2 a:hover{
+
+.column2 a:hover {
     font-size: 14px;
-    font-weight:600;
+    font-weight: 600;
 }
-.column2 a:active{
+
+.column2 a:active {
     color: rgb(117, 117, 117)
 }
 
@@ -366,7 +375,8 @@ footer div a {
     list-style: none;
     text-decoration: none;
 }
-footer div a:active{
+
+footer div a:active {
     color: #383737;
     background-color: rgb(199, 199, 199);
 }
@@ -401,10 +411,7 @@ footer div a:active{
 .flexForm3 input {
     width: auto;
 }
-.flexForm input:focus{
 
-    box-shadow: 6px 5px 4px #4f4e4e;
-}
 .flexDIV {
     width: 45%;
 }
@@ -447,11 +454,13 @@ input.submit {
     cursor: pointer;
     margin-bottom: 3px;
 }
-input.submit:active{
+
+input.submit:active {
     background-color: #790f0de1;
     box-shadow: 1px 1px 1px #4f4e4e;
     margin-bottom: none;
 }
+
 #form {
     display: flex;
     flex-direction: column;
@@ -472,8 +481,8 @@ input.submit:active{
     transition: 50ms;
 }
 
-#form input:hover{
-    box-shadow: 3px 2px 2px #4f4e4e;
+#form input:hover {
+    box-shadow: 0px 1px 4px 0px #4f4e4e;
 }
 
 #form select {
@@ -503,9 +512,11 @@ input.submit:active{
     height: 39px;
     transition: 100ms;
 }
-#form select:hover{
-    box-shadow: 3px 2px 2px #4f4e4e;
+
+#form select:hover {
+    box-shadow: 0px 1px 4px 0px #4f4e4e;
 }
+
 #acess {
     position: fixed;
     top: 64px;
