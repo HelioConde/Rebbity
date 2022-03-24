@@ -19,6 +19,28 @@ body {
     bottom: 0;
 }
 
+#mainFo {
+    flex-direction: row-reverse;
+    position: relative;
+}
+
+.fixeText {
+    position: fixed;
+    height: 100%;
+    z-index: -10;
+    top: 57%;
+    left: 0;
+    display: flex;
+    color: white;
+    flex-direction: column;
+    text-align: left;
+    font-size: 2.5vw;
+    font-weight: bold;
+    text-shadow: rgb(0, 0, 0) 3px 3px 2px;
+    align-items: center;
+    width: 50%;
+}
+
 #fixeBG2 {
     background: url(../img/market.jpg);
     position: fixed;
@@ -33,6 +55,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
+    width: 50%;
 }
 
 nav {
@@ -133,22 +156,27 @@ main {
 
 header {
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 0 6%;
+    display: flex;
     margin-top: var(--margin-top);
-    width: 40%;
+    width: 80%;
+    padding: 0 10%;
+    background: white;
+    flex-direction: column;
+    align-items: center;
 }
 
-.box {
-    position: absolute;
-    opacity: 0;
-    transition: all 1s;
-    width: 100%;
+.promo1 {
+    color: rgb(62, 62, 62);
 }
+
+.promo2 {
+    display: flex;
+}
+
+
 
 header img {
-    max-height: 130px;
+    max-height: 100px;
     max-width: 100%;
 }
 
@@ -176,7 +204,7 @@ header img {
 }
 
 .box div {
-    margin: 2%;
+    margin: 4px;
 }
 
 .table {
@@ -469,9 +497,8 @@ input.submit:active {
     padding: 50px;
     background: white;
     border-radius: 25px;
-    min-width: 470px;
-    margin-right: 2%;
-    max-width: 500px;
+    width: 80%;
+    margin: 5%;
 }
 
 #form input {
@@ -548,6 +575,24 @@ input.submit:active {
     padding: 12px 8px;
     border: 1px solid #D41C19;
     border-radius: 5px;
+}
+
+.button {
+    border: none;
+    height: auto;
+    font-family: "Sul Sans", sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    color: rgb(62, 62, 62);
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    width: 100%;
+    padding: 12px 8px;
+    background: rgb(234, 29, 44);
+    border-radius: 5px;
+    color: white;
+    width: 180px;
+    cursor: pointer;
 }
 
 #formAcess .acessSubmit {
@@ -684,6 +729,251 @@ input.submit:active {
     font-weight: bolder;
 }
 
+.header {
+    text-align: center;
+    width: 100%;
+    background: url(../img/paper.jpg);
+    background-repeat: no-repeat;
+    background-position: 0px -120px;
+    background-size: 100%;
+    color: white;
+    height: 48vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header2 {
+    text-align: center;
+    width: 100%;
+    background: url(../img/market.jpg);
+    background-repeat: no-repeat;
+    background-position: 0px -120px;
+    background-size: 100%;
+    color: white;
+    height: 48vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header .title {
+    color: white;
+    text-shadow: 2px 2px 1px black;
+}
+
+.header2 .title {
+    color: white;
+    text-shadow: 2px 2px 1px black;
+}
+
+.plan {
+    display: flex;
+    flex-direction: column;
+}
+
+.plan2 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+
+.title2 {
+    font-family: var(--font);
+    font-size: 3vw;
+    font-weight: bolder;
+    color: black;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.title3 {
+    font-family: SulSans, sans-serif;
+    line-height: 32px;
+    font-size: 20px;
+    font-weight: normal;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 1px black;
+}
+
+.marginHeader {
+    margin-top: var(--margin-top);
+    width: 100%;
+}
+
+.boxHeader {
+    display: flex;
+    flex-direction: row;
+    margin: 11px 0;
+}
+
+.boxHeader div:nth-child(2) {
+    margin-left: 10px;
+}
+
+.BoxHeaderTitle {
+    font-size: 4vh;
+    margin-left: 10px;
+}
+
+.BoxHeaderTitle div:nth-child(2) {
+    font-weight: bolder;
+}
+
+.boxHeader svg {
+    width: 20px;
+    fill: #66B285;
+}
+
+.green {
+    color: #66B285;
+    font-weight: bold;
+}
+
+.boxHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+.boxHeader1 {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+}
+
+.boxHeaderControl {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 25px;
+    margin: 0 10px;
+}
+
+.boxHeader1 svg {
+    height: 65px;
+}
+
+.boxDes {
+    font-weight: 500;
+    color: black;
+}
+
+.boxHeader3 {
+    margin-top: 15px;
+}
+
+.start1 {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    margin: 2% 8%;
+}
+
+.start1 img {
+    width: 100%;
+}
+
+.startImg {
+    width: 100%;
+}
+
+.start2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+    text-align: center;
+}
+
+
+.start3 {
+    width: 20%;
+}
+
+.start3 div:nth-child(1) {
+    color: rgb(62, 62, 62);
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-size: 1.6vw;
+    line-height: 26px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.start4 div:nth-child(2) {
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(62, 62, 62);
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 12rem;
+    text-align: center;
+}
+
+.required {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin: 0 4%;
+}
+
+.required svg {
+    height: 50px;
+}
+
+.required2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2%;
+    justify-content: space-around;
+}
+
+.required3 {
+    width: 40%;
+    margin: 3% 0;
+}
+
+.startTitle {
+    font-family: SulSans, sans-serif;
+    color: rgb(62, 62, 62);
+    line-height: 48px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+.startImg2 {
+    display: none;
+}
+
+.cad {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+.margin-top {
+    margin-top: var(--margin-top);
+}
+
+@media only screen and (max-width: 1050px) {
+    .fixeText {
+        top: 43%;
+        font-size: 2.5vw;
+        width: 40%;
+    }
+
+    #mainForm {
+        width: 60%;
+    }
+}
+
 @media only screen and (max-width: 767px) {
     .table {
         flex-direction: column;
@@ -700,6 +990,8 @@ input.submit:active {
         opacity: 0;
         transition: all 1s;
         width: 100%;
+        left: 0;
+        top: 70px;
     }
 
     .tableControl {
@@ -713,6 +1005,7 @@ input.submit:active {
     .title {
         font-size: 8.4vw;
         text-align: center;
+        margin-top: 0;
     }
 
     .bar {
@@ -778,7 +1071,16 @@ input.submit:active {
         align-items: flex-start;
     }
 
+    .fixeText {
+        display: none;
+    }
+
+    #mainFo {
+        flex-direction: column;
+    }
+
     #mainForm {
+        width: 90%;
         justify-content: center;
     }
 
@@ -817,6 +1119,232 @@ input.submit:active {
 
     .mobileBar {
         display: flex;
+    }
+
+    .header .title {
+        font-size: 5.4vw;
+    }
+
+    .header {
+        background-position: 0px 0px;
+        height: 29vh;
+    }
+    
+    .header2 .title {
+        font-size: 5.4vw;
+    }
+
+    .header2 {
+        background-position: 0px 0px;
+        height: 29vh;
+    }
+
+
+    #timer {
+        position: absolute;
+        width: 0%;
+        height: 5px;
+        background: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        left: 0;
+        margin: 0 10%;
+        border-radius: 50px;
+        box-shadow: 0px 0px 4px black;
+        animation: timer 5s infinite;
+        opacity: 1;
+    }
+
+    @keyframes timer {
+        0% {
+            width: 0%;
+            opacity: 1;
+        }
+
+
+        90% {
+            width: 80%;
+            opacity: 1;
+        }
+
+        100% {
+            width: 0%;
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(1) {
+        animation: timer-1 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-1 {
+
+        0% {
+            opacity: 0;
+        }
+
+        5%,
+        20% {
+            opacity: 1;
+        }
+
+        25%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(2) {
+        animation: timer-2 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-2 {
+
+        0%,
+        20% {
+            opacity: 0;
+        }
+
+        25%,
+        45% {
+            opacity: 1;
+        }
+
+        50%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(3) {
+        animation: timer-3 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-3 {
+
+        0%,
+        45% {
+            opacity: 0;
+        }
+
+        50%,
+        70% {
+            opacity: 1;
+        }
+
+        75%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .box:nth-child(4) {
+        animation: timer-4 var(--mobile-animate-timer) infinite;
+    }
+
+    @keyframes timer-4 {
+
+        0%,
+        70% {
+            opacity: 0;
+        }
+
+        75%,
+        90% {
+            opacity: 1;
+        }
+
+        95%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .title2 {
+        height: auto;
+        font-size: 4.6vw;
+        width: 100%;
+    }
+
+    .plan2 {
+        flex-direction: column;
+        width: 90%;
+        margin: auto;
+    }
+
+    .BoxHeaderTitle {
+        font-size: 2.2vh;
+    }
+
+    .boxHeaderControl {
+        margin: 20px 0;
+    }
+
+    .required {
+        margin: 12%;
+    }
+
+    .required2 {
+        flex-direction: column;
+    }
+
+    .required3 {
+        width: 100%;
+    }
+
+    .startTitle {
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+
+    .startImg {
+        display: none;
+    }
+
+    .startImg2 {
+        display: inline-block;
+    }
+
+    .start1 {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0;
+    }
+
+    .start2 {
+        width: 75%;
+        height: 75vh;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .start3 {
+        width: 95%;
+        padding-left: 5%;
+    }
+
+    .startImg2 {
+        height: 75vh;
+        width: 25%;
+        text-align: right;
+    }
+
+    .start1 img {
+        height: 75vh;
+        width: auto;
+    }
+
+    .start3 div:nth-child(1) {
+        font-size: 4.8vw;
+        text-align: left;
+    }
+
+    .start3 div:nth-child(2) {
+        text-align: left;
+        font-size: 4.4vw;
+    }
+
+    .title3 {
+        font-size: 12px;
     }
 }
 
