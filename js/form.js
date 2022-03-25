@@ -85,6 +85,11 @@ $(function ($) {
         }
     });
 
+    $('#cpf').mask("000.000.000-09");
+    $('#cpf').keyup(function (event) {
+        $(this).mask("000.000.000-09");
+    });
+    
     $('#phone').mask('(00) 0000-00009');
     $('#phone').keyup(function (event) {
         if ($(this).val().length == 15) { // Celular com 9 dígitos + 2 dígitos DDD e 4 da máscara

@@ -16,14 +16,15 @@ mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `client` (
     state VARCHAR(35) NOT NULL,
     district VARCHAR(35) NOT NULL,
     address VARCHAR(45) NOT NULL,
+    class VARCHAR(30) NOT NULL,
     complement VARCHAR(45) NOT NULL,
-    corporateName varchar (45) not null NOT NULL,
-    cnpj VARCHAR(30) NULL,
-    cpf VARCHAR(25) NULL,
+    corporateName varchar (45) NOT NULL,
+    cnpj VARCHAR(30) NOT NULL,
+    porpName VARCHAR(30) NOT NULL,
+    cpf VARCHAR(25) NOT NULL,
     rg VARCHAR(25) not null NOT NULL,
     typeTable VARCHAR(30) NOT NULL,
     token VARCHAR(100) NOT NULL
 )");
 
-echo '<script>alert("Configurado !")</script>';
 ?>

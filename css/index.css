@@ -538,6 +538,7 @@ input.submit:active {
     border-image: initial;
     height: 39px;
     transition: 100ms;
+    cursor: pointer;
 }
 
 #form select:hover {
@@ -630,6 +631,8 @@ input.submit:active {
 #formAcessImg img {
     width: 100%;
     min-width: 894px;
+    background-repeat: no-repeat;
+    margin-left: -30%;
 }
 
 .formTitle {

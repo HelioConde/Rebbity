@@ -4,9 +4,8 @@ include("config.php");
 try {
 
     function block(){
-        /*
         echo '<script> window.location = "form-market.html"; </script>';
-        return;*/
+        return;
     }
 
     $name = $_POST['name'];
@@ -19,8 +18,11 @@ try {
     $district = $_POST['district'];
     $address = $_POST['address'];
     $complement = $_POST['complement'];
+    $class = $_POST['class'];
     $corporateName = $_POST['corporateName'];
     $cnpj = $_POST['cnpj'];
+    $porpName = $_POST['porpName'];
+    $cpf = $_POST['cpf'];
 
     if($_POST['email'] == $_POST['email2']){
         $email = $_POST['email'];
@@ -103,6 +105,7 @@ try {
         return;
         block();
     }
+    
 
     $result = mysqli_query($conn, "SELECT * FROM `client` WHERE email='".  $email ."' LIMIT 1");
     $result2 = mysqli_query($conn, "SELECT * FROM `client` WHERE cnpj='".  $cnpj ."' LIMIT 1");
@@ -113,6 +116,7 @@ try {
     } else {
         if(mysqli_num_rows ($result2) == 0 ){
             if(mysqli_num_rows ($result) == 0 ){
+                
                 mysqli_query($conn, "INSERT INTO `client` (
                     `name`,
                     `email`,
@@ -123,12 +127,15 @@ try {
                     `state`,
                     `district`,
                     `address`,
+                    `class`,
                     `complement`,
                     `corporateName`,
                     `cnpj`,
-                    `typeTable`
-                ) 
-                VALUES (
+                    `porpName`,
+                    `cpf`,
+                    `typeTable`,
+                    `token`
+                ) VALUES (
                     '$name',
                     '$email',
                     '$password',
@@ -138,11 +145,16 @@ try {
                     '$state',
                     '$district',
                     '$address',
+                    '$class',
                     '$complement',
                     '$corporateName',
                     '$cnpj',
-                    'market'
+                    '$porpName',
+                    '$cpf',
+                    'market',
+                    '0'
                 )");
+
                 echo '<script> window.location = "finish.html?cadastrado=sucess"; </script>';
             } else {
                 echo '<script> window.location = "form-market.html?erro=email"; </script>';
