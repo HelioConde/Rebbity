@@ -1,0 +1,79 @@
+<div id="alert">
+    <div class="alertBox">
+        <div class="alertText">
+            O E-mail já está em uso!
+        </div>
+        <div>
+            <button id="confirmBox">Confirma</button>
+        </div>
+    </div>
+</div>
+<div id="acess">
+    <div id="formAcessImg">
+        <img src="./img/lorem.png" alt="Portal image Rebbity">
+    </div>
+    <div id="formAcess">
+        <form action="./authentication.php" method="post">
+            <div class="formLogo">
+                <img src="./img/logo.png" alt="Logo Rebbity">
+            </div>
+            <div class="formTitle">
+                Portal do Parceiro
+            </div>
+            <div>
+                Gerencie sua loja de forma fácil e rápida
+            </div>
+            <div class="flexForm">
+                <div class="flexDIV3">
+                    <label for="email">
+                        E-mail
+                    </label>
+                    <div class="flexForm2">
+                        <input type="email" name="email" id="email" placeholder="Digite o seu E-mail" required>
+                    </div>
+                </div>
+            </div>
+            <div class="flexForm">
+                <div class="flexDIV3">
+                    <label for="password">
+                        Senha
+                    </label>
+                    <div class="flexForm2">
+                        <input type="password" name="password" id="password" placeholder="Digite a sua senha" required>
+                    </div>
+                </div>
+            </div>
+            <div class="flexForm">
+                <div class="flexDIV auto">
+                    <input type="submit" class="acessSubmit" value="Enviar">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="./js/bar.js"></script>
+<script>
+    var query = location.search.slice(1);
+    var partes = query.split('&');
+    var data = {};
+    partes.forEach(function (parte) {
+        var chaveValor = parte.split('=');
+        var chave = chaveValor[0];
+        var valor = chaveValor[1];
+        data[chave] = valor;
+    });
+
+    if (data.erro == 'password') {
+        $("#alert").css("display", "flex");
+        $(".alertText").html('Senha incorreta!');
+    }
+    if (data.erro == 'email') {
+        $("#alert").css("display", "flex");
+        $(".alertText").html('E-mail incorreto!');
+    }
+
+    $("#confirmBox").on('mouseup', function () {
+        $("#alert").css("display", "none");
+    })
+</script>

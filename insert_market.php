@@ -4,7 +4,7 @@ include("config.php");
 try {
 
     function block(){
-        echo '<script> window.location = "form-market.html"; </script>';
+        echo '<script> window.location = "./index.html?pag=form-market"; </script>';
         return;
     }
 
@@ -112,7 +112,7 @@ try {
 
 
     if (!$result){
-        echo '<script> window.location = "form-market.html"; </script>';
+        echo '<script> window.location = "./index.html?pag=form-market"; </script>';
     } else {
         if(mysqli_num_rows ($result2) == 0 ){
             if(mysqli_num_rows ($result) == 0 ){
@@ -155,12 +155,12 @@ try {
                     '0'
                 )");
 
-                echo '<script> window.location = "finish.html?cadastrado=sucess"; </script>';
+                echo '<script> window.location = "./index.html?pag=finish&cadastrado=sucess"; </script>';
             } else {
-                echo '<script> window.location = "form-market.html?erro=email"; </script>';
+                echo '<script> window.location = "./index.html?pag=form-market&erro=email"; </script>';
             }
         } else {
-            echo '<script> window.location = "form-market.html?erro=cnpj"; </script>';
+            echo '<script> window.location = "./index.html?pag=form-market&erro=cnpj"; </script>';
         }
     }
 

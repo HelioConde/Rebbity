@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <main>
+    <div id="nav">
         <div id="mobileBar">
             <div id="showMobile">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -68,7 +68,7 @@
                                 </svg>
                             </div>
                             <div>
-                                Início
+                                <a href="./index.html?page=index">Início</a>
                             </div>
                         </div>
                         <div>
@@ -80,7 +80,7 @@
                                 </svg>
                             </div>
                             <div>
-                                Avaliações
+                                <a href="./index.html?page=rating">Avaliações</a>
                             </div>
                         </div>
                         <div>
@@ -92,7 +92,7 @@
                                 </svg>
                             </div>
                             <div>
-                                Pedidos
+                                <a href="./index.html?page=rating">Requests</a>
                             </div>
                         </div>
                         <div>
@@ -104,7 +104,7 @@
                                 </svg>
                             </div>
                             <div>
-                                Financeiro
+                                <a href="./index.html?page=financial">Financeiro</a>
                             </div>
                         </div>
                         <div>
@@ -116,7 +116,7 @@
                                 </svg>
                             </div>
                             <div>
-                                Cardápio digital
+                                <a href="./index.html?page=digitalMenu">Cardápio digital</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                                 </svg>
                             </div>
                             <div>
-                                Cardápio
+                                <a href="./index.html?page=menu">Cardápio</a>
                             </div>
                         </div>
                         <div>
@@ -303,78 +303,35 @@
                 </div>
             </nav>
         </div>
-        <div id="main">
-            <div id="shadownMobile"></div>
-            <header>
+    </div>
+    <main>
 
-            </header>
-            <div class="box">
-                <h1 class="title">
-                    Performance da loja
-                </h1>
-                <div class="box2">
-                    <h1 class="title2">
-                        Acompanhamento
-                    </h1>
-                    <span>tempo real</span>
-
-                    <div class="table">
-                        <div class="flexTable2">
-                            <div class="flexControl">
-                                <div>
-                                    Pedidos de hoje
-                                </div>
-                                <div>
-                                    <span>0</span> pedidos
-                                </div>
-                                <div>
-                                    R$ 0,00
-                                </div>
-                            </div>
-                            <div class="flexControl">
-                                <div>
-                                    Ticket médio de hoje
-                                </div>
-                                <div>
-                                    <span>R$ 0,00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flexTable">
-                            <div>
-                                <div>
-                                    Pedidos de março
-                                </div>
-                                <div>
-                                    0 pedidos
-                                </div>
-                                <div>
-                                    R$ 0,00
-                                </div>
-                            </div>
-                            <div class="spacer">
-                                <div>
-                                    Ticket médio de março
-                                </div>
-                                <div>
-                                    R$ 0,00
-                                </div>
-                            </div>
-                            <div>
-                                <div>
-                                    Avaliação no App
-                                </div>
-                                <div>
-                                    0
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
     <script src="js/script.js"></script>
 </body>
+<script>
+    var query = location.search.slice(1);
+    var partes = query.split('&');
+    var data = {};
+    partes.forEach(function (parte) {
+        var chaveValor = parte.split('=');
+        var chave = chaveValor[0];
+        var valor = chaveValor[1];
+        data[chave] = valor;
+    });
+
+    if (data.page == 'index') {
+        $("#alert").css("display", "flex");
+        $(".alertText").html('Senha incorreta!');
+    }
+    if (data.erro == 'email') {
+        $("#alert").css("display", "flex");
+        $(".alertText").html('E-mail incorreto!');
+    }
+
+    $("#confirmBox").on('mouseup', function () {
+        $("#alert").css("display", "none");
+    })
+</script>
 
 </html>
