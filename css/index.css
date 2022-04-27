@@ -25,6 +25,7 @@ body {
     position: relative;
     align-items: center;
     width: 100%;
+    justify-content: center;
 }
 
 .fixeText {
@@ -58,7 +59,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
-    width: 50%;
+    width: 60%;
 }
 
 nav {
@@ -160,7 +161,7 @@ main {
 header {
     position: relative;
     display: flex;
-    margin-top: var(--margin-top);
+    margin-top: calc(var(--margin-top) * 3);
     width: 80%;
     padding: 0 10%;
     background: white;
@@ -495,7 +496,7 @@ input.submit:active {
 #form {
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 2px 10px black;
+    box-shadow: 0px 0px 11px 1px black;
     margin-top: var(--margin-top);
     padding: 50px;
     background: white;
@@ -782,6 +783,7 @@ input.submit:active {
 .plan {
     display: flex;
     flex-direction: column;
+    margin-top: calc(var(--margin-top) * 3);
 }
 
 .plan2 {
@@ -866,6 +868,8 @@ input.submit:active {
 }
 
 .boxHeader1 svg {
+    fill: #ff0015;
+    width: 50px;
     height: 50px;
 }
 
@@ -939,6 +943,7 @@ input.submit:active {
 }
 
 .required svg {
+    width: 50px;
     height: 50px;
     fill: #D41C19;
 }
@@ -1009,6 +1014,7 @@ input.submit:active {
 
 #loading svg {
     width: 60px;
+    height: 60px;
     animation: load 2s infinite;
     transform: rotate(0deg);
     animation-timing-function: ease-in-out;
@@ -1340,6 +1346,7 @@ input.submit:active {
         height: auto;
         font-size: 4.6vw;
         width: 100%;
+        margin-top: 90px;
     }
 
     .plan2 {
@@ -1349,12 +1356,12 @@ input.submit:active {
     }
 
     .BoxHeaderTitle {
-        font-size: 2vh;
+        font-size: 3vw;
         margin-left: 30px;
     }
 
     .boxHeaderControl {
-        margin: 20px 0;
+        margin: 0px 0;
     }
 
     .required {
@@ -1425,6 +1432,11 @@ input.submit:active {
     .title3 {
         font-size: 12px;
     }
+
+    .margin-top2 {
+        margin-top: 90px;
+    }
+
 }
 
 :root {

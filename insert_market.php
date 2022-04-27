@@ -134,6 +134,7 @@ try {
                     `porpName`,
                     `cpf`,
                     `typeTable`,
+                    `block`,
                     `token`
                 ) VALUES (
                     '$name',
@@ -152,6 +153,7 @@ try {
                     '$porpName',
                     '$cpf',
                     'market',
+                    'true',
                     '0'
                 )");
 

@@ -22,6 +22,7 @@ $("#confirmBox").on('mouseup', function () {
 
 /*https://receitaws.com.br/v1/cnpj/14380200000121*/
 let cnpj = false;
+var cnpjErro = 1;
 $("#cnpj").on('keyup', function () {
     $("#erro1").html('')
     if ($("#cnpj").val().length == 18) {
@@ -35,13 +36,17 @@ $("#cnpj").on('keyup', function () {
                     if (data.status == "OK") {
                         cnpj = true;
                         $("#corporateName").val(data.nome);
+                        cnpjErro = 0;
+                        $("#name").val(data.fantasia);
 
                         if (data.cep == "") {
                         } else {
                             $("#cep").val(data.cep);
                             cep();
                         }
+
                     } else {
+                        cnpjErro = 1;
                         $("#cnpj").focus()
                         $("#erro1").html('CNPJ inválido favor digite um CNPJ válido')
                     }
@@ -58,6 +63,29 @@ $("#cep").on('keyup', function () {
         cep();
     }
 });
+
+
+$("#corporateName").on("input", function () {
+    var regexp = /[^a-zA-Z]/g;
+    if (this.value.match(regexp)) {
+        $(this).val(this.value.replace(regexp, ''));
+    }
+});
+
+$("#name").on("input", function () {
+    var regexp = /[^a-zA-Z]/g;
+    if (this.value.match(regexp)) {
+        $(this).val(this.value.replace(regexp, ''));
+    }
+});
+
+$("#porpName").on("input", function () {
+    var regexp = /[^a-zA-Z]/g;
+    if (this.value.match(regexp)) {
+        $(this).val(this.value.replace(regexp, ''));
+    }
+});
+
 function cep() {
     $.ajax({
         type: 'GET',
@@ -67,15 +95,18 @@ function cep() {
         success: function (data) {
             console.log(data);
             $("#city").val(data.localidade)
+            $("#city").prop('disabled', true);
             $("#district").val(data.bairro)
+            $("#district").prop('disabled', true);
             $("#state").val(data.uf).change();
+            $("#state").prop('disabled', true);
             $("#address").val(data.logradouro);
+            $("#address").prop('disabled', true);
         }
     });
 }
 
 $(function ($) {
-
     $('#cnpj').mask("00.000.000/0000-09");
     $('#cnpj').keyup(function (event) {
         if ($(this).val().length < 15) { // Celular com 9 dígitos + 2 dígitos DDD e 4 da máscara
@@ -89,7 +120,7 @@ $(function ($) {
     $('#cpf').keyup(function (event) {
         $(this).mask("000.000.000-09");
     });
-    
+
     $('#phone').mask('(00) 0000-00009');
     $('#phone').keyup(function (event) {
         if ($(this).val().length == 15) { // Celular com 9 dígitos + 2 dígitos DDD e 4 da máscara
@@ -105,7 +136,6 @@ $(function ($) {
 
 $("form").submit(function (e) {
     let erro = 0;
-
     $("#erro1").html('');
     $("#erro2").html('');
     $("#erro3").html('');
@@ -114,11 +144,15 @@ $("form").submit(function (e) {
     $("#erro6").html('');
     $("#erro7").html('');
     $("#erro8").html('');
-
+    if (cnpjErro == 1) {
+        erro++;
+        $("#cnpj").focus()
+        $("#erro1").html('CNPJ inválido favor digite um CNPJ válido')
+    }
     if ($("#cnpj").val() == '') {
         erro++;
         $("#cnpj").focus()
-        $("#erro1").html('Por favor digite o seu CPF ou CNPJ')
+        $("#erro1").html('Por favor digite o seu CNPJ')
     } else if ($("#corporateName").val() == '') {
         erro++;
         $("#corporateName").focus()
@@ -178,7 +212,10 @@ $("form").submit(function (e) {
     }
 
     if (erro == 0) {
-
+        $("#city").prop('disabled', false);
+        $("#district").prop('disabled', false);
+        $("#state").prop('disabled', false);
+        $("#address").prop('disabled', false);
     } else {
         e.preventDefault();
     }

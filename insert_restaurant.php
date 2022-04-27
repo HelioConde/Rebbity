@@ -134,6 +134,7 @@ try {
                     `porpName`,
                     `cpf`,
                     `typeTable`,
+                    `block`,
                     `token`
                 ) VALUES (
                     '$name',
@@ -152,9 +153,10 @@ try {
                     '$porpName',
                     '$cpf',
                     'restaurant',
+                    'true',
                     '0'
                 )");
-
+                
                 echo '<script> window.location = "./index.html?pag=finish&cadastrado=sucess"; </script>';
             } else {
                 echo '<script> window.location = "./index.html?pag=form-restaurant&erro=email"; </script>';
