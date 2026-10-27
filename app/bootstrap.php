@@ -174,3 +174,9 @@ function rb_safe_image($value): string
     return preg_match('~^data:image/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$~D', $src)
         ? $src : '';
 }
+
+function rb_js_arg($value): string
+{
+    return rb_h(json_encode((string) $value,
+        JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR));
+}
