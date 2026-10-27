@@ -1,8 +1,8 @@
 /* Navegação do portal legado: evita caminhos arbitrários no carregamento AJAX. */
 jQuery(function ($) {
-  const availablePages = new Set(['menu', 'category']);
+  const availablePages = new Set(['dashboard', 'menu', 'category']);
   const requestedPage = new URLSearchParams(window.location.search).get('pag') || 'index';
-  const page = requestedPage === 'index' ? 'menu' : requestedPage;
+  const page = requestedPage === 'index' ? 'dashboard' : requestedPage;
   const $main = $('main');
   const $loading = $('#loading');
 
