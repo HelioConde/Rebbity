@@ -127,7 +127,7 @@ header('Cache-Control: private, no-store');
                             </svg>
                         </div>
                         <div>
-                            <div class="statusShop">Loja fechada</div>
+                            <div class="statusShop">Catálogo em edição</div>
                             <div>Gestor de pedidos</div>
                         </div>
                     </div>
@@ -371,7 +371,7 @@ header('Cache-Control: private, no-store');
                                     </svg>
                                 </div>
                                 <div>
-                                    email@exemplo.com
+                                    <?php echo rb_h($partner['email']); ?>
                                 </div>
                             </div>
                         </div>
