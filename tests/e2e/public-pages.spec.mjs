@@ -32,9 +32,10 @@ test('rota desconhecida não tenta acessar arquivos arbitrários', async ({ page
 
 test('foco de teclado aparece na navegação pública', async ({ page }) => {
   await page.goto('/index.html');
-  const firstLink = page.locator('nav a').first();
-  await firstLink.focus();
-  const outlineStyle = await firstLink.evaluate(el => getComputedStyle(el).outlineStyle);
+  await page.keyboard.press('Tab');
+  const skipLink = page.locator('.skip-link');
+  await expect(skipLink).toBeFocused();
+  const outlineStyle = await skipLink.evaluate(el => getComputedStyle(el).outlineStyle);
   expect(outlineStyle).toBe('solid');
 });
 
