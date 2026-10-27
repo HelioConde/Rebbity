@@ -155,3 +155,6 @@
   .rb-form-actions { flex-direction: column-reverse; }
   .rb-form-actions > button { width: 100%; }
 }
+
+/* Uma seção com padding deve caber no viewport sem somar 40px extras. */
+.rb-landing { box-sizing: border-box; }
