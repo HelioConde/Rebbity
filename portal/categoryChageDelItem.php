@@ -9,4 +9,5 @@ if (!$id) rb_error(422, 'Item inválido.');
 $stmt = rb_db()->prepare('DELETE FROM item WHERE id = ? AND id_client = ?');
 $stmt->bind_param('ii', $id, $partnerId);
 $stmt->execute();
+if ($stmt->affected_rows === 0) rb_error(404, 'Item não encontrado.');
 echo 'OK';
