@@ -120,6 +120,9 @@ assert_code 303 -c "$COOKIE_LIMIT" -b "$COOKIE_LIMIT" -X POST "$BASE/authenticat
   --data-urlencode "password=ExampleTest123!"
 assert_code 200 -c "$COOKIE_LIMIT" -b "$COOKIE_LIMIT" "$BASE/portal/index.php"
 echo 'OK: limitacao de tentativas, 429, troca de sessao e recuperacao apos expirar'
+# Login valido por outro cookie gira o token DB e invalida a sessao anterior;
+# restaurar explicitamente a conta A antes de testar o CRUD protegido.
+login "$COOKIE_A" 'a@example.test'
 
 TOKEN_A="$(csrf "$COOKIE_A")"
 ID="$(curl -fsS -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/insertCategory.php" \
