@@ -11,3 +11,7 @@
 7. Publicar no GitHub Pages **somente** o artefato estático auditado. O frontend demonstrativo não registra usuários reais e não tem banco.
 
 A documentação registra riscos, mas **não certifica** o backend legado como corrigido.
+## Atualização de configuração (27/10/2026)
+As três configurações históricas (config.php, config2.php, backupconfig.php) passaram a exigir variáveis de ambiente REBBITY_DB_HOST, REBBITY_DB_USER, REBBITY_DB_PASSWORD e REBBITY_DB_NAME. Ausências causam erro HTTP 503 sem expor credenciais. **Configurar no provedor PHP antes da integração** para evitar indisponibilidade do backend legado.
+
+Senhas ou tokens anteriormente expostos precisam ser revogados/rotacionados no provedor, inclusive FTP. Remover da versão atual não apaga o histórico Git. O GitHub Pages continua publicando somente arquivos estáticos auditados.

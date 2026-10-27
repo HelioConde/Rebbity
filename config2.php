@@ -1,12 +1,24 @@
 <?php
-    $serve = "localhost";
-    $user = "u695741578_rebbity";
-    $pass = "uY9YWlrv6emf5@JP!I*l%#pN";
-    $dbname = "u695741578_rebbity";
+// Configuração legada: credenciais apenas via variáveis do provedor PHP.
+// GitHub Pages não executa este arquivo nem fornece banco de dados.
+$serve = getenv('REBBITY_DB_HOST') ?: 'localhost';
+$user = getenv('REBBITY_DB_USER');
+$pass = getenv('REBBITY_DB_PASSWORD');
+$dbname = getenv('REBBITY_DB_NAME');
+
+if (!$user || $pass === false || !$dbname) {
+    error_log('Rebbity: variáveis de conexão não configuradas.');
+    http_response_code(503);
+    exit('Serviço temporariamente indisponível.');
+}
 
     $conn = mysqli_connect($serve, $user, $pass, $dbname);
-    mysqli_set_charset($conn,"utf8");
-    
+    if (!$conn) {
+    error_log('Rebbity: falha na conexão com o banco.');
+    http_response_code(503);
+    exit('Serviço temporariamente indisponível.');
+}
+mysqli_set_charset($conn, 'utf8mb4');
     if(!$conn){
         die("Falha na conexao: " . mysqli_connect_error());
     }else{
