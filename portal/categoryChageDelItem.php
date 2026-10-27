@@ -1,28 +1,21 @@
 <?php
-session_start();
-include("../config.php");
-
-if(empty($_SESSION['token'])){
-    echo '<script> window.location = "../"; </script>';
+declare(strict_types=1);
+require_once dirname(__DIR__) . '/config.php';
+require_once __DIR__ . '/auth-guard.php';
+$partnerId = require_partner_session($conn);
+$id = filter_var($_POST['delNameCategoryID'] ?? null, FILTER_VALIDATE_INT, [
+    'options' => ['min_range' => 1],
+]);
+if ($id === false) { http_response_code(422); exit('ID inválido.'); }
+try {
+    $stmt = mysqli_prepare($conn, 'DELETE FROM item WHERE id = ? AND id_client = ?');
+    mysqli_stmt_bind_param($stmt, 'ii', $id, $partnerId);
+    mysqli_stmt_execute($stmt);
+    $changed = mysqli_stmt_affected_rows($stmt);
+    mysqli_stmt_close($stmt);
+    http_response_code($changed ? 204 : 404);
+} catch (mysqli_sql_exception $exception) {
+    error_log('Rebbity: falha ao remover item.');
+    http_response_code(503);
+    exit('Operação indisponível.');
 }
-
-$result = mysqli_query($conn, "SELECT * FROM `client` WHERE id='". $_SESSION['id'] ."' LIMIT 1");
-
-if (!$result){
-} else {
-    if(mysqli_num_rows ($result) > 0 ){
-        $member = mysqli_fetch_assoc($result);
-        if($member['token'] == $_SESSION['token']){
-        } else {
-            echo '<script> window.location = "../; </script>';
-        }
-    } else {
-        echo '<script> window.location = "../; </script>';
-    }
-}
-
-echo $_POST['delNameCategoryID'];
-
-mysqli_query($conn, "DELETE FROM item WHERE id=".$_POST['delNameCategoryID']."");
-
-?>

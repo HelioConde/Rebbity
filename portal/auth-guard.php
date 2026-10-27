@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 // Controle compartilhado das rotas PHP que alteram dados do parceiro.
 // Atenção: a migração CSRF das páginas antigas ainda é necessária.
-function require_partner_session(mysqli $conn): int {
-    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+function require_partner_session(mysqli $conn, bool $allowGet = false): int {
+    $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+    if ($method !== 'POST' && !($allowGet && $method === 'GET')) {
         http_response_code(405);
         header('Allow: POST');
         exit;
