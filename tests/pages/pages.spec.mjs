@@ -156,3 +156,39 @@ test('exclusão confirmada pode ser desfeita', async ({ page }) => {
   await page.getByRole('button', { name: 'Desfazer alteração' }).click();
   await expect(page.locator('#catalog-list')).toContainText('Hambúrguer da casa');
 });
+
+
+test('favicon novo carrega em todas as páginas e gera versões nítidas', async ({ page }) => {
+  for (const route of ['/index.html', '/demo.html', '/sobre.html', '/404.html']) {
+    await page.goto(route);
+    const icon = page.locator('link[rel="icon"][type="image/svg+xml"]');
+    await expect(icon).toHaveAttribute('href', /rebbity-mark\.svg/);
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', /apple-touch-icon\.png/);
+    await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', './site.webmanifest');
+  }
+  const manifestResponse = await page.request.get('/site.webmanifest');
+  expect(manifestResponse.ok()).toBe(true);
+  const manifest = await manifestResponse.json();
+  expect(manifest.short_name).toBe('Rebbity');
+  expect(manifest.icons.some(icon => icon.purpose === 'maskable')).toBe(true);
+  for (const [name, size] of [
+    ['favicon-16.png', 16],
+    ['favicon-32.png', 32],
+    ['favicon-192.png', 192],
+    ['favicon-512.png', 512],
+    ['apple-touch-icon.png', 180],
+    ['maskable-512.png', 512]
+  ]) {
+    const response = await page.request.get('/icons/' + name);
+    expect(response.ok(), name).toBe(true);
+    const bytes = await response.body();
+    expect(bytes.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a');
+    expect(bytes.readUInt32BE(16)).toBe(size);
+    expect(bytes.readUInt32BE(20)).toBe(size);
+  }
+  const response = await page.request.get('/favicon.ico');
+  expect(response.ok()).toBe(true);
+  const ico = await response.body();
+  expect(ico.readUInt16LE(2)).toBe(1);
+  expect(ico.readUInt16LE(4)).toBe(1);
+});
