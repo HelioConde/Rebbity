@@ -1,7 +1,23 @@
 /* Rebbity: catálogo de demonstração, sem backend ou contas. */
 (() => {
+  // Preserve existing restaurant catalogs and store market edits independently.
   const KEY = 'rebbity-demo-catalog-v2';
-  const seed = () => ({
+  const MARKET_KEY = 'rebbity-demo-market-v1';
+  let storeType = new URLSearchParams(location.search).get('tipo') === 'mercado' ? 'mercado' : 'restaurante';
+  const storageKey = () => storeType === 'mercado' ? MARKET_KEY : KEY;
+  const seed = (type = 'restaurante') => type === 'mercado' ? ({
+    categories: [
+      { id: 'market-hortifruti', name: 'Hortifruti' },
+      { id: 'market-mercearia', name: 'Mercearia' },
+      { id: 'market-bebidas', name: 'Bebidas' }
+    ],
+    products: [
+      { id: 'market-banana', categoryId: 'market-hortifruti', name: 'Banana prata 1 kg', description: 'Preço de exemplo por quilograma', price: 6.9 },
+      { id: 'market-arroz', categoryId: 'market-mercearia', name: 'Arroz branco 5 kg', description: 'Pacote de 5 kg', price: 24.9 },
+      { id: 'market-cafe', categoryId: 'market-mercearia', name: 'Café torrado 500 g', description: 'Pacote de 500 g', price: 19.9 },
+      { id: 'market-agua', categoryId: 'market-bebidas', name: 'Água mineral 500 ml', description: 'Garrafa sem gás', price: 2.99 }
+    ]
+  }) : ({
     categories: [
       { id: 'cat-refeicoes', name: 'Refeições' },
       { id: 'cat-bebidas', name: 'Bebidas' },
@@ -23,23 +39,72 @@
     return element;
   };
   const clone = value => JSON.parse(JSON.stringify(value));
-  const valid = input => input && Array.isArray(input.categories) && Array.isArray(input.products)
-    && input.categories.every(c => typeof c.id === 'string' && typeof c.name === 'string')
-    && input.products.every(p => typeof p.id === 'string' && typeof p.categoryId === 'string' &&
-      typeof p.name === 'string' && typeof p.price === 'number' && Number.isFinite(p.price) &&
-      typeof p.description === 'string');
-  let state;
-  try {
-    const existing = localStorage.getItem(KEY);
-    state = existing ? JSON.parse(existing) : seed();
-    if (!valid(state)) state = seed();
-  } catch { state = seed(); }
-  const persist = () => {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); }
-    catch { $('catalog-message').textContent = 'Não foi possível salvar neste navegador. A edição permanece disponível nesta sessão.'; }
+  const valid = input => {
+    if (!input || typeof input !== 'object' || !Array.isArray(input.categories) ||
+        !Array.isArray(input.products) || input.categories.length > 60 || input.products.length > 2000) return false;
+    const ids = new Set();
+    for (const category of input.categories) {
+      if (!category || typeof category.id !== 'string' || !category.id.trim() ||
+          category.id.length > 100 || typeof category.name !== 'string' ||
+          !category.name.trim() || category.name.length > 90 || ids.has(category.id)) return false;
+      ids.add(category.id);
+    }
+    const productIds = new Set();
+    for (const product of input.products) {
+      if (!product || typeof product.id !== 'string' || !product.id.trim() ||
+          product.id.length > 100 || productIds.has(product.id) ||
+          typeof product.categoryId !== 'string' || !ids.has(product.categoryId) ||
+          typeof product.name !== 'string' || !product.name.trim() || product.name.length > 90 ||
+          typeof product.description !== 'string' || product.description.length > 220 ||
+          typeof product.price !== 'number' || !Number.isFinite(product.price) ||
+          product.price < 0 || product.price > 999999) return false;
+      productIds.add(product.id);
+    }
+    return true;
   };
+  const normalize = input => ({
+    categories: input.categories.map(item => ({id:item.id,name:item.name.trim()})),
+    products: input.products.map(item => ({
+      id:item.id, categoryId:item.categoryId, name:item.name.trim(),
+      description:item.description.trim(), price:item.price
+    }))
+  });
+  const load = () => {
+    try {
+      const existing = localStorage.getItem(storageKey());
+      const data = existing ? JSON.parse(existing) : seed(storeType);
+      return valid(data) ? normalize(data) : seed(storeType);
+    } catch { return seed(storeType); }
+  };
+  let state = load();
+  const feedback = (message, isError = false) => {
+    const box = $('demo-feedback');
+    box.textContent = message;
+    box.hidden = !message;
+    box.classList.toggle('is-error', isError);
+  };
+  const persist = () => {
+    try { localStorage.setItem(storageKey(), JSON.stringify(state)); return true; }
+    catch {
+      feedback('O navegador bloqueou o salvamento local. Exporte seu catálogo para não perder as alterações.', true);
+      return false;
+    }
+  };
+  let previous = null;
+  const clearUndo = () => { previous = null; $('undo-bar').hidden = true; };
+  const remember = message => {
+    previous = { type:storeType, state:clone(state) };
+    $('undo-description').textContent = message;
+    $('undo-bar').hidden = false;
+  };
+  const editSaved = message => {
+    persist();
+    render();
+    feedback(message);
+  };
+  $('store-type').value = storeType;
   persist();
-  const newId = () => (crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2));
+    const newId = () => (crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2));
   const currentCategory = () => $('filter-category').value;
   const collapsedCategories = new Set();
   const sortProducts = products => {
@@ -155,15 +220,18 @@
         $('editor-error').textContent = 'Informe um preço válido (zero ou maior).';
         $('editor-error').hidden = false; $('entry-price').focus(); return;
       }
+      remember('Última edição de produto.');
       const product = state.products.find(p => p.id === activeId);
       if (product) { product.name = name; product.price = price; product.description = $('entry-description').value.trim(); }
       else state.products.push({ id: newId(), categoryId: parentId, name, description: $('entry-description').value.trim(), price });
     } else {
+      remember('Última edição de categoria.');
       const category = state.categories.find(c => c.id === activeId);
       if (category) category.name = name;
       else state.categories.push({ id: newId(), name });
     }
-    persist(); dialog.close(); render();
+    editSaved(mode === 'product' ? 'Produto salvo no catálogo.' : 'Categoria salva no catálogo.');
+    dialog.close();
   });
   $('catalog-list').addEventListener('click', event => {
     const target = event.target.closest('button[data-action]');
@@ -182,16 +250,18 @@
     if (action === 'delete-category') {
       const selected = state.categories.find(c => c.id === category);
       if (selected && confirm('Excluir a categoria "' + selected.name + '" e todos os produtos dela?')) {
+        remember('Categoria excluída.');
         state.categories = state.categories.filter(c => c.id !== category);
         state.products = state.products.filter(p => p.categoryId !== category);
-        persist(); render();
+        editSaved('Categoria e seus produtos foram excluídos. Você pode desfazer.');
       }
     }
     if (action === 'delete-product') {
       const selected = state.products.find(p => p.id === product);
       if (selected && confirm('Excluir o produto "' + selected.name + '"?')) {
+        remember('Produto excluído.');
         state.products = state.products.filter(p => p.id !== product);
-        persist(); render();
+        editSaved('Produto excluído. Você pode desfazer.');
       }
     }
   });
@@ -206,8 +276,61 @@
   });
   $('reset-data').addEventListener('click', () => {
     if (confirm('Restaurar todos os exemplos? Suas edições atuais serão substituídas.')) {
-      state = seed(); collapsedCategories.clear(); $('search-products').value = ''; $('filter-category').value = ''; $('sort-products').value = 'default';
-      persist(); render();
+      remember('Catálogo de exemplo restaurado.');
+      state = seed(storeType); collapsedCategories.clear(); $('search-products').value = ''; $('filter-category').value = ''; $('sort-products').value = 'default';
+      editSaved('Catálogo de exemplo restaurado. Você pode desfazer.');
+    }
+  });
+  $('store-type').addEventListener('change', event => {
+    const next = event.target.value;
+    if (next !== 'mercado' && next !== 'restaurante') return;
+    if (next === storeType) return;
+    storeType = next;
+    state = load();
+    persist();
+    clearUndo();
+    collapsedCategories.clear();
+    $('search-products').value = '';
+    $('filter-category').value = '';
+    $('sort-products').value = 'default';
+    const url = new URL(location.href);
+    url.searchParams.set('tipo', storeType);
+    history.replaceState(null, '', url);
+    render();
+    feedback('Catálogo de ' + (storeType === 'mercado' ? 'mercado' : 'restaurante') + ' carregado. Seus dados ficam separados.');
+  });
+  $('undo-last').addEventListener('click', () => {
+    if (!previous || previous.type !== storeType) return;
+    state = normalize(previous.state);
+    clearUndo();
+    editSaved('Última alteração desfeita.');
+    $('undo-last').focus();
+  });
+  $('import-data').addEventListener('click', () => $('import-file').click());
+  $('import-file').addEventListener('change', async event => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (file.size > 1024 * 1024) {
+      feedback('Arquivo muito grande. Importe um JSON de até 1 MB.', true);
+      return;
+    }
+    try {
+      const data = JSON.parse(await file.text());
+      if (!valid(data)) {
+        feedback('JSON inválido: verifique categorias, IDs, preços e produtos (limite de 60 categorias e 2.000 produtos).', true);
+        return;
+      }
+      if (!confirm('Substituir o catálogo de ' + (storeType === 'mercado' ? 'mercado' : 'restaurante') +
+          ' pelos dados do arquivo? Você poderá desfazer esta operação.')) return;
+      remember('Catálogo importado.');
+      state = normalize(data);
+      collapsedCategories.clear();
+      $('search-products').value = '';
+      $('filter-category').value = '';
+      editSaved('Catálogo importado com sucesso. Você pode desfazer.');
+    } catch {
+      feedback('Não foi possível ler o JSON. Confira o arquivo e tente novamente.', true);
     }
   });
   $('export-data').addEventListener('click', () => {
@@ -247,10 +370,5 @@
   $('preview-aside').addEventListener('click', openPreview);
   $('close-preview').addEventListener('click', () => previewDialog.close());
   $('close-preview-bottom').addEventListener('click', () => previewDialog.close());
-  const tipo = new URLSearchParams(location.search).get('tipo');
-  if (tipo === 'mercado' && !localStorage.getItem('rebbity-demo-catalog-v2-market-shown')) {
-    $('catalog-message').textContent = 'Você pode renomear as categorias para adaptar o catálogo a um mercado.';
-    try { localStorage.setItem('rebbity-demo-catalog-v2-market-shown', '1'); } catch {}
-  }
   render();
 })();
