@@ -1,42 +1,39 @@
-$(function ($) {
+/* Navegação pública: roteamento restrito a templates conhecidos. */
+jQuery(function ($) {
+  const allowedPages = new Set([
+    'index', 'restaurant', 'market', 'acess',
+    'form-restaurant', 'form-market', 'finish'
+  ]);
+  const requestedPage = new URLSearchParams(window.location.search).get('pag') || 'index';
+  const page = allowedPages.has(requestedPage) ? requestedPage : 'index';
+  const $main = $('main');
+  const $loading = $('#loading');
 
-    var query = location.search.slice(1);
-    var partes = query.split('&');
-    var data = {};
-    let page = "";
-    partes.forEach(function (parte) {
-        var chaveValor = parte.split('=');
-        var chave = chaveValor[0];
-        var valor = chaveValor[1];
-        data[chave] = valor;
-    });
+  if (page === 'acess') {
+    $('footer').hide();
+  }
 
-    if (data.pag == undefined) {
-        page = "index"
-    } else {
-        page = data.pag;
+  $.ajax({
+    url: './view/' + page + '.html',
+    method: 'GET',
+    dataType: 'html',
+    beforeSend: function () {
+      $main.attr('aria-busy', 'true');
+      $loading.show();
+    },
+    success: function (html) {
+      $main.html(html).css('min-height', 'auto');
+    },
+    error: function () {
+      const $error = $('<section>', { class: 'loadError', role: 'alert' })
+        .append($('<h1>').text('Não foi possível carregar esta página.'))
+        .append($('<p>').text('Verifique sua conexão e tente novamente.'))
+        .append($('<a>', { href: './index.html' }).text('Voltar ao início'));
+      $main.empty().append($error);
+    },
+    complete: function () {
+      $main.removeAttr('aria-busy');
+      $loading.stop(true, true).fadeOut(120);
     }
-
-    if (data.pag == 'acess') {
-        $("footer").css({
-            "display": "none"
-        })
-    }
-
-    $.ajax({
-        url: 'view/' + page + '.html',
-        method: 'GET',
-        beforeSend: function () {
-            $('#loading').css("display", "flex")
-                .fadeIn(500);
-        },
-        success: function (resp) {
-            $('main').html(resp);
-            $("main").css({
-                "min-height": "auto"
-            })
-            $('#loading').css("display", "flex").fadeOut(500);
-        }
-    });
-
+  });
 });
