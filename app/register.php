@@ -24,7 +24,7 @@ function rb_register_partner(string $type): void
     if ($password !== $password2 || strlen($password) < 10) {
         rb_error(422, 'As senhas devem coincidir e ter pelo menos 10 caracteres.');
     }
-    if (strlen($cnpj) !== 14 || ($cpf !== '' && strlen($cpf) !== 11)) {
+    if (!rb_valid_cnpj($cnpj) || ($cpf !== '' && strlen($cpf) !== 11)) {
         rb_error(422, 'Documento inválido.');
     }
 
