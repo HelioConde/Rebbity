@@ -89,3 +89,70 @@ test('compactar categorias, ordenar preços e visualizar como cliente', async ({
   expect(overflow).toBe(false);
   expect(errors).toEqual([]);
 });
+
+
+test('mercado possui exemplos próprios e dados separados do restaurante', async ({ page }, info) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.goto('/demo.html?tipo=mercado');
+  await expect(page.locator('#store-type')).toHaveValue('mercado');
+  await expect(page.locator('#catalog-list')).toContainText('Banana prata 1 kg');
+  await expect(page.locator('#catalog-list')).not.toContainText('Hambúrguer da casa');
+  await page.getByRole('button', { name: '+ Categoria' }).click();
+  await page.locator('#entry-name').fill('Higiene de teste');
+  await page.getByRole('button', { name: 'Salvar' }).click();
+  await expect(page.locator('#catalog-list')).toContainText('Higiene de teste');
+  await page.locator('#store-type').selectOption('restaurante');
+  await expect(page.locator('#catalog-list')).toContainText('Hambúrguer da casa');
+  await expect(page.locator('#catalog-list')).not.toContainText('Higiene de teste');
+  await page.locator('#store-type').selectOption('mercado');
+  await expect(page.locator('#catalog-list')).toContainText('Higiene de teste');
+  await page.reload();
+  await expect(page.locator('#store-type')).toHaveValue('mercado');
+  await expect(page.locator('#catalog-list')).toContainText('Higiene de teste');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
+  expect(overflow).toBe(false);
+  await mkdir('artifacts/pages-screenshots', { recursive: true });
+  await page.screenshot({ path: 'artifacts/pages-screenshots/' + info.project.name + '-mercado.png',
+    fullPage: true, animations: 'disabled' });
+  expect(errors).toEqual([]);
+});
+
+test('importação rejeita dados inválidos e permite recuperar o catálogo', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.goto('/demo.html');
+  await page.locator('#import-file').setInputFiles({
+    name: 'quebrado.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({categories:[],products:[{id:'x',categoryId:'inexistente',name:'X',description:'',price:1}]}))
+  });
+  await expect(page.locator('#demo-feedback')).toContainText('JSON inválido');
+  await expect(page.locator('#metric-products')).toHaveText('4');
+
+  const payload = {
+    categories: [{id:'import-cat',name:'Categoria importada'}],
+    products: [{id:'import-prod',categoryId:'import-cat',name:'Produto importado',description:'Descrição segura',price:12.5}]
+  };
+  page.once('dialog', dialog => dialog.accept());
+  await page.locator('#import-file').setInputFiles({
+    name: 'rebbity.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(payload))
+  });
+  await expect(page.locator('#catalog-list')).toContainText('Produto importado');
+  await expect(page.locator('#metric-products')).toHaveText('1');
+  await page.getByRole('button', { name: 'Desfazer alteração' }).click();
+  await expect(page.locator('#catalog-list')).toContainText('Hambúrguer da casa');
+  await expect(page.locator('#metric-products')).toHaveText('4');
+  expect(errors).toEqual([]);
+});
+
+test('exclusão confirmada pode ser desfeita', async ({ page }) => {
+  await page.goto('/demo.html');
+  const item = page.locator('.product-row').filter({hasText:'Hambúrguer da casa'});
+  await expect(item).toHaveCount(1);
+  page.once('dialog', dialog => dialog.accept());
+  await item.getByRole('button', { name: 'Excluir' }).click();
+  await expect(page.locator('#catalog-list')).not.toContainText('Hambúrguer da casa');
+  await page.getByRole('button', { name: 'Desfazer alteração' }).click();
+  await expect(page.locator('#catalog-list')).toContainText('Hambúrguer da casa');
+});
