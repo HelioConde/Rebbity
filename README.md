@@ -38,6 +38,13 @@ Abra `http://localhost:8000`. Para as rotinas PHP é necessário **servidor PHP 
 
 > **Importante:** o código do portal tem referências a autenticação/sessões históricas que precisam ser auditadas. Não presuma que acessar `portal/index.html` representa uma área protegida: a proteção deve ser aplicada no servidor.
 
+
+## Plano de modernização (2026)
+
+Consulte a [auditoria e roteiro de execução](docs/AUDITORIA_E_ROADMAP.md) e o [design system inicial](docs/DESIGN_SYSTEM.md).
+
+A primeira etapa introduz tokens, foco visível, movimento reduzido e uma lista explícita de rotas AJAX permitidas. **Isso não corrige a autenticação, o controle de acesso nem a exposição histórica de segredos**. Antes de publicar: rotacione todas as credenciais versionadas, proteja o portal no servidor e execute os testes de segurança do roteiro.
+
 ## Para retomar com segurança
 
 - Auditar configurações e **trocar credenciais antigas** caso tenham sido expostas.
