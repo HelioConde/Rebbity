@@ -10,7 +10,7 @@ jQuery(function ($) {
     const $message = $('<section>', { class: 'loadError', role: 'alert' })
       .append($('<h1>').text(title))
       .append($('<p>').text(message))
-      .append($('<a>', { href: './index.html?pag=menu' }).text('Voltar ao cardápio'));
+      .append($('<a>', { href: './index.php?pag=menu' }).text('Voltar ao cardápio'));
     $main.empty().append($message);
   }
 
