@@ -133,7 +133,7 @@ if printf '%s' "$VIEW_B" | grep -Fq '&lt;img src=x onerror=alert(1)&gt;'; then
 fi
 
 # POST sem vínculo de proprietário não pode alterar nome ou remover item.
-assert_code 200 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/categoryChageName.php" \
+assert_code 404 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/categoryChageName.php" \
   --data-urlencode "_csrf=$TOKEN_B" --data-urlencode "editNameCategoryID=$ID" \
   --data-urlencode "editNameCategory=NomeInvadido"
 CHANGED="$(mysql -N -h 127.0.0.1 -u root -p"${MYSQL_ROOT_PASSWORD}" "$REBBITY_DB_NAME" \
