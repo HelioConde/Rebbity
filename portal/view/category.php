@@ -20,7 +20,7 @@ rb_require_partner();
 
 <div class="categoryMenu">
     <div>
-        <button class="categoryButtonAdd" onmouseup="addCategory()">
+        <button class="categoryButtonAdd" onclick="addCategory()">
             + Adicionar categoria
         </button>
     </div>
@@ -52,7 +52,7 @@ rb_require_partner();
                 Nova categoria
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -60,7 +60,7 @@ rb_require_partner();
             <div class="subMenuTitle">
                 Selecione o modelo de categoria para dividir o seu cardápio
             </div>
-            <div class="viewBox" onmouseup="addCategoryItens()">
+            <div class="viewBox" onclick="addCategoryItens()">
                 <div>
                     <span class="utensils">
                     </span>
@@ -85,7 +85,7 @@ rb_require_partner();
                 Nova categoria
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -124,9 +124,9 @@ rb_require_partner();
             </div>
         </div>
         <div class="newCategoryButton">
-            <button class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</button>
+            <button class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</button>
             <button id="sendCategory" class="newCategoryButtonDisabled"
-                onmouseup="send('insertCategory')">Salvar</button>
+                onclick="send('insertCategory')">Salvar</button>
         </div>
     </div>
 
@@ -137,7 +137,7 @@ rb_require_partner();
                 Editar nome da categoria
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -165,9 +165,9 @@ rb_require_partner();
             </div>
         </div>
         <div class="newCategoryButton">
-            <button class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</button>
+            <button class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</button>
             <button id="editNameCategory2" class="newCategoryButtonDisabled"
-                onmouseup="send('categoryChageName')">Salvar</button>
+                onclick="send('categoryChageName')">Salvar</button>
         </div>
     </div>
 
@@ -178,7 +178,7 @@ rb_require_partner();
                 Remover categoria
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -200,9 +200,9 @@ rb_require_partner();
             </div>
         </div>
         <div class="newCategoryButton">
-            <button class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</button>
+            <button class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</button>
             <button id="editNameCategory" class="newCategoryButtonEnabled"
-                onmouseup="send('categoryChageDel')">Remover</button>
+                onclick="send('categoryChageDel')">Remover</button>
         </div>
     </div>
 
@@ -213,7 +213,7 @@ rb_require_partner();
                 Criar Item
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -274,9 +274,9 @@ rb_require_partner();
                     </div>
                 </div>
                 <div class="newCategoryButton">
-                    <span class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</span>
+                    <span class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</span>
                     <span id="sendCategory2" class="newCategoryButtonDisabled"
-                        onmouseup="nextNewItem('AddOs')">Próximo</span>
+                        onclick="nextNewItem('AddOs')">Próximo</span>
                 </div>
             </div>
             <div class="addos">
@@ -324,8 +324,8 @@ rb_require_partner();
                 </div>
                 <div>
                     <div class="newCategoryButton">
-                        <div class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</div>
-                        <div id="sendCategory" class="newCategoryButtonDisabled" onmouseup="nextNewItem('rating')">
+                        <div class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</div>
+                        <div id="sendCategory" class="newCategoryButtonDisabled" onclick="nextNewItem('rating')">
                             Próximo</d>
                         </div>
                     </div>
@@ -391,9 +391,9 @@ rb_require_partner();
                 </div>
                 <div>
                     <div class="newCategoryButton">
-                        <div class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</div>
+                        <div class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</div>
                         <div id="sendCategory" class="newCategoryButtonDisabled"
-                            onmouseup="nextNewItem('availability')">
+                            onclick="nextNewItem('availability')">
                             Próximo</d>
                         </div>
                     </div>
@@ -683,8 +683,8 @@ rb_require_partner();
                             </div>
                         </div>
                         <div class="newTurnButton">
-                            <div class="newCategoryButtonCancel" onmouseup="closeTurn()">Cancelar</div>
-                            <div id="sendCategory" class="newCategoryButtonDisabled" onmouseup="sendTurn()">
+                            <div class="newCategoryButtonCancel" onclick="closeTurn()">Cancelar</div>
+                            <div id="sendCategory" class="newCategoryButtonDisabled" onclick="sendTurn()">
                                 Próximo</d>
                             </div>
                         </div>
@@ -693,8 +693,8 @@ rb_require_partner();
 
                 <div>
                     <div class="newCategoryButton">
-                        <div class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</div>
-                        <div id="sendCategory" class="newCategoryButtonDisabled" onmouseup="sendItem()">
+                        <div class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</div>
+                        <div id="sendCategory" class="newCategoryButtonDisabled" onclick="sendItem()">
                             Próximo</d>
                         </div>
                     </div>
@@ -738,15 +738,15 @@ rb_require_partner();
                         <p>Solte a foto</p>
                         <p>ou</p>
                         <p><label class="imgLabel2" for="imgInput2">Click Aqui</label></p>
-                        <input type="file" id="imgInput2" class="imgInput2" name="imgInput2">
+                        <input type="file" id="imgInputNewSub2" class="imgInput2" name="imgInput2">
                     </div>
                 </div>
             </div>
         </form>
         <div>
             <div class="newCategoryButton">
-                <span class="newCategoryButtonCancel" onmouseup="closeWindow3()">Cancelar</span>
-                <span id="sendSubCategory3" onmouseup="send('newItemCategory')"
+                <span class="newCategoryButtonCancel" onclick="closeWindow3()">Cancelar</span>
+                <span id="sendSubCategory3" onclick="send('newItemCategory')"
                     class="newCategoryButtonDisabled">Salvar</span>
             </div>
         </div>
@@ -813,9 +813,9 @@ rb_require_partner();
                                     <input type="hidden" name="subCategoryRange1" id="subCategoryRange1">
                                 </h4>
                                 <div id="newSubCategoryRangeMin">
-                                    <span class="minus" onmouseup="subCategoryRangeMin1()"></span>
+                                    <span class="minus" onclick="subCategoryRangeMin1()"></span>
                                     <span id="subCategoryRangeView1">0</span>
-                                    <span onmouseup="subCategoryRangeMax1()" class="plus"></span>
+                                    <span onclick="subCategoryRangeMax1()" class="plus"></span>
                                 </div>
                             </div>
                             <div>
@@ -826,9 +826,9 @@ rb_require_partner();
                                     </h4>
                                 </div>
                                 <div id="newSubCategoryRangeMax">
-                                    <span class="minus" onmouseup="subCategoryRangeMin2()"></span>
+                                    <span class="minus" onclick="subCategoryRangeMin2()"></span>
                                     <span id="subCategoryRangeView2">0</span>
-                                    <span onmouseup="subCategoryRangeMax2()" class="plus"></span>
+                                    <span onclick="subCategoryRangeMax2()" class="plus"></span>
                                 </div>
                             </div>
                         </div>
@@ -837,7 +837,7 @@ rb_require_partner();
                 <div>
                     <div class="newCategoryButton">
                         <span class="newCategoryButtonCancel2">Cancelar</span>
-                        <span id="sendSubCategory" onmouseup="sendSubCategory()"
+                        <span id="sendSubCategory" onclick="sendSubCategory()"
                             class="newCategoryButtonDisabled">Próximo</sp>
                     </div>
                 </div>
@@ -884,7 +884,7 @@ rb_require_partner();
                     <div class="newCategoryButton">
                         <span class="newCategoryButtonCancel">Cancelar</span>
                         <span id="sendSubCategory2" class="newCategoryButtonDisabled"
-                            onmouseup="send('insertSubCategory')">Salvar</span>
+                            onclick="send('insertSubCategory')">Salvar</span>
                     </div>
                 </div>
             </div>
@@ -908,7 +908,7 @@ rb_require_partner();
                 Remover categoria
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -930,9 +930,9 @@ rb_require_partner();
             </div>
         </div>
         <div class="newCategoryButton">
-            <button class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</button>
+            <button class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</button>
             <button id="editNameCategory" class="newCategoryButtonEnabled"
-                onmouseup="send2('categoryChageDelItem')">Remover</button>
+                onclick="send2('categoryChageDelItem')">Remover</button>
         </div>
     </div>
 
@@ -942,7 +942,7 @@ rb_require_partner();
                 Remover categoria
             </div>
             <div class="newCategoryButtonCancelX">
-                <span class="xmark" onmouseup="closeWindow()">
+                <span class="xmark" onclick="closeWindow()">
                 </span>
             </div>
         </div>
@@ -964,9 +964,9 @@ rb_require_partner();
             </div>
         </div>
         <div class="newCategoryButton">
-            <button class="newCategoryButtonCancel" onmouseup="closeWindow()">Cancelar</button>
+            <button class="newCategoryButtonCancel" onclick="closeWindow()">Cancelar</button>
             <button id="editNameCategory" class="newCategoryButtonEnabled"
-                onmouseup="send2('categorySubDelItem')">Remover</button>
+                onclick="send2('categorySubDelItem')">Remover</button>
         </div>
     </div>
 
