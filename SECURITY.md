@@ -16,3 +16,10 @@ A documentação registra riscos, mas **não certifica** o backend legado como c
 - Uma etapa adicional bloqueia a publicação se o pacote contiver PHP, SQL, bancos locais, chaves privadas, arquivos `.env` ou links simbólicos.
 - O fluxo somente publica se os testes de páginas estáticas e o isolamento do artefato forem aprovados.
 - Esses controles de CI **não corrigem** nem removem credenciais que possam existir no histórico do repositório; a revogação cabe ao responsável por essas credenciais.
+
+## Controles de QA e publicação em PRs (27/10/2026)
+- Em PRs, apenas o job de validação do snapshot público executa; nenhuma página é publicada por código ainda não integrado.
+- O deploy exige sucesso da validação na **mesma execução** e reutiliza o artefato aprovado, reduzindo divergência entre código testado e publicado.
+- Permissões `pages: write` e `id-token: write` ficam restritas ao job de deploy (não aos testes das PRs).
+- A proteção por allowlist é repetida depois de baixar o artefato de CI, sem incluir scripts PHP, credenciais ou arquivos SQL legados.
+- O snapshot usado no Pages permanece fixo e independente das PRs de PHP; essas PRs exigem revisão de segurança específica e não são homologadas por este workflow estático.
