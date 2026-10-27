@@ -96,7 +96,7 @@ assert_code 403 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/insertItem.p
   --data-urlencode "newItemCategoryIdMain=$ID" \
   --data-urlencode "newItemName=Invasao" \
   --data-urlencode "newItemSale=0,00"
-assert_code 200 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/categoryChageDel.php" \
+assert_code 404 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/categoryChageDel.php" \
   --data-urlencode "_csrf=$TOKEN_B" --data-urlencode "delNameCategoryID=$ID"
 
 COUNT="$(mysql -N -h 127.0.0.1 -u root -p"${MYSQL_ROOT_PASSWORD}" "$REBBITY_DB_NAME" \
