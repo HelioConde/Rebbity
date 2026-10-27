@@ -7,6 +7,10 @@ $partnerId = rb_require_partner();
 $id = filter_var($_POST['delNameCategoryID'] ?? null, FILTER_VALIDATE_INT);
 if (!$id) rb_error(422, 'Categoria inválida.');
 $db = rb_db();
+$check = $db->prepare("SELECT id FROM category WHERE id = ? AND id_client = ? AND type = 'sub' LIMIT 1");
+$check->bind_param('ii', $id, $partnerId);
+$check->execute();
+if (!$check->get_result()->fetch_assoc()) rb_error(403, 'Complemento não autorizado.');
 $db->begin_transaction();
 try {
     $stmt = $db->prepare('DELETE FROM item WHERE id_category = ? AND id_client = ?');
