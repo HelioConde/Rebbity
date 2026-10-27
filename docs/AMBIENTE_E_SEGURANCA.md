@@ -1,0 +1,31 @@
+# Ambiente PHP/MySQL — Rebbity
+
+## Uso local isolado
+
+Requisitos: PHP 8.2+ (extensões mysqli, mbstring e fileinfo), MySQL 8, Node.js 20+ para Playwright.
+
+1. Use um banco **novo e vazio**; não importe dados pessoais reais em ambiente local.
+2. Defina `REBBITY_DB_HOST`, `REBBITY_DB_PORT`, `REBBITY_DB_USER`, `REBBITY_DB_PASSWORD` e `REBBITY_DB_NAME` no ambiente do processo PHP; `.env.example` é só modelo e **não é carregado automaticamente**.
+3. Crie o banco, execute `database/schema.sql` nele e inicie `php -S 127.0.0.1:8000 -t .`.
+4. Abra `http://127.0.0.1:8000/index.html`. O painel exige autenticação e aprovação (cadastros novos têm `block=true`).
+5. Rode `npm install`, `npx playwright install chromium` e `npm run test:e2e` para a landing estática.
+
+### Segurança operacional
+
+- **Ação humana obrigatória:** revogar/rotacionar credenciais antigas de banco e FTP que foram publicadas no Git, verificar logs e não reutilizá-las.
+- O histórico do GitHub ainda pode conter esses segredos após a limpeza dos arquivos atuais; revisar política de reescrita de histórico e forks separadamente.
+- Configure HTTPS e `session.cookie_secure` em produção; coloque `portal/index.php` e endpoints PHP atrás do servidor PHP. GitHub Pages não executa PHP/MySQL.
+- **Não** execute `database/schema.sql` sobre produção sem backup e migração de esquema revisada. Este arquivo é bootstrap de banco vazio, não ferramenta de migração de dados.
+- Não disponibilize formulários que armazenem CPF/CNPJ sem política de privacidade atualizada, bases legais e testes de proteção dos dados.
+- Rotas antigas como `portal/index.html` apontam ao PHP protegido, mas qualquer hospedagem deve desativar listagem de diretórios, proteção de fontes e debug.
+- O processo de aprovação de cadastro é manual; **não liberar parceiro automaticamente**.
+
+### QA e homologação
+
+- Proteções de acesso direto: `GET /portal/index.php` sem sessão deve responder 401; endpoints de alteração sem token CSRF devem responder 403, sem executar consultas mutáveis.
+- Fluxos: cadastro, parceiro bloqueado, aprovação controlada, login, criação de categoria/item, tentativas de acesso cruzado, logout.
+- Restaurar backup e validar rollback antes de qualquer merge para produção.
+
+## Estado da atualização
+
+Configuração e handlers migrados para PHP protegido, mas homologação no ambiente de hospedagem e rotação dos segredos ainda não realizadas.
