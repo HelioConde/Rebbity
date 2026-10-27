@@ -17,6 +17,12 @@ function rb_register_partner(string $type): void
     $cnpj = preg_replace('/\D+/', '', rb_post_text('cnpj', 30));
     $cpf = preg_replace('/\D+/', '', rb_post_text('cpf', 30, false));
     $phone = rb_post_text('phone', 25);
+    $street = rb_post_text('address', 130);
+    $number = rb_post_text('number', 12);
+    $fullAddress = $street . ', ' . $number;
+    if (mb_strlen($fullAddress, 'UTF-8') > 150) {
+        rb_error(422, 'Endereço muito longo.');
+    }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $email !== $email2) {
         rb_error(422, 'Confirme um e-mail válido.');
@@ -38,7 +44,7 @@ function rb_register_partner(string $type): void
         'city' => rb_post_text('city', 100),
         'state' => rb_post_text('state', 35),
         'district' => rb_post_text('district', 100),
-        'address' => rb_post_text('address', 150),
+        'address' => $fullAddress,
         'class' => rb_post_text('class', 30),
         'complement' => rb_post_text('complement', 100, false),
         'corporateName' => rb_post_text('corporateName', 120),
