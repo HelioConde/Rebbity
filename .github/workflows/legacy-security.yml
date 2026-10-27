@@ -1,0 +1,24 @@
+name: Rebbity - Check configs legados
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  legacy-config-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check no hardcoded passwords in current config
+        run: node --test tests/legacy-secrets.test.mjs
+      - name: PHP syntax
+        run: |
+          php -l config.php
+          php -l config2.php
+          php -l backupconfig.php

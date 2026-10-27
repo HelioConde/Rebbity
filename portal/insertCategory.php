@@ -1,42 +1,28 @@
 <?php
-session_start();
-include("../config.php");
+declare(strict_types=1);
 
-if(empty($_SESSION['token'])){
-    echo '<script> window.location = "../"; </script>';
+require_once dirname(__DIR__) . '/config.php';
+require_once __DIR__ . '/auth-guard.php';
+$partnerId = require_partner_session($conn);
+$name = trim((string) ($_POST['nameCategory'] ?? ''));
+if ($name === '' || mb_strlen($name) > 100) {
+    http_response_code(422);
+    exit('Nome da categoria inválido.');
 }
-
-$result = mysqli_query($conn, "SELECT * FROM `client` WHERE id='". $_SESSION['id'] ."' LIMIT 1");
-
-if (!$result){
-} else {
-    if(mysqli_num_rows ($result) > 0 ){
-        $member = mysqli_fetch_assoc($result);
-        if($member['token'] == $_SESSION['token']){
-        } else {
-            echo '<script> window.location = "../; </script>';
-        }
-    } else {
-        echo '<script> window.location = "../; </script>';
-    }
-}
-
-$id_client = $_SESSION['id'];
-$name = $_POST['nameCategory'];
 
 try {
-    mysqli_query($conn, "INSERT INTO `category` (
-        `id_client`,
-        `name`,
-        `type`
-    ) VALUES (
-        '$id_client',
-        '$name',
-        'main'
-    )");
-
-    echo '<script> window.location = "./index.html?pag=category"; </script>';
-} catch(PDOException $ex) {
-    echo'Erro'.$ex->getmessage();
+    // A tabela legada possui colunas NOT NULL sem valores padrão.
+    $stmt = mysqli_prepare(
+        $conn,
+        "INSERT INTO category (id_client, name, type, ranger, rangeMin, rangeMax)
+         VALUES (?, ?, 'main', '', '', '')"
+    );
+    mysqli_stmt_bind_param($stmt, 'is', $partnerId, $name);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header('Location: ./index.html?pag=category', true, 303);
+} catch (mysqli_sql_exception $exception) {
+    error_log('Rebbity: erro ao adicionar categoria.');
+    http_response_code(503);
+    exit('Operação indisponível.');
 }
-?>
