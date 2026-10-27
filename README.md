@@ -39,6 +39,12 @@ Abra `http://localhost:8000`. Para as rotinas PHP é necessário **servidor PHP 
 > **Importante:** o código do portal tem referências a autenticação/sessões históricas que precisam ser auditadas. Não presuma que acessar `portal/index.html` representa uma área protegida: a proteção deve ser aplicada no servidor.
 
 
+## Estado atual da modernização
+
+O código modernizado está em PR, não necessariamente implantado. Veja o [status de cada uma das 26 etapas](docs/STATUS_IMPLEMENTACAO.md), com testes e pendências explícitas. A versão protegida do portal usa `portal/index.php` e requer PHP/MySQL; `portal/index.html` apenas redireciona.
+
+Para executar localmente sem credenciais reais, consulte [ambiente e segurança](docs/AMBIENTE_E_SEGURANCA.md).
+
 ## Plano de modernização (2026)
 
 Consulte a [auditoria e roteiro de execução](docs/AUDITORIA_E_ROADMAP.md) e o [design system inicial](docs/DESIGN_SYSTEM.md).
