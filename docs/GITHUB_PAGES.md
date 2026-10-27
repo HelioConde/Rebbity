@@ -21,9 +21,9 @@ Playwright testa telas de 320, 375, 768, 1366 e 1920 px, navegação de teclado,
 
 ## Publicação
 
-O workflow `.github/workflows/deploy-pages.yml` executa os testes e só então faz o deploy com `actions/upload-pages-artifact` e `actions/deploy-pages`. As permissões do workflow são mínimas: `contents: read`, `pages: write`, `id-token: write`. Uma tentativa de configuração automática do Pages é feita por `actions/configure-pages`.
+O workflow `.github/workflows/publish-rebbity-pages.yml` **na branch `main`** executa novamente os testes e depois faz o deploy com `actions/upload-pages-artifact` e `actions/deploy-pages`. Ele utiliza um commit previamente validado da branch de modernização, sem mesclar alterações PHP ainda não homologadas. As permissões do workflow são mínimas: `contents: read`, `pages: write`, `id-token: write`. Uma tentativa de configuração automática do Pages é feita por `actions/configure-pages`.
 
-Se o deploy for recusado por configurações da conta/repositório, ajuste no GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Se o ambiente `github-pages` limitar deploys à `main`, configure uma regra que permita a branch de publicação, ou mova o workflow já testado à branch de publicação aprovada. A URL só deve ser apresentada como **ativa** após verificar um deployment concluído com sucesso.
+O deploy pela `main` foi confirmado com sucesso em 27/10/2026: https://github.com/HelioConde/Rebbity/actions/runs/40460035840. Para publicações futuras, atualize conscientemente o `ref` pinado no workflow da `main` após passar o QA. Se o deploy voltar a ser recusado por configurações do repositório, ajuste no GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Se o ambiente `github-pages` limitar deploys à `main`, configure uma regra que permita a branch de publicação, ou mova o workflow já testado à branch de publicação aprovada. URL do deployment informada pelo GitHub: https://helioconde.github.io/Rebbity/ . A entrega do GitHub Actions foi confirmada; verificações externas de carregamento podem depender de propagação e cache.
 
 **Nota sobre segurança:** alterações PHP do PR #1 são independentes da publicação estática. Não concluir que o backend está homologado porque o Pages foi publicado.
 
