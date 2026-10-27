@@ -108,3 +108,12 @@
   .rb-choice { grid-template-columns: 75px 1fr; }
   .rb-choice img { width: 75px; }
 }
+
+/* Menu acessível de telas pequenas */
+.mobileBar { border: 0; background: transparent; padding: 8px 0; color: inherit; }
+.mobileBar svg { width: 25px; height: 25px; }
+@media (max-width: 767px) {
+  nav .bar.rb-nav-open { display: flex; left: 0; }
+  #main-content, .rb-landing, .rb-landing * { min-width: 0; }
+  .rb-landing { overflow-wrap: anywhere; }
+}
