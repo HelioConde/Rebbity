@@ -30,6 +30,13 @@ jQuery(function ($) {
     },
     success: function (html) {
       $main.html(html).css('min-height', 'auto');
+      // Bridge for legacy controls awaiting semantic component refactor.
+      $main.find('span[onclick], div[onclick]').attr({ role: 'button', tabindex: 0 })
+        .on('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); this.click();
+          }
+        });
     },
     error: function () {
       showMessage('Não foi possível carregar esta página.', 'Verifique sua conexão ou se o servidor PHP está funcionando.');
