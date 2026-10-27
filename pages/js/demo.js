@@ -41,6 +41,15 @@
   persist();
   const newId = () => (crypto.randomUUID ? crypto.randomUUID() : 'id-' + Date.now() + '-' + Math.random().toString(36).slice(2));
   const currentCategory = () => $('filter-category').value;
+  const collapsedCategories = new Set();
+  const sortProducts = products => {
+    const entries = [...products];
+    const ordering = $('sort-products').value;
+    if (ordering === 'name') entries.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+    if (ordering === 'price-asc') entries.sort((a, b) => a.price - b.price);
+    if (ordering === 'price-desc') entries.sort((a, b) => b.price - a.price);
+    return entries;
+  };
   function render() {
     $('metric-categories').textContent = String(state.categories.length);
     $('metric-products').textContent = String(state.products.length);
@@ -59,6 +68,9 @@
     const filter = currentCategory();
     const list = $('catalog-list');
     list.replaceChildren();
+    const allCollapsed = state.categories.length > 0 && state.categories.every(cat => collapsedCategories.has(cat.id));
+    $('toggle-categories').textContent = allCollapsed ? 'Expandir todas' : 'Recolher todas';
+    $('toggle-categories').setAttribute('aria-label', allCollapsed ? 'Expandir todas as categorias' : 'Recolher todas as categorias');
     if (state.categories.length === 0) {
       const empty = make('div', 'empty-state');
       empty.append(make('h3', '', 'Seu cardápio está vazio'), make('p', '', 'Crie uma categoria para começar.'));
@@ -66,12 +78,13 @@
     } else {
       for (const category of state.categories) {
         if (filter && filter !== category.id) continue;
-        const items = state.products.filter(p => p.categoryId === category.id &&
-          (!search || (p.name + ' ' + p.description).toLocaleLowerCase('pt-BR').includes(search)));
+        const items = sortProducts(state.products.filter(p => p.categoryId === category.id &&
+          (!search || (p.name + ' ' + p.description).toLocaleLowerCase('pt-BR').includes(search))));
         if (search && !items.length) continue;
         const section = make('section', 'category-block');
         const header = make('div', 'category-top');
         const left = make('div', 'category-label');
+        const folded = collapsedCategories.has(category.id) && !search;
         left.append(make('h3', '', category.name), make('span', 'count-label', items.length + (items.length === 1 ? ' produto' : ' produtos')));
         const actions = make('div', 'category-actions');
         const add = make('button', 'small-btn add-item', '+ Produto');
@@ -80,8 +93,13 @@
         edit.type = 'button'; edit.dataset.action = 'edit-category'; edit.dataset.category = category.id;
         const remove = make('button', 'small-btn danger', 'Excluir');
         remove.type = 'button'; remove.dataset.action = 'delete-category'; remove.dataset.category = category.id;
-        actions.append(add, edit, remove); header.append(left, actions); section.append(header);
-        if (!items.length) section.append(make('p', 'category-empty', 'Nenhum produto nesta categoria.'));
+        const fold = make('button', 'small-btn fold-category', folded ? 'Expandir' : 'Recolher');
+        fold.type = 'button'; fold.dataset.action = 'toggle-category'; fold.dataset.category = category.id;
+        fold.setAttribute('aria-expanded', String(!folded));
+        actions.append(fold, add, edit, remove); header.append(left, actions); section.append(header);
+        const body = make('div', 'category-body');
+        body.hidden = folded;
+        if (!items.length) body.append(make('p', 'category-empty', 'Nenhum produto nesta categoria.'));
         for (const product of items) {
           const row = make('div', 'product-row');
           const info = make('div', 'product-info');
@@ -93,8 +111,9 @@
           const deleteItem = make('button', 'small-btn danger', 'Excluir');
           deleteItem.type = 'button'; deleteItem.dataset.action = 'delete-product'; deleteItem.dataset.product = product.id;
           controls.append(editItem, deleteItem);
-          row.append(info, price, controls); section.append(row);
+          row.append(info, price, controls); body.append(row);
         }
+        section.append(body);
         list.append(section);
       }
       if (!list.children.length) list.append(make('p', 'empty-state', 'Nenhum produto encontrado para esta busca.'));
@@ -150,6 +169,13 @@
     const target = event.target.closest('button[data-action]');
     if (!target) return;
     const { action, category, product } = target.dataset;
+    if (action === 'toggle-category') {
+      if (collapsedCategories.has(category)) collapsedCategories.delete(category);
+      else collapsedCategories.add(category);
+      render();
+      const next = [...$('catalog-list').querySelectorAll('.fold-category')].find(el => el.dataset.category === category);
+      next?.focus();
+    }
     if (action === 'add-item') openEditor('product', null, category);
     if (action === 'edit-category') openEditor('category', category);
     if (action === 'edit-product') openEditor('product', product);
@@ -170,10 +196,17 @@
     }
   });
   $('filter-category').addEventListener('change', render);
+  $('sort-products').addEventListener('change', render);
   $('search-products').addEventListener('input', render);
+  $('toggle-categories').addEventListener('click', () => {
+    const allCollapsed = state.categories.length > 0 && state.categories.every(cat => collapsedCategories.has(cat.id));
+    collapsedCategories.clear();
+    if (!allCollapsed) state.categories.forEach(cat => collapsedCategories.add(cat.id));
+    render();
+  });
   $('reset-data').addEventListener('click', () => {
     if (confirm('Restaurar todos os exemplos? Suas edições atuais serão substituídas.')) {
-      state = seed(); $('search-products').value = ''; $('filter-category').value = '';
+      state = seed(); collapsedCategories.clear(); $('search-products').value = ''; $('filter-category').value = ''; $('sort-products').value = 'default';
       persist(); render();
     }
   });
@@ -184,6 +217,36 @@
     document.body.append(anchor); anchor.click(); anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
+  const previewDialog = $('preview-dialog');
+  const previewList = $('preview-list');
+  const renderPreview = () => {
+    previewList.replaceChildren();
+    let count = 0;
+    for (const category of state.categories) {
+      const products = state.products.filter(item => item.categoryId === category.id);
+      if (!products.length) continue;
+      count += products.length;
+      const group = make('section', 'preview-category');
+      group.append(make('h3', '', category.name));
+      const cards = make('div', 'preview-items');
+      for (const product of products) {
+        const card = make('article', 'preview-item');
+        const content = make('div', 'preview-item-info');
+        content.append(make('strong', '', product.name));
+        if (product.description) content.append(make('p', '', product.description));
+        card.append(content, make('span', 'preview-price', formatMoney(product.price)));
+        cards.append(card);
+      }
+      group.append(cards);
+      previewList.append(group);
+    }
+    if (count === 0) previewList.append(make('p', 'empty-state', 'Adicione produtos para visualizar o cardápio.'));
+  };
+  const openPreview = () => { renderPreview(); previewDialog.showModal(); };
+  $('preview-catalog').addEventListener('click', openPreview);
+  $('preview-aside').addEventListener('click', openPreview);
+  $('close-preview').addEventListener('click', () => previewDialog.close());
+  $('close-preview-bottom').addEventListener('click', () => previewDialog.close());
   const tipo = new URLSearchParams(location.search).get('tipo');
   if (tipo === 'mercado' && !localStorage.getItem('rebbity-demo-catalog-v2-market-shown')) {
     $('catalog-message').textContent = 'Você pode renomear as categorias para adaptar o catálogo a um mercado.';
