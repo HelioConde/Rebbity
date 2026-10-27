@@ -1,0 +1,41 @@
+name: PHP segurança e integração
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  php-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: test-only-password
+          MYSQL_DATABASE: rebbity_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -ptest-only-password"
+          --health-interval=5s --health-timeout=3s --health-retries=12
+    env:
+      MYSQL_ROOT_PASSWORD: test-only-password
+      REBBITY_DB_HOST: 127.0.0.1
+      REBBITY_DB_PORT: '3306'
+      REBBITY_DB_NAME: rebbity_ci
+      REBBITY_DB_USER: root
+      REBBITY_DB_PASSWORD: test-only-password
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar PHP e cliente MySQL
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y php-cli php-mysql php-mbstring php-xml default-mysql-client
+      - name: Validar sintaxe de todos os PHP
+        run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: Criar schema em banco vazio
+        run: mysql -h 127.0.0.1 -u root -p"$MYSQL_ROOT_PASSWORD" "$REBBITY_DB_NAME" < database/schema.sql
+      - name: Testar controles de acesso e CRUD
+        run: bash tests/integration/smoke.sh
