@@ -110,6 +110,45 @@ assert_code 403 -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/categoryChag
 assert_code 200 -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/viewCategory.php" \
   --data-urlencode "_csrf=$TOKEN_A"
 
+# Segurança de regressão: SQL parametrizado, isolamento, XSS e upload.
+assert_code 403 -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/insertCategory.php" \
+  --data-urlencode "_csrf=token-invalido" --data-urlencode "nameCategory=FalhaCSRF"
+assert_code 422 -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/insertCategory.php" \
+  --data-urlencode "_csrf=$TOKEN_A" --data-urlencode "nameCategory="
+
+# Uma categoria com caracteres HTML deve ser mostrada apenas como texto.
+XSS_ID="$(curl -fsS -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/insertCategory.php" \
+  --data-urlencode "_csrf=$TOKEN_A" \
+  --data-urlencode 'nameCategory=<img src=x onerror=alert(1)>')"
+[[ "$XSS_ID" =~ ^[0-9]+$ ]] || { echo "Falha ao criar categoria XSS de teste" >&2; exit 1; }
+VIEW_A="$(curl -fsS -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/viewCategory.php" \
+  --data-urlencode "_csrf=$TOKEN_A")"
+printf '%s' "$VIEW_A" | grep -Fq '&lt;img src=x onerror=alert(1)&gt;' || {
+  echo "Nome HTML não foi escapado na visão do parceiro" >&2; exit 1;
+}
+VIEW_B="$(curl -fsS -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/viewCategory.php" \
+  --data-urlencode "_csrf=$TOKEN_B")"
+if printf '%s' "$VIEW_B" | grep -Fq '&lt;img src=x onerror=alert(1)&gt;'; then
+  echo "Visão do parceiro B vazou categoria do parceiro A" >&2; exit 1
+fi
+
+# POST sem vínculo de proprietário não pode alterar nome ou remover item.
+assert_code 200 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/portal/categoryChageName.php" \
+  --data-urlencode "_csrf=$TOKEN_B" --data-urlencode "editNameCategoryID=$ID" \
+  --data-urlencode "editNameCategory=NomeInvadido"
+CHANGED="$(mysql -N -h 127.0.0.1 -u root -p"${MYSQL_ROOT_PASSWORD}" "$REBBITY_DB_NAME" \
+  -e "SELECT COUNT(*) FROM category WHERE id=$ID AND name='NomeInvadido';")"
+[[ "$CHANGED" == '0' ]] || { echo "Escopo de categoria violado" >&2; exit 1; }
+
+BAD_IMAGE="$(mktemp)"
+printf 'não é uma imagem PNG' > "$BAD_IMAGE"
+assert_code 422 -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/insertItem.php" \
+  -F "_csrf=$TOKEN_A" -F "newItemCategoryIdMain=$ID" \
+  -F "newItemName=Imagem falsa" -F "newItemSale=9,99" \
+  -F "imgInput=@$BAD_IMAGE;filename=fake.png;type=image/png"
+rm -f "$BAD_IMAGE"
+echo 'OK: CSRF, XSS, isolamento de categorias e MIME de uploads'
+
 assert_code 303 -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/logout.php" \
   --data-urlencode "_csrf=$TOKEN_A"
 assert_code 401 -c "$COOKIE_A" -b "$COOKIE_A" "$BASE/portal/index.php"
