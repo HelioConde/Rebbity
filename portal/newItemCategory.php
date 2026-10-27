@@ -6,7 +6,7 @@ rb_require_csrf();
 $partnerId = rb_require_partner();
 $categoryId = filter_var($_POST['newItemCategoryId'] ?? null, FILTER_VALIDATE_INT);
 if (!$categoryId) rb_error(422, 'Categoria inválida.');
-$check = rb_db()->prepare('SELECT id FROM category WHERE id = ? AND id_client = ? LIMIT 1');
+$check = rb_db()->prepare('SELECT id FROM category WHERE id = ? AND id_client = ? AND type = 'sub' LIMIT 1');
 $check->bind_param('ii', $categoryId, $partnerId);
 $check->execute();
 if (!$check->get_result()->fetch_assoc()) rb_error(403, 'Categoria não autorizada.');
