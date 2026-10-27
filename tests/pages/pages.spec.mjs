@@ -10,7 +10,7 @@ test('home, navigation and accessibility keyboard menu', async ({ page }, info) 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
   expect(overflow).toBe(false);
   if (info.project.name === '320px' || info.project.name === '375px') {
-    const toggle = page.getByRole('button', { name: 'Abrir menu' });
+    const toggle = page.locator('.nav-toggle');
     await toggle.click();
     await expect(toggle).toHaveAttribute('aria-expanded', 'true');
     await page.keyboard.press('Escape');
