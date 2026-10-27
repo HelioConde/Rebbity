@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b82534">
+  <meta name="description" content="Rebbity: projeto de portal para parceiros de delivery. Conheça o conceito e teste um cardápio demonstrativo gratuito no navegador.">
+  <meta property="og:title" content="Rebbity — parceiros de delivery">
+  <meta property="og:description" content="Descubra o conceito de gestão do Rebbity e explore seu painel demonstrativo.">
+  <title>Rebbity — Gestão de parceiros de delivery</title>
+  <link rel="icon" type="image/png" href="./assets/logo.png">
+  <link rel="stylesheet" href="./css/app.css">
+  <script src="./js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="./index.html" aria-label="Rebbity — início"><img src="./assets/logo.png" alt="" width="112" height="52"></a>
+      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+      <nav class="main-nav" id="primary-nav" aria-label="Navegação principal">
+        <a href="./index.html" aria-current="page">Início</a>
+        <a href="./demo.html">Experimentar painel</a>
+        <a href="./sobre.html">Sobre o projeto</a>
+      </nav>
+    </div>
+  </header>
+  <main id="conteudo">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <p class="eyebrow">Rebbity · conceito de delivery</p>
+        <h1 id="hero-title">Organizar sua loja pode ser <em>muito mais simples.</em></h1>
+        <p class="lead">Explore uma experiência criada para restaurantes e mercados organizarem categorias, produtos e preços em um único painel.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="./demo.html">Experimentar cardápio <span aria-hidden="true">→</span></a>
+          <a class="btn btn-outline" href="#publicos">Conhecer a proposta</a>
+        </div>
+        <p class="note"><span class="dot" aria-hidden="true"></span> Demonstração pública. Sem login, pagamentos ou cadastro de dados pessoais.</p>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-header"><span class="mini-circle"></span><span class="mini-circle"></span><span class="mini-circle"></span><span>Visão do parceiro</span></div>
+        <div class="sample-card">
+          <div class="sample-icon"><img src="./assets/restaurant.png" alt="" width="76" height="76"></div>
+          <div><p class="sample-label">Meu cardápio</p><h2>Pronto para organizar</h2><p>Categorias, produtos e preços no mesmo lugar.</p></div>
+        </div>
+        <div class="sample-rows" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="sample-bottom"><span class="status-pill">Experimente sem compromisso</span><span class="sample-arrow" aria-hidden="true">↗</span></div>
+      </div>
+    </section>
+    <section class="shell audience" id="publicos" aria-labelledby="audience-title">
+      <div class="section-heading"><p class="eyebrow">Feito para diferentes negócios</p><h2 id="audience-title">Seu negócio, seu jeito de organizar.</h2><p>Escolha um tipo de loja e descubra como a estrutura de cardápios funciona.</p></div>
+      <div class="audience-grid">
+        <article class="audience-card">
+          <div class="audience-image"><img src="./assets/restaurant.png" alt="" width="112" height="112" loading="lazy"></div>
+          <h3>Restaurantes e lanchonetes</h3><p>Separe bebidas, refeições, combos e opções de maneira prática.</p>
+          <a href="./demo.html?tipo=restaurante">Testar como restaurante <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="audience-card">
+          <div class="audience-image"><img src="./assets/market.png" alt="" width="112" height="112" loading="lazy"></div>
+          <h3>Mercados e lojas</h3><p>Organize produtos por setor, encontre itens rapidamente e atualize preços.</p>
+          <a href="./demo.html?tipo=mercado">Testar como mercado <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+    <section class="muted-section"><div class="shell steps-section">
+      <div class="section-heading"><p class="eyebrow">Como experimentar</p><h2>Três passos. Tudo no navegador.</h2></div>
+      <div class="steps">
+        <article><span class="step-index">01</span><h3>Abra o painel</h3><p>Entre no modo demonstração, sem criar uma conta.</p></article>
+        <article><span class="step-index">02</span><h3>Monte seu catálogo</h3><p>Adicione categorias e produtos, com nomes e preços próprios.</p></article>
+        <article><span class="step-index">03</span><h3>Teste à vontade</h3><p>Seus dados de exemplo permanecem apenas neste navegador.</p></article>
+      </div>
+    </div></section>
+    <section class="shell closing-cta"><div><p class="eyebrow">Pronto para conhecer?</p><h2>Veja o Rebbity em ação.</h2><p>Esta é uma demonstração estática. As funções comerciais PHP/MySQL são desenvolvidas separadamente.</p></div><a href="./demo.html" class="btn btn-primary">Abrir demonstração <span aria-hidden="true">→</span></a></section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-row"><span>© <span data-year>2026</span> Rebbity · Projeto em modernização</span><a href="./sobre.html">Status e informações</a></div></footer>
+</body>
+</html>
