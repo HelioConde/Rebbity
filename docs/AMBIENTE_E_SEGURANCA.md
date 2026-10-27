@@ -29,3 +29,7 @@ Requisitos: PHP 8.2+ (extensões mysqli, mbstring e fileinfo), MySQL 8, Node.js 
 ## Estado da atualização
 
 Configuração e handlers migrados para PHP protegido, mas homologação no ambiente de hospedagem e rotação dos segredos ainda não realizadas.
+
+### Cache de conteúdo autenticado
+
+O bootstrap aplica `Cache-Control: private, no-store, max-age=0` e `Pragma: no-cache` dentro de `rb_partner()`, que é compartilhado por `portal/index.php` e pelas rotas diretas `portal/view/`. Isso evita persistência involuntária de dados de parceiros no cache HTTP do navegador e de proxies. Os testes de integração verificam os cabeçalhos em sessão autenticada para Home do portal, dashboard, categoria e menu. A política não substitui a necessidade de HTTPS, autenticação, logout seguro, proteção de dados ou a rotação das credenciais do histórico.

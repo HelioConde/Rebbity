@@ -102,6 +102,10 @@ function rb_require_csrf(): void
 
 function rb_partner(): array
 {
+    // Evita persistir dados privados em cache do navegador ou proxy, mesmo
+    // quando um fragmento /portal/view/ é requisitado diretamente.
+    header('Cache-Control: private, no-store, max-age=0');
+    header('Pragma: no-cache');
     rb_start_session();
     $id = filter_var($_SESSION['id'] ?? null, FILTER_VALIDATE_INT);
     $token = $_SESSION['token'] ?? null;

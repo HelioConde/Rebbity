@@ -78,6 +78,19 @@ login() {
 login "$COOKIE_A" 'a@example.test'
 login "$COOKIE_B" 'b@example.test'
 assert_code 200 -c "$COOKIE_A" -b "$COOKIE_A" "$BASE/portal/view/dashboard.php"
+# Rotas autenticadas acessadas diretamente também não devem ir ao cache.
+for endpoint in portal/index.php portal/view/dashboard.php portal/view/category.php portal/view/menu.php; do
+  HEADERS="$(curl -sS -D - -o /dev/null -c "$COOKIE_A" -b "$COOKIE_A" "$BASE/$endpoint")"
+  if ! printf '%s\\n' "$HEADERS" | grep -Eiq '^Cache-Control:[^[:cntrl:]]*no-store'; then
+    echo "Falta Cache-Control: no-store na rota $endpoint" >&2
+    exit 1
+  fi
+  if ! printf '%s\\n' "$HEADERS" | grep -Eiq '^Pragma:[^[:cntrl:]]*no-cache'; then
+    echo "Falta Pragma: no-cache na rota $endpoint" >&2
+    exit 1
+  fi
+done
+echo 'OK: respostas autenticadas diretas com política anti-cache'
 echo 'OK: cadastro, aprovação e login seguro de duas contas'
 
 TOKEN_A="$(csrf "$COOKIE_A")"
