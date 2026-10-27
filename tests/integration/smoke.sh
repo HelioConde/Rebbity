@@ -93,6 +93,37 @@ done
 echo 'OK: respostas autenticadas diretas com política anti-cache'
 echo 'OK: cadastro, aprovação e login seguro de duas contas'
 
+# Rate limit: falhas sequenciais por e-mail devem bloquear ate senha correta.
+# A regra mora no MySQL e nao pode ser ignorada ao trocar de cookie/sessao.
+COOKIE_LIMIT="$(mktemp)"
+trap 'kill "$SERVER_PID" 2>/dev/null || true; rm -f "$COOKIE_A" "$COOKIE_B" "$COOKIE_LIMIT" "$LOG"' EXIT
+LIMIT_TOKEN="$(csrf "$COOKIE_LIMIT")"
+for attempt in $(seq 1 7); do
+  assert_code 303 -c "$COOKIE_LIMIT" -b "$COOKIE_LIMIT" -X POST "$BASE/authentication.php" \
+    --data-urlencode "_csrf=$LIMIT_TOKEN" --data-urlencode "email=a@example.test" \
+    --data-urlencode "password=senha-errada"
+done
+# A oitava tentativa deve receber HTTP 429 inclusive com senha correta.
+assert_code 429 -c "$COOKIE_LIMIT" -b "$COOKIE_LIMIT" -X POST "$BASE/authentication.php" \
+  --data-urlencode "_csrf=$LIMIT_TOKEN" --data-urlencode "email=a@example.test" \
+  --data-urlencode "password=ExampleTest123!"
+# Limite vinculado ao e-mail persistido no banco: outra sessao nao contorna.
+LIMIT_TOKEN_B="$(csrf "$COOKIE_B")"
+assert_code 429 -c "$COOKIE_B" -b "$COOKIE_B" -X POST "$BASE/authentication.php" \
+  --data-urlencode "_csrf=$LIMIT_TOKEN_B" --data-urlencode "email=a@example.test" \
+  --data-urlencode "password=ExampleTest123!"
+# Simular expiracao da janela no banco de TESTES, sem aguardar 15 min.
+mysql -h 127.0.0.1 -u root -p"${MYSQL_ROOT_PASSWORD}" "$REBBITY_DB_NAME" -e \
+  "UPDATE login_attempts SET reset_at = UTC_TIMESTAMP(6) - INTERVAL 1 SECOND"
+assert_code 303 -c "$COOKIE_LIMIT" -b "$COOKIE_LIMIT" -X POST "$BASE/authentication.php" \
+  --data-urlencode "_csrf=$LIMIT_TOKEN" --data-urlencode "email=a@example.test" \
+  --data-urlencode "password=ExampleTest123!"
+assert_code 200 -c "$COOKIE_LIMIT" -b "$COOKIE_LIMIT" "$BASE/portal/index.php"
+echo 'OK: limitacao de tentativas, 429, troca de sessao e recuperacao apos expirar'
+# Login valido por outro cookie gira o token DB e invalida a sessao anterior;
+# restaurar explicitamente a conta A antes de testar o CRUD protegido.
+login "$COOKIE_A" 'a@example.test'
+
 TOKEN_A="$(csrf "$COOKIE_A")"
 ID="$(curl -fsS -c "$COOKIE_A" -b "$COOKIE_A" -X POST "$BASE/portal/insertCategory.php" \
   --data-urlencode "_csrf=$TOKEN_A" --data-urlencode "nameCategory=Promocoes")"
