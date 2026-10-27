@@ -158,3 +158,18 @@
 
 /* Uma seção com padding deve caber no viewport sem somar 40px extras. */
 .rb-landing { box-sizing: border-box; }
+
+/* Dashboard com dados de catálogo do parceiro autenticado */
+.rb-dashboard { width: min(1100px, 100%); margin: 0 auto; padding: 20px; box-sizing: border-box; }
+.rb-dashboard h1 { font-size: clamp(1.7rem, 3vw, 2.35rem); margin: 10px 0; line-height: 1.2; }
+.rb-dashboard-header > p:last-child { color: #586474; }
+.rb-dashboard-metrics { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin: 28px 0; }
+.rb-dashboard-card { display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #e2e5eb; background: #fff; border-radius: 18px; box-shadow: var(--rb-shadow-sm); }
+.rb-dashboard-card p { font-size: .92rem; color: #586474; }
+.rb-dashboard-card strong { font-size: clamp(2rem, 5vw, 3rem); line-height: 1; color: #a71928; font-variant-numeric: tabular-nums; }
+.rb-dashboard-card span { font-size: .82rem; color: #586474; }
+.rb-dashboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.rb-dashboard-actions section { display: flex; align-items: flex-start; flex-direction: column; gap: 14px; padding: 24px; border-radius: 18px; background: #f7f8fa; }
+.rb-dashboard-actions h2 { font-size: 1.2rem; }
+.rb-dashboard-actions p { line-height: 1.55; color: #586474; flex: 1; }
+@media (max-width: 800px) { .rb-dashboard-metrics, .rb-dashboard-actions { grid-template-columns: minmax(0,1fr); } }
