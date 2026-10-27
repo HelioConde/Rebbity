@@ -59,8 +59,8 @@ register() {
     --data-urlencode "porpName=Teste" \
     --data-urlencode "cpf=12345678901"
 }
-register "$COOKIE_A" 'a@example.test' '12345678000190'
-register "$COOKIE_B" 'b@example.test' '12345678000191'
+register "$COOKIE_A" 'a@example.test' '11222333000181'
+register "$COOKIE_B" 'b@example.test' '11444777000161'
 mysql -h 127.0.0.1 -u root -p"${MYSQL_ROOT_PASSWORD}" "$REBBITY_DB_NAME" -e   "UPDATE client SET block='false' WHERE email IN ('a@example.test', 'b@example.test');"
 
 login() {
