@@ -35,3 +35,14 @@ O deploy pela `main` foi confirmado com sucesso em 27/10/2026: https://github.co
 - `.nojekyll`
 
 Qualquer mudança nessa lista exige editar conscientemente o build e renovar os testes.
+
+
+## Catálogos independentes (atualização de 27/10/2026)
+
+- `demo.html?tipo=restaurante` mantém o catálogo do restaurante, inclusive dados anteriores em `rebbity-demo-catalog-v2`.
+- `demo.html?tipo=mercado` inicia com exemplos de hortifruti, mercearia e bebidas e utiliza `rebbity-demo-market-v1`; as lojas **não compartilham** o mesmo armazenamento.
+- O botão **Importar JSON** aceita até 1 MiB; valida IDs únicos, relações entre categoria e produto, textos e preços. Confirma a substituição antes de gravar.
+- **Desfazer alteração** recupera o último estado local antes de um cadastro, edição, exclusão, restauração ou importação; não é histórico permanente.
+- Os limites são de 60 categorias e 2.000 produtos por catálogo. Não existe backup remoto. Utilize **Exportar JSON** para guardar uma cópia local.
+- O modo demonstrativo nunca transforma os exemplos em pedidos reais; não insira dados pessoais, senhas ou dados financeiros.
+- O CI cobre fluxos de mercado e restaurante separados, recuperação após exclusão, importação inválida e válida, além de testar o layout em 5 resoluções.
