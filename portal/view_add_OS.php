@@ -19,7 +19,8 @@ while ($cat = $categories->fetch_assoc()) {
         rb_js_arg($cat['name']) . ')">Remover complemento</button></div>';
     $itemStmt->bind_param('ii', $id, $partnerId);
     $itemStmt->execute();
-    while ($item = $itemStmt->get_result()->fetch_assoc()) {
+    $items = $itemStmt->get_result();
+    while ($item = $items->fetch_assoc()) {
         $src = rb_safe_image($item['img']);
         echo '<div class="categoryGroup2 rb-category-item">';
         if ($src !== '') echo '<img loading="lazy" width="56" height="56" src="' . rb_h($src) . '" alt="">';
