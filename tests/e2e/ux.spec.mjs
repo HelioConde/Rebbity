@@ -17,7 +17,7 @@ test('cadastro dividido em etapas preserva respostas e valida CNPJ', async ({ pa
 
   await expect(form.locator('.rb-step-status')).toContainText('Etapa 2 de 4');
   await form.locator('[data-action=back]').click();
-  await expect(form.locator('[name=name]').inputValue()).toBe('Restaurante Teste');
+  await expect(form.locator('[name=name]')).toHaveValue('Restaurante Teste');
 });
 
 test('CNPJ inválido bloqueia mudança de etapa', async ({ page }) => {
