@@ -3,7 +3,7 @@ name: PHP segurança e integração
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, chore/modernizacao-auditoria-ux-2026-10]
 
 jobs:
   php-safety:
