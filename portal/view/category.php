@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../app/bootstrap.php';
+rb_require_partner();
+?>
 <div>
     <p class="subTitle">
         Este é o seu cardápio para entregas. Aqui você define quais itens os clientes vão poder pedir pelo Rebbity e
@@ -229,7 +233,7 @@
                 </div>
             </div>
         </div>
-        <form class="vh100" id="insertNewItem" method="post">
+        <form class="vh100" id="insertNewItem" method="post"><input type="hidden" name="newItemCategoryIdMain" id="newItemCategoryIdMain">
             <div class="details">
                 <div class="subMenuTitle">
                 </div>
