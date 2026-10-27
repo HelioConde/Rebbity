@@ -33,3 +33,11 @@ Configuração e handlers migrados para PHP protegido, mas homologação no ambi
 ### Cache de conteúdo autenticado
 
 O bootstrap aplica `Cache-Control: private, no-store, max-age=0` e `Pragma: no-cache` dentro de `rb_partner()`, que é compartilhado por `portal/index.php` e pelas rotas diretas `portal/view/`. Isso evita persistência involuntária de dados de parceiros no cache HTTP do navegador e de proxies. Os testes de integração verificam os cabeçalhos em sessão autenticada para Home do portal, dashboard, categoria e menu. A política não substitui a necessidade de HTTPS, autenticação, logout seguro, proteção de dados ou a rotação das credenciais do histórico.
+
+### Proteção contra repetição de tentativas de login
+
+O formulário PHP autenticado usa `app/login-rate-limit.php` e a tabela `login_attempts` do banco **novo** de homologação. Cada tentativa registra uma janela de 15 minutos por hash de e-mail e por endereço IP remoto, limitando a 7 tentativas por e-mail e 60 por IP. Acima dos limites responde `429 Too Many Requests` com `Retry-After`. Ao autenticar corretamente, apenas o contador do e-mail é eliminado; o contador por IP continua até a janela expirar. A tabela guarda somente hashes dos identificadores, não endereços/e-mails em texto simples.
+
+**Para produção:** a tabela precisa de migração controlada e testada em ambiente separado, nunca executar `database/schema.sql` em banco legado. Configurar job de limpeza de linhas com `reset_at` antigo, monitorar abusos e analisar bloqueios indevidos de IPs compartilhados. O controle por IP usa `REMOTE_ADDR` do servidor; não confia em `X-Forwarded-For` enviado por visitantes. Essa defesa é uma camada inicial e não substitui WAF, HTTPS, senhas fortes, recuperação de conta e monitoramento.
+
+O teste CI simula senha incorreta, resposta 429, troca de sessão, tentativas com senha correta durante o bloqueio e reinício após vencer a janela.
