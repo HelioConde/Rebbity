@@ -37,3 +37,6 @@ O job `publish-rebbity-pages` preserva o checkout do snapshot validado, monta um
 - Testar HTML, cartão de produtos e CRUD de exemplo em cinco resoluções com Chromium/Playwright. Capturas ficam como artefatos para análise; o checkout é imutável e usa o SHA `d53e4d36690a1c13a44ede1f223731f525854d28`.
 - Não mesclar mudanças no backend como solução de Pages. A adoção de um snapshot público mais recente requer PR própria, revisão de arquivos permitidos e confirmação do novo SHA.
 - O bundle não inclui PHP, SQL, SQLite, banco remoto, chaves, .env nem links simbólicos. O navegador usa apenas dados de demonstração salvos localmente.
+
+## Feedback de gravação indisponível
+O editor apresenta alerta visual e semântico (`role="alert"`, `aria-live="assertive"`) quando `localStorage.setItem` falha. A mensagem de erro não pode ser substituída por confirmações falsas ao editar, desfazer, importar ou trocar de loja. O usuário pode exportar um JSON com o estado em memória antes de fechar a página. Snapshot público homologado: `8131cf96a2616f19ba202a1ebbf8f28d58236ec0`. Testes Playwright repetem a falha em cinco larguras.
