@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#b82534"><meta name="description" content="Experimente o painel de cardápio Rebbity com categorias e produtos locais, sem login e sem enviar seus dados."><title>Cardápio demonstrativo — Rebbity</title><link rel="icon" href="./assets/logo.png"><link rel="stylesheet" href="./css/app.css"><script src="./js/app.js" defer></script><script src="./js/demo.js" defer></script></head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header"><div class="shell header-row"><a class="brand" href="./index.html" aria-label="Rebbity — início"><img src="./assets/logo.png" alt="" width="112" height="52"></a><button type="button" class="nav-toggle" aria-controls="primary-nav" aria-expanded="false" aria-label="Abrir menu"><span></span><span></span><span></span></button><nav class="main-nav" id="primary-nav" aria-label="Navegação principal"><a href="./index.html">Início</a><a href="./demo.html" aria-current="page">Experimentar painel</a><a href="./sobre.html">Sobre o projeto</a></nav></div></header>
+<main class="shell dashboard-layout" id="conteudo">
+  <div class="demo-notice" role="note"><span class="dot" aria-hidden="true"></span> <strong>Modo demonstração:</strong> somente dados locais deste navegador. Não informe dados pessoais ou comerciais reais.</div>
+  <div class="dashboard-title"><div><p class="eyebrow">Painel do parceiro</p><h1>Meu cardápio</h1><p>Crie categorias e produtos, edite preços e experimente a organização do Rebbity.</p></div><div class="toolbar-actions"><button id="export-data" type="button" class="btn btn-outline">Exportar JSON</button><button id="reset-data" type="button" class="btn btn-subtle">Restaurar exemplo</button></div></div>
+  <div class="summary-cards" aria-label="Resumo do catálogo">
+    <article class="metric-card"><p>Categorias</p><strong id="metric-categories" aria-live="polite">0</strong><small>Seções do cardápio</small></article>
+    <article class="metric-card"><p>Produtos</p><strong id="metric-products" aria-live="polite">0</strong><small>Itens cadastrados</small></article>
+    <article class="metric-card"><p>Valor médio</p><strong id="metric-average" aria-live="polite">R$ 0,00</strong><small>Média dos itens</small></article>
+  </div>
+  <div class="work-area">
+    <section class="catalog-panel" aria-labelledby="catalog-title">
+      <div class="panel-heading"><div><h2 id="catalog-title">Categorias e produtos</h2><p>Os itens ficam salvos automaticamente neste navegador.</p></div><button id="add-category" type="button" class="btn btn-primary">+ Categoria</button></div>
+      <div class="filter-row"><label class="field-label" for="search-products">Buscar produto <input id="search-products" name="search" type="search" placeholder="Ex.: suco, pizza..." autocomplete="off"></label><label class="field-label" for="filter-category">Categoria <select id="filter-category"><option value="">Todas</option></select></label></div>
+      <p id="catalog-message" class="sr-only" aria-live="polite"></p><div id="catalog-list" class="catalog-list"></div>
+    </section>
+    <aside class="guide-panel" aria-labelledby="guide-title"><div class="guide-header"><span class="guide-icon" aria-hidden="true">✦</span><h2 id="guide-title">Comece por aqui</h2></div><ol><li>Crie uma categoria, como “Bebidas”.</li><li>Adicione produtos com nome e preço.</li><li>Edite ou exclua quando precisar.</li><li>Exporte seus dados de exemplo em JSON.</li></ol><div class="guide-divider"></div><p><strong>Importante:</strong> este painel demonstra a interface. Não há conta, pagamentos, pedidos nem sincronização online.</p></aside>
+  </div>
+</main>
+<dialog id="editor-dialog" aria-labelledby="editor-title"><form method="dialog" id="editor-form" novalidate><div class="dialog-heading"><h2 id="editor-title">Nova categoria</h2><button id="close-dialog" type="button" class="close-btn" aria-label="Fechar">×</button></div><p id="editor-description" class="dialog-description"></p><div class="form-fields"><label class="field-label" for="entry-name">Nome <input id="entry-name" name="name" required maxlength="90"></label><label class="field-label" for="entry-description" id="description-label">Descrição (opcional) <textarea id="entry-description" name="description" maxlength="220" rows="3"></textarea></label><label class="field-label" for="entry-price" id="price-label">Preço (R$) <input id="entry-price" name="price" type="number" min="0" max="999999" step="0.01" inputmode="decimal"></label></div><p id="editor-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button id="cancel-edit" class="btn btn-outline" type="button">Cancelar</button><button class="btn btn-primary" type="submit" id="save-edit">Salvar</button></div></form></dialog>
+<footer class="site-footer"><div class="shell footer-row"><span>© <span data-year>2026</span> Rebbity · Demonstração local</span><a href="./sobre.html">Entenda esta versão</a></div></footer></body></html>
