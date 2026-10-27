@@ -38,7 +38,7 @@ function send(valor) {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            console.log(data);
+            // Result available to the UI; do not log partner data.
 
             if (valor == "insertCategory") {
                 loadCategory();
@@ -92,7 +92,7 @@ function send2(valor) {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            console.log(data);
+            // Result available to the UI; do not log partner data.
 
             if (valor == "categoryChageDelItem") {
                 $("#delItem").css({
@@ -205,7 +205,7 @@ function categoryDel(valor1, valor2) {
         'display': 'inline-block'
     })
 
-    $("#categoryNameDel").html(valor2);
+    $("#categoryNameDel").text(valor2);
     $("#delNameCategoryID").val(valor1);
 }
 
@@ -222,7 +222,7 @@ function categorySubDel(valor1, valor2) {
         'display': 'inline-block'
     })
 
-    $("#categoryNameDel3").html(valor2);
+    $("#categoryNameDel3").text(valor2);
     $("#delNameCategoryID3").val(valor1);
 }
 
@@ -239,7 +239,7 @@ function categoryDelItem(valor1, valor2) {
         "display": "none"
     })
 
-    $("#categoryNameDel2").html(valor2);
+    $("#categoryNameDel2").text(valor2);
     $("#delNameCategoryID2").val(valor1);
 }
 
@@ -543,7 +543,7 @@ function sendItem() {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            console.log(data);
+            // Result available to the UI; do not log partner data.
             loadCategory();
             closeWindow();
         }
