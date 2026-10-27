@@ -14,3 +14,8 @@ test-results/
 # Arquivos locais/temporários
 .DS_Store
 Thumbs.db
+
+# Static Pages build / screenshot artifacts
+dist-pages/
+artifacts/
+playwright-report-pages/
