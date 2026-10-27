@@ -61,3 +61,31 @@ test('Pages bundle has no exposed PHP endpoints or personal data collection form
   const hasPhp = await page.locator('form[action$=".php"],a[href$=".php"]').count();
   expect(hasPhp).toBe(0);
 });
+
+
+test('compactar categorias, ordenar preços e visualizar como cliente', async ({ page }, info) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/demo.html');
+  await expect(page.locator('.category-block')).toHaveCount(3);
+  await page.getByRole('button', { name: 'Recolher todas' }).click();
+  await expect(page.locator('.category-body').first()).toBeHidden();
+  await page.getByRole('button', { name: 'Expandir todas' }).click();
+  await expect(page.locator('.category-body').first()).toBeVisible();
+  await page.locator('#sort-products').selectOption('price-desc');
+  const firstMeal = page.locator('.category-block').first().locator('.product-info strong').first();
+  await expect(firstMeal).toHaveText('Prato executivo');
+  await page.getByRole('button', { name: 'Visualizar cardápio' }).click();
+  const preview = page.locator('#preview-dialog');
+  await expect(preview).toBeVisible();
+  await expect(preview).toContainText('Hambúrguer da casa');
+  await expect(preview).toContainText('R$ 28,90');
+  await mkdir('artifacts/pages-screenshots', { recursive: true });
+  await page.screenshot({ path: 'artifacts/pages-screenshots/' + info.project.name + '-preview.png',
+    fullPage: true, animations: 'disabled' });
+  await page.keyboard.press('Escape');
+  await expect(preview).toBeHidden();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
+  expect(overflow).toBe(false);
+  expect(errors).toEqual([]);
+});
