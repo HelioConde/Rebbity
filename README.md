@@ -49,3 +49,8 @@ Abra `http://localhost:8000`. Para as rotinas PHP é necessário **servidor PHP 
 Este repositório permanece como **registro de aprendizado em PHP e produto de delivery**.
 
 Desenvolvido por [Hélio Conde](https://github.com/HelioConde).
+
+## Publicação da demonstração com gate de QA (27/10/2026)
+A Action `.github/workflows/publish-rebbity-pages.yml` passa a executar em PRs e na `main`. O job `validate` sempre faz checkout do snapshot público fixado em `d53e4d36690a1c13a44ede1f223731f525854d28`, gera `dist-pages` por allowlist, bloqueia PHP/SQL/segredos/links simbólicos e roda os testes Playwright em cinco resoluções. Somente após aprovação o job `deploy` baixa **o mesmo artefato** da execução e publica no Pages. PRs jamais executam o deploy.
+
+Este gate **não incorpora automaticamente** os arquivos PHP de outras PRs. O site demonstrativo permanece congelado no snapshot validado até uma migração estática aprovada atualizar explicitamente o SHA. O snapshot não contém `package-lock.json`, então a instalação continua com `npm install` e não é apresentada como reprodução perfeita das versões transitivas. O navegador Chromium é instalado sem buscar bibliotecas adicionais do Ubuntu via `apt-get`.
