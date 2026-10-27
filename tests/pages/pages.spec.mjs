@@ -192,3 +192,45 @@ test('favicon novo carrega em todas as páginas e gera versões nítidas', async
   expect(ico.readUInt16LE(2)).toBe(1);
   expect(ico.readUInt16LE(4)).toBe(1);
 });
+
+
+test('falha de localStorage nao anuncia sucesso falso e permite exportar JSON', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/demo.html');
+  await expect(page.locator('#metric-categories')).toHaveText('3');
+  // Simula quota cheia/permissao negada depois da carga inicial.
+  await page.evaluate(() => {
+    Object.defineProperty(Storage.prototype, 'setItem', {
+      configurable: true,
+      value() { throw new DOMException('Espaço indisponível', 'QuotaExceededError'); }
+    });
+  });
+  await page.getByRole('button', {name: '+ Categoria'}).click();
+  await page.locator('#entry-name').fill('Categoria temporária');
+  await page.getByRole('button', {name: 'Salvar'}).click();
+  await expect(page.locator('#catalog-list')).toContainText('Categoria temporária');
+  const feedback = page.locator('#demo-feedback');
+  await expect(feedback).toBeVisible();
+  await expect(feedback).toHaveClass(/is-error/);
+  await expect(feedback).toHaveAttribute('role', 'alert');
+  await expect(feedback).toContainText('bloqueou o salvamento local');
+  await expect(feedback).not.toContainText('Categoria salva no catálogo');
+
+  // Exportar continua sendo uma alternativa funcional para nao perder dados.
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', {name:'Exportar JSON'}).click();
+  expect((await downloadPromise).suggestedFilename()).toBe('rebbity-cardapio-demo.json');
+
+  // Trocar de tipo de loja nao pode substituir o erro por 'dados salvos'.
+  await page.locator('#store-type').selectOption('mercado');
+  await expect(feedback).toHaveClass(/is-error/);
+  await expect(feedback).toContainText('bloqueou o salvamento local');
+  await expect(feedback).not.toContainText('dados ficam separados');
+
+  // A interface nunca afirmou persistencia; sem gravação, um reload volta ao seed.
+  await page.reload();
+  await expect(page.locator('#store-type')).toHaveValue('mercado');
+  await expect(page.locator('#catalog-list')).not.toContainText('Categoria temporária');
+  expect(errors).toEqual([]);
+});

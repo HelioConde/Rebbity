@@ -82,6 +82,8 @@
     box.textContent = message;
     box.hidden = !message;
     box.classList.toggle('is-error', isError);
+    box.setAttribute('role', isError ? 'alert' : 'status');
+    box.setAttribute('aria-live', isError ? 'assertive' : 'polite');
   };
   const persist = () => {
     try { localStorage.setItem(storageKey(), JSON.stringify(state)); return true; }
@@ -98,9 +100,11 @@
     $('undo-bar').hidden = false;
   };
   const editSaved = message => {
-    persist();
+    const saved = persist();
     render();
-    feedback(message);
+    // Nao anunciar 'salvo' quando o navegador recusou gravar localStorage.
+    // O aviso de persist() fica visivel; os dados ainda podem ser exportados.
+    if (saved) feedback(message);
   };
   $('store-type').value = storeType;
   persist();
@@ -297,7 +301,7 @@
     if (next === storeType) return;
     storeType = next;
     state = load();
-    persist();
+    const saved = persist();
     clearUndo();
     collapsedCategories.clear();
     $('search-products').value = '';
@@ -307,7 +311,7 @@
     url.searchParams.set('tipo', storeType);
     history.replaceState(null, '', url);
     render();
-    feedback('Catálogo de ' + (storeType === 'mercado' ? 'mercado' : 'restaurante') + ' carregado. Seus dados ficam separados.');
+    if (saved) feedback('Catálogo de ' + (storeType === 'mercado' ? 'mercado' : 'restaurante') + ' carregado. Seus dados ficam separados.');
   });
   $('undo-last').addEventListener('click', () => {
     if (!previous || previous.type !== storeType) return;

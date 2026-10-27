@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - chore/modernizacao-auditoria-ux-2026-10
+      - fix/rebbity-demo-storage-feedback-20261027
   pull_request:
     paths:
       - 'pages/**'
@@ -30,7 +31,7 @@ jobs:
       - name: Preparar QA
         run: |
           npm install --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           npm run build:pages
       - name: Testar navegação, cardápio, preview e responsividade
         run: npm run test:pages
