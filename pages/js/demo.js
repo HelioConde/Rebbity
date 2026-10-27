@@ -221,11 +221,21 @@
         $('editor-error').hidden = false; $('entry-price').focus(); return;
       }
       remember('Última edição de produto.');
+      if (!activeId && state.products.length >= 2000) {
+        $('editor-error').textContent = 'Limite da demonstração: 2.000 produtos por loja.';
+        $('editor-error').hidden = false;
+        return;
+      }
       const product = state.products.find(p => p.id === activeId);
       if (product) { product.name = name; product.price = price; product.description = $('entry-description').value.trim(); }
       else state.products.push({ id: newId(), categoryId: parentId, name, description: $('entry-description').value.trim(), price });
     } else {
       remember('Última edição de categoria.');
+      if (!activeId && state.categories.length >= 60) {
+        $('editor-error').textContent = 'Limite da demonstração: 60 categorias por loja.';
+        $('editor-error').hidden = false;
+        return;
+      }
       const category = state.categories.find(c => c.id === activeId);
       if (category) category.name = name;
       else state.categories.push({ id: newId(), name });
@@ -304,7 +314,7 @@
     state = normalize(previous.state);
     clearUndo();
     editSaved('Última alteração desfeita.');
-    $('undo-last').focus();
+    $('add-category').focus();
   });
   $('import-data').addEventListener('click', () => $('import-file').click());
   $('import-file').addEventListener('change', async event => {
