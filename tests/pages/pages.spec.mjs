@@ -6,7 +6,7 @@ test('home, navigation and accessibility keyboard menu', async ({ page }, info) 
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/index.html');
   await expect(page.getByRole('heading', { name: /Organizar sua loja/i })).toBeVisible();
-  await expect(page.locator('a[href="./demo.html"]').first()).toBeVisible();
+  await expect(page.locator('.actions a[href="./demo.html"]')).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
   expect(overflow).toBe(false);
   if (info.project.name === '320px' || info.project.name === '375px') {
