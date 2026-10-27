@@ -11,9 +11,11 @@ export default defineConfig({
     screenshot: 'only-on-failure'
   },
   projects: [
+    { name: 'mobile-320', use: { viewport: { width: 320, height: 740 } } },
     { name: 'mobile-375', use: { viewport: { width: 375, height: 812 } } },
     { name: 'tablet-768', use: { viewport: { width: 768, height: 1024 } } },
-    { name: 'desktop-1366', use: { viewport: { width: 1366, height: 768 } } }
+    { name: 'desktop-1366', use: { viewport: { width: 1366, height: 768 } } },
+    { name: 'wide-1920', use: { viewport: { width: 1920, height: 1080 } } }
   ],
   webServer: {
     command: 'python -m http.server 8765 --bind 127.0.0.1',
