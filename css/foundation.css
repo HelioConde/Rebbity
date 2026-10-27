@@ -1,0 +1,54 @@
+/* Rebbity — foundation tokens (aditivo, sem substituição do CSS legado). */
+:root {
+  --rb-brand: #ea1d2c;
+  --rb-text: #3e3e3e;
+  --rb-surface: #ffffff;
+  --rb-surface-muted: #f2f2f2;
+  --rb-focus: #005fcc;
+  --rb-space-1: 4px;
+  --rb-space-2: 8px;
+  --rb-space-3: 12px;
+  --rb-space-4: 16px;
+  --rb-space-5: 20px;
+  --rb-space-6: 24px;
+  --rb-space-7: 32px;
+  --rb-space-8: 40px;
+  --rb-radius-sm: 6px;
+  --rb-radius-md: 10px;
+  --rb-radius-lg: 16px;
+  --rb-shadow-sm: 0 2px 8px rgb(0 0 0 / 10%);
+}
+
+:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+  outline: 3px solid var(--rb-focus);
+  outline-offset: 3px;
+}
+
+.loadError {
+  max-width: 38rem;
+  margin: var(--rb-space-8) auto;
+  padding: var(--rb-space-6);
+  border: 1px solid #d1d5db;
+  border-radius: var(--rb-radius-md);
+  background: var(--rb-surface);
+  color: var(--rb-text);
+}
+
+.loadError h1 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.3;
+  margin-bottom: var(--rb-space-3);
+}
+
+.loadError p { margin-bottom: var(--rb-space-4); }
+.loadError a { color: #a51420; text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
