@@ -1,23 +1,29 @@
 import { cpSync, mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
+import { renderIconAssets } from './render-icons.mjs';
 
 const destination = 'dist-pages';
 rmSync(destination, { recursive: true, force: true });
 mkdirSync(join(destination, 'css'), { recursive: true });
 mkdirSync(join(destination, 'js'), { recursive: true });
 mkdirSync(join(destination, 'assets'), { recursive: true });
+mkdirSync(join(destination, 'icons'), { recursive: true });
 
 // Whitelist only public static files. Never publish PHP, .env, SQL, or source repositories.
 const pages = ['index.html', 'demo.html', 'sobre.html', '404.html'];
+const iconSources = ['icons/rebbity-mark.svg', 'icons/rebbity-maskable.svg'];
+const iconOutputs = ['favicon.ico', 'icons/favicon-16.png', 'icons/favicon-32.png', 'icons/favicon-192.png', 'icons/favicon-512.png', 'icons/apple-touch-icon.png', 'icons/maskable-512.png'];
+const metadata = ['site.webmanifest'];
 const css = ['css/app.css'];
 const scripts = ['js/app.js', 'js/demo.js'];
 const images = ['logo.png', 'restaurant.png', 'market.png'];
-for (const path of [...pages, ...css, ...scripts]) {
+for (const path of [...pages, ...css, ...scripts, ...iconSources, ...metadata]) {
   cpSync(join('pages', path), join(destination, path));
 }
 for (const file of images) cpSync(join('img', file), join(destination, 'assets', file));
+await renderIconAssets(destination);
 writeFileSync(join(destination, '.nojekyll'), '');
-const allowed = new Set([...pages, ...css, ...scripts, '.nojekyll', ...images.map(file => 'assets/' + file)]);
+const allowed = new Set([...pages, ...css, ...scripts, ...iconSources, ...iconOutputs, ...metadata, '.nojekyll', ...images.map(file => 'assets/' + file)]);
 const collect = (directory, prefix = '') => {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const relative = (prefix ? prefix + '/' : '') + entry.name;
