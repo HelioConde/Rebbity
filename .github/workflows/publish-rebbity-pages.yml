@@ -47,7 +47,7 @@ jobs:
           test -s dist-pages/index.html
           test -s dist-pages/demo.html
           test -s dist-pages/sobre.html
-          forbidden="$(find dist-pages -type f \\( -iname '*.php' -o -iname '*.sql' -o -iname '*.sqlite*' -o -iname '*.db' -o -iname '.env*' -o -iname '*.pem' -o -iname '*.key' -o -iname '*config.php*' \\) -print)"
+          forbidden="$(find dist-pages -type f \( -iname '*.php' -o -iname '*.sql' -o -iname '*.sqlite*' -o -iname '*.db' -o -iname '.env*' -o -iname '*.pem' -o -iname '*.key' -o -iname '*config.php*' \) -print)"
           if [ -n "$forbidden" ]; then
             echo "::error::O artefato contém arquivos de backend/dados privados e não será publicado."
             exit 1
