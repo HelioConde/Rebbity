@@ -1,0 +1,46 @@
+name: QA visual — GitHub Pages Rebbity
+
+on:
+  push:
+    branches:
+      - chore/modernizacao-auditoria-ux-2026-10
+  pull_request:
+    paths:
+      - 'pages/**'
+      - 'tests/pages/**'
+      - 'scripts/build-pages.mjs'
+      - 'playwright.pages.config.mjs'
+      - '.github/workflows/pages-visual-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preparar QA
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          npm run build:pages
+      - name: Testar navegação, cardápio, preview e responsividade
+        run: npm run test:pages
+      - name: Capturas e relatório
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rebbity-pages-visual-review
+          path: |
+            artifacts/pages-screenshots/
+            playwright-report-pages/
+            test-results/
+          if-no-files-found: ignore
