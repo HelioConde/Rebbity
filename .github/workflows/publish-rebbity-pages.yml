@@ -23,7 +23,7 @@ jobs:
       - name: Buscar snapshot publico isolado do backend
         uses: actions/checkout@v4
         with:
-          ref: d53e4d36690a1c13a44ede1f223731f525854d28
+          ref: 8131cf96a2616f19ba202a1ebbf8f28d58236ec0
           persist-credentials: false
       - name: Node.js
         uses: actions/setup-node@v4
@@ -57,7 +57,7 @@ jobs:
             echo "::error::Links simbolicos nao podem ir para o Pages"
             exit 1
           fi
-          echo "Snapshot estatico validado: d53e4d36690a1c13a44ede1f223731f525854d28" >> "$GITHUB_STEP_SUMMARY"
+          echo "Snapshot estatico validado: 8131cf96a2616f19ba202a1ebbf8f28d58236ec0" >> "$GITHUB_STEP_SUMMARY"
           echo "Arquivos estaticos: $(find dist-pages -type f | wc -l)" >> "$GITHUB_STEP_SUMMARY"
       - name: Testar CRUD local, seguranca e layout em cinco resolucoes
         run: npm run test:pages

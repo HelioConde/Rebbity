@@ -23,3 +23,6 @@ A documentação registra riscos, mas **não certifica** o backend legado como c
 - Permissões `pages: write` e `id-token: write` ficam restritas ao job de deploy (não aos testes das PRs).
 - A proteção por allowlist é repetida depois de baixar o artefato de CI, sem incluir scripts PHP, credenciais ou arquivos SQL legados.
 - O snapshot usado no Pages permanece fixo e independente das PRs de PHP; essas PRs exigem revisão de segurança específica e não são homologadas por este workflow estático.
+
+## Rebbity Pages — dados locais indisponíveis
+A demonstração não tenta contornar ou ocultar erros de armazenamento do navegador. O snapshot `8131cf96a2616f19ba202a1ebbf8f28d58236ec0` anuncia a falha com `role="alert"` e orienta exportar JSON; nunca apresenta uma escrita recusada como salva. O bloqueio é coberto por regressão Playwright. Isso **não** implementa backup remoto nem altera a autenticação PHP original.

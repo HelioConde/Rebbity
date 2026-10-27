@@ -54,3 +54,8 @@ Desenvolvido por [Hélio Conde](https://github.com/HelioConde).
 A Action `.github/workflows/publish-rebbity-pages.yml` passa a executar em PRs e na `main`. O job `validate` sempre faz checkout do snapshot público fixado em `d53e4d36690a1c13a44ede1f223731f525854d28`, gera `dist-pages` por allowlist, bloqueia PHP/SQL/segredos/links simbólicos e roda os testes Playwright em cinco resoluções. Somente após aprovação o job `deploy` baixa **o mesmo artefato** da execução e publica no Pages. PRs jamais executam o deploy.
 
 Este gate **não incorpora automaticamente** os arquivos PHP de outras PRs. O site demonstrativo permanece congelado no snapshot validado até uma migração estática aprovada atualizar explicitamente o SHA. O snapshot não contém `package-lock.json`, então a instalação continua com `npm install` e não é apresentada como reprodução perfeita das versões transitivas. O navegador Chromium é instalado sem buscar bibliotecas adicionais do Ubuntu via `apt-get`.
+
+## Aviso correto quando o armazenamento local falha (27/10/2026)
+A demonstração publicada usa o snapshot estático revisado `8131cf96a2616f19ba202a1ebbf8f28d58236ec0`, desenvolvido na branch `fix/rebbity-demo-storage-feedback-20261027`. Se o navegador bloquear `localStorage` (por permissão ou limite de espaço), o painel **não anuncia falsamente “salvo” ou “catálogo carregado”**: mantém uma mensagem de erro acessível e orienta exportar JSON. As edições continuam visíveis na sessão, mas podem desaparecer ao recarregar. O Playwright simula a falha, verifica a mensagem, a exportação e a troca de tipo de loja em cinco resoluções.
+
+O Pages continua verificando por allowlist o mesmo pacote que será publicado, sem PHP, SQL nem credenciais.
