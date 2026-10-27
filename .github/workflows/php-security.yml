@@ -1,0 +1,31 @@
+name: Rebbity PHP — segurança de autenticação e SQL
+
+on:
+  push:
+    branches:
+      - "security/**"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PHP 8.2 e mysqli
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, mbstring
+          tools: none
+      - name: Validar sintaxe PHP sem banco
+        run: |
+          for file in config.php config2.php backupconfig.php portal/config.php authentication.php portal/auth-guard.php portal/categoryChageDel.php portal/categoryChageName.php portal/insertCategory.php tests/security-smoke.php; do
+            php -l "$file"
+          done
+      - name: Regressão de segurança de código
+        run: php tests/security-smoke.php
