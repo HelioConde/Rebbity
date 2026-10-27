@@ -40,6 +40,23 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Preparar somente arquivos estaticos permitidos
         run: npm run build:pages
+      - name: Conferir isolamento do artefato GitHub Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist-pages/index.html
+          test -s dist-pages/demo.html
+          test -s dist-pages/sobre.html
+          forbidden="$(find dist-pages -type f \\( -iname '*.php' -o -iname '*.sql' -o -iname '*.sqlite*' -o -iname '*.db' -o -iname '.env*' -o -iname '*.pem' -o -iname '*.key' -o -iname '*config.php*' \\) -print)"
+          if [ -n "$forbidden" ]; then
+            echo "::error::O artefato contém arquivos de backend/dados privados e não será publicado."
+            exit 1
+          fi
+          if find dist-pages -type l | grep -q .; then
+            echo "::error::Links simbólicos não são permitidos no artefato publicado."
+            exit 1
+          fi
+          echo "Artefato isolado: $(find dist-pages -type f | wc -l) arquivos estáticos permitidos."
       - name: Verificar paginas e operacoes locais em cinco resolucoes
         run: npm run test:pages
       - name: Configurar Pages

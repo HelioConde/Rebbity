@@ -11,3 +11,8 @@
 7. Publicar no GitHub Pages **somente** o artefato estático auditado. O frontend demonstrativo não registra usuários reais e não tem banco.
 
 A documentação registra riscos, mas **não certifica** o backend legado como corrigido.
+## Proteção adicional do deploy estático (27/10/2026)
+- A Action faz checkout de um commit estático previamente validado, e não copia os PHP da branch `main` para o site.
+- Uma etapa adicional bloqueia a publicação se o pacote contiver PHP, SQL, bancos locais, chaves privadas, arquivos `.env` ou links simbólicos.
+- O fluxo somente publica se os testes de páginas estáticas e o isolamento do artefato forem aprovados.
+- Esses controles de CI **não corrigem** nem removem credenciais que possam existir no histórico do repositório; a revogação cabe ao responsável por essas credenciais.

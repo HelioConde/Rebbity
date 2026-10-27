@@ -29,3 +29,5 @@ Modernizar a plataforma antiga de parceiros sem expor credenciais, dados de cada
 
 ## Critério de pronto
 Página pública sem backend, sem segredo no artefato, fluxo de demonstração funcional, CI verde; implementação real só após credenciais externas, SQL parametrizado, CSRF, sessões, upload seguro e revisão LGPD.
+## Gate do deploy
+O job `publish-rebbity-pages` preserva o checkout do snapshot validado, monta um conjunto restrito de recursos estáticos, bloqueia arquivos PHP, SQL, bancos e chaves no `dist-pages` e só depois executa Playwright e deploy. Essa separação impede que uma alteração do backend legado seja publicada inadvertidamente como se fosse JavaScript de cliente.
