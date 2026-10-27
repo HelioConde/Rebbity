@@ -35,3 +35,11 @@ jobs:
             test-results/
             playwright-report/
           if-no-files-found: ignore
+
+      - name: Capturas para revisão visual
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-visual
+          path: artifacts/screenshots/
+          if-no-files-found: ignore
