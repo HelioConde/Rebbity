@@ -301,7 +301,7 @@ $('#addOsYes').on('input', function (e) {
     $("#sendNewItem2").attr('class', 'newCategoryButtonEnabled');
 });
 
-$("#addOsSubCategory").on("mouseup", function () {
+$("#addOsSubCategory").on("click", function () {
     $("#newSubCategory").css({
         "display": "inline-flex"
     })
@@ -310,7 +310,7 @@ $("#addOsSubCategory").on("mouseup", function () {
     })
 })
 
-$("#addOsSubUser").on("mouseup", function () {
+$("#addOsSubUser").on("click", function () {
     addOsSubUserItem();
 })
 
@@ -477,7 +477,7 @@ function sendSubCategory() {
 }
 
 
-$("#addOsSubUser").on("mouseup", function () {
+$("#addOsSubUser").on("click", function () {
     showUserSubCategory();
 })
 
@@ -555,7 +555,7 @@ var date = [];
 var dataArray = ['sundayTurn', 'mondayTurn', 'thirdTurn', 'fourthTurn', 'thursdayTurn', 'fridayTurn', 'saturdayTurn'];
 var setData = "";
 
-$(".turnButton").on('mouseup', function () {
+$(".turnButton").on('click', function () {
     $(".boxTurn").css({
         "display": "inline-flex"
     })
