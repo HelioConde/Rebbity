@@ -3,7 +3,7 @@
 Atualização isolada na branch `security/rebbity-php-credentials-env-20261027`. **A demonstração do GitHub Pages permanece independente; este backend não deve ser usado em produção ainda.**
 
 ## Implementado nesta etapa
-- Credenciais do banco via `REBBITY_DB_HOST`, `REBBITY_DB_USER`, `REBBITY_DB_PASS`, `REBBITY_DB_NAME`, configuradas **fora do Git**.
+- Credenciais do banco via `REBBITY_DB_HOST`, `REBBITY_DB_USER`, `REBBITY_DB_PASSWORD`, `REBBITY_DB_NAME`, configuradas **fora do Git**.
 - `config2.php`, `backupconfig.php` e `portal/config.php` sem conexão duplicada ou credenciais hardcoded; o PHP retorna 503 genérico quando não configurado.
 - Separação entre conectar e criar esquema: **não executar CREATE TABLE ao processar cada requisição**.
 - Login POST-only, prepared statement, senha verificada com `password_verify`, token com `random_bytes`, `session_regenerate_id` e cookie HttpOnly/SameSite.

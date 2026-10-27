@@ -9,8 +9,8 @@ $read = static function(string $path) use ($root): string {
 };
 $config = $read('config.php');
 if (!str_contains($config, "getenv('REBBITY_DB_USER')") ||
-    !str_contains($config, "getenv('REBBITY_DB_PASS')") ||
-    str_contains($config, 'CREATE TABLE')) {
+    !str_contains($config, "getenv('REBBITY_DB_PASSWORD')") ||
+    str_contains($config, 'mysqli_query(')) {
     throw new RuntimeException('Conexão não isolada do esquema.');
 }
 foreach (['config2.php','backupconfig.php','portal/config.php'] as $path) {

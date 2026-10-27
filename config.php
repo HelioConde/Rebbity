@@ -5,7 +5,7 @@ declare(strict_types=1);
 // As variáveis REBBITY_DB_* devem ser definidas no ambiente do provedor.
 $serve = getenv('REBBITY_DB_HOST') ?: 'localhost';
 $user = getenv('REBBITY_DB_USER');
-$pass = getenv('REBBITY_DB_PASS');
+$pass = getenv('REBBITY_DB_PASSWORD');
 $dbname = getenv('REBBITY_DB_NAME');
 
 if (!is_string($user) || $user === '' || $pass === false ||
