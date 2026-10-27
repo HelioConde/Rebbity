@@ -180,3 +180,19 @@ function rb_js_arg($value): string
     return rb_h(json_encode((string) $value,
         JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR));
 }
+
+function rb_valid_cnpj(string $cnpj): bool
+{
+    if (!preg_match('/^[0-9]{14}$/D', $cnpj) || preg_match('/^([0-9])\\1{13}$/D', $cnpj)) {
+        return false;
+    }
+    $digits = array_map('intval', str_split($cnpj));
+    foreach ([[5,4,3,2,9,8,7,6,5,4,3,2], [6,5,4,3,2,9,8,7,6,5,4,3,2]] as $index => $weights) {
+        $sum = 0;
+        foreach ($weights as $i => $weight) $sum += $weight * $digits[$i];
+        $mod = $sum % 11;
+        $check = $mod < 2 ? 0 : 11 - $mod;
+        if ($digits[12 + $index] !== $check) return false;
+    }
+    return true;
+}
