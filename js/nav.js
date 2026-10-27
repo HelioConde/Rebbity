@@ -23,6 +23,36 @@ jQuery(function ($) {
     },
     success: function (html) {
       $main.html(html).css('min-height', 'auto');
+      // Static landing pages obtain a server-side CSRF token only when submitted.
+      $main.find('form[action]').on('submit.rbCsrf', async function (event) {
+        if (event.isDefaultPrevented()) return; // preserve validation in form.js
+        const form = this;
+        const action = new URL(form.getAttribute('action'), window.location.href);
+        if (action.origin !== location.origin ||
+            !['authentication.php', 'insert_restaurant.php', 'insert_market.php']
+              .includes(action.pathname.split('/').pop())) return;
+        event.preventDefault();
+        const submit = $(form).find('[type="submit"]').prop('disabled', true);
+        try {
+          const response = await fetch('./csrf.php', { credentials: 'same-origin', cache: 'no-store' });
+          if (!response.ok) throw new Error('CSRF endpoint unavailable');
+          const body = await response.json();
+          if (typeof body.token !== 'string' || !body.token) throw new Error('Invalid CSRF token');
+          let input = form.querySelector('input[name="_csrf"]');
+          if (!input) {
+            input = document.createElement('input');
+            input.type = 'hidden'; input.name = '_csrf'; form.appendChild(input);
+          }
+          input.value = body.token;
+          HTMLFormElement.prototype.submit.call(form);
+        } catch (_error) {
+          submit.prop('disabled', false);
+          const alert = $('<p>', { role: 'alert', class: 'rb-form-error' })
+            .text('Não foi possível validar a sessão. Verifique o servidor PHP e tente novamente.');
+          $(form).find('.rb-form-error').remove();
+          $(form).prepend(alert);
+        }
+      });
     },
     error: function () {
       const $error = $('<section>', { class: 'loadError', role: 'alert' })
