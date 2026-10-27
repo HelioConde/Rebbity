@@ -32,6 +32,7 @@ assert_code() {
   fi
 }
 assert_code 401 "$BASE/portal/index.php"
+assert_code 401 "$BASE/portal/view/dashboard.php"
 assert_code 405 "$BASE/portal/categoryChageDel.php"
 assert_code 403 -X POST "$BASE/portal/categoryChageDel.php"
 echo 'OK: proteção sem sessão, método inválido e CSRF'
@@ -76,6 +77,7 @@ login() {
 }
 login "$COOKIE_A" 'a@example.test'
 login "$COOKIE_B" 'b@example.test'
+assert_code 200 -c "$COOKIE_A" -b "$COOKIE_A" "$BASE/portal/view/dashboard.php"
 echo 'OK: cadastro, aprovação e login seguro de duas contas'
 
 TOKEN_A="$(csrf "$COOKIE_A")"
