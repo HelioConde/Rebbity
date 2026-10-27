@@ -12,9 +12,13 @@ try {
     $stmt = $db->prepare('DELETE FROM item WHERE id_category = ? AND id_client = ?');
     $stmt->bind_param('ii', $id, $partnerId);
     $stmt->execute();
-    $stmt = $db->prepare('DELETE FROM category WHERE id = ? AND id_client = ?');
+    $stmt = $db->prepare('DELETE FROM category WHERE id = ? AND id_client = ? AND type = \'main\'');
     $stmt->bind_param('ii', $id, $partnerId);
     $stmt->execute();
+    if ($stmt->affected_rows === 0) {
+        $db->rollback();
+        rb_error(404, 'Categoria não encontrada.');
+    }
     $db->commit();
 } catch (Throwable $error) {
     $db->rollback();
