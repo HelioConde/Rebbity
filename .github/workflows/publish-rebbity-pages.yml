@@ -1,0 +1,125 @@
+name: Rebbity Pages — QA antes de publicar demonstracao
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebbity-pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    name: Validar snapshot publico estatico
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Buscar snapshot publico isolado do backend
+        uses: actions/checkout@v4
+        with:
+          ref: 8131cf96a2616f19ba202a1ebbf8f28d58236ec0
+          persist-credentials: false
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar somente ferramentas de teste
+        # O snapshot legado ainda nao contem lockfile. Evitar npm ci ate haver lockfile validado.
+        run: npm install --no-audit --no-fund --ignore-scripts
+      - name: Instalar navegador Chromium
+        # O runner ubuntu-latest ja traz bibliotecas do sistema; evita downloads via apt.
+        run: npx playwright install chromium
+      - name: Preparar artefato estatico pela allowlist
+        run: npm run build:pages
+      - name: Bloquear arquivos privados no artefato
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in index.html demo.html sobre.html 404.html .nojekyll; do
+            test -f "dist-pages/$file"
+          done
+          forbidden="$(find dist-pages -type f \( -iname '*.php' -o -iname '*.sql' -o -iname '*.sqlite*' -o -iname '*.db' -o -iname '.env*' -o -iname '*.pem' -o -iname '*.key' -o -iname '*config.php*' \) -print)"
+          if [ -n "$forbidden" ]; then
+            echo "::error::Backend ou dados privados no artefato: $forbidden"
+            exit 1
+          fi
+          if find dist-pages -type l | grep -q .; then
+            echo "::error::Links simbolicos nao podem ir para o Pages"
+            exit 1
+          fi
+          echo "Snapshot estatico validado: 8131cf96a2616f19ba202a1ebbf8f28d58236ec0" >> "$GITHUB_STEP_SUMMARY"
+          echo "Arquivos estaticos: $(find dist-pages -type f | wc -l)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Testar CRUD local, seguranca e layout em cinco resolucoes
+        run: npm run test:pages
+      - name: Capturas e diagnosticos Playwright
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rebbity-qa-screenshots
+          path: |
+            artifacts/pages-screenshots/
+            test-results/
+            playwright-report-pages/
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Guardar exatamente o artefato aprovado
+        uses: actions/upload-artifact@v4
+        with:
+          name: rebbity-pages-validated
+          path: dist-pages/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 2
+
+  deploy:
+    name: Publicar somente apos QA aprovado
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Recuperar o artefato aprovado no mesmo run
+        uses: actions/download-artifact@v4
+        with:
+          name: rebbity-pages-validated
+          path: dist-pages
+      - name: Validar conteudo final antes da publicacao
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist-pages/index.html
+          test -s dist-pages/demo.html
+          test -s dist-pages/sobre.html
+          test -f dist-pages/.nojekyll
+          if find dist-pages -type f \( -iname '*.php' -o -iname '*.sql' -o -iname '*.sqlite*' -o -iname '*.db' -o -iname '.env*' -o -iname '*.pem' -o -iname '*.key' \) | grep -q .; then
+            echo "::error::Arquivos proibidos no artefato aprovado"
+            exit 1
+          fi
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Enviar somente o pacote aprovado
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist-pages
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
