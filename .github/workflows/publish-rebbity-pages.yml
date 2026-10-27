@@ -1,0 +1,62 @@
+name: Rebbity Pages — publicar demonstracao validada
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: rebbity-public-main
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Buscar snapshot publico validado sem mesclar backend
+        uses: actions/checkout@v4
+        with:
+          ref: c84de076422e5bd968ad06148ff182e88489cf28
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencias de teste
+        run: npm install --no-audit --no-fund
+      - name: Navegador para Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Preparar somente arquivos estaticos permitidos
+        run: npm run build:pages
+      - name: Verificar paginas e operacoes locais em cinco resolucoes
+        run: npm run test:pages
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Enviar site publico
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist-pages
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Guardar capturas automaticas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rebbity-public-main-screenshots
+          path: artifacts/pages-screenshots/
+          if-no-files-found: ignore
