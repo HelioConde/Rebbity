@@ -52,3 +52,16 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Link para saltar navegação e chegar diretamente ao conteúdo. */
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: var(--rb-space-3);
+  z-index: 10000;
+  padding: var(--rb-space-3) var(--rb-space-4);
+  border-radius: var(--rb-radius-sm);
+  background: var(--rb-surface);
+  color: var(--rb-text);
+}
+.skip-link:focus { top: var(--rb-space-3); }
