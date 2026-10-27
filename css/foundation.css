@@ -1,0 +1,175 @@
+/* Rebbity — foundation tokens (aditivo, sem substituição do CSS legado). */
+:root {
+  --rb-brand: #ea1d2c;
+  --rb-text: #3e3e3e;
+  --rb-surface: #ffffff;
+  --rb-surface-muted: #f2f2f2;
+  --rb-focus: #005fcc;
+  --rb-space-1: 4px;
+  --rb-space-2: 8px;
+  --rb-space-3: 12px;
+  --rb-space-4: 16px;
+  --rb-space-5: 20px;
+  --rb-space-6: 24px;
+  --rb-space-7: 32px;
+  --rb-space-8: 40px;
+  --rb-radius-sm: 6px;
+  --rb-radius-md: 10px;
+  --rb-radius-lg: 16px;
+  --rb-shadow-sm: 0 2px 8px rgb(0 0 0 / 10%);
+}
+
+:where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+  outline: 3px solid var(--rb-focus);
+  outline-offset: 3px;
+}
+
+.loadError {
+  max-width: 38rem;
+  margin: var(--rb-space-8) auto;
+  padding: var(--rb-space-6);
+  border: 1px solid #d1d5db;
+  border-radius: var(--rb-radius-md);
+  background: var(--rb-surface);
+  color: var(--rb-text);
+}
+
+.loadError h1 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.3;
+  margin-bottom: var(--rb-space-3);
+}
+
+.loadError p { margin-bottom: var(--rb-space-4); }
+.loadError a { color: #a51420; text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Link para saltar navegação e chegar diretamente ao conteúdo. */
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: var(--rb-space-3);
+  z-index: 10000;
+  padding: var(--rb-space-3) var(--rb-space-4);
+  border-radius: var(--rb-radius-sm);
+  background: var(--rb-surface);
+  color: var(--rb-text);
+}
+.skip-link:focus { top: var(--rb-space-3); }
+
+/* Landing modular — progressiva, sem dependência de frameworks. */
+.rb-landing { width: min(1120px, 100%); margin: 0 auto; padding: clamp(24px, 5vw, 64px) 20px; color: #27313b; }
+.rb-hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(220px, .75fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
+.rb-eyebrow { color: #b21c2b; font-size: .85rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.rb-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.035em; line-height: 1.12; margin: 12px 0 20px; }
+.rb-hero-copy > p:not(.rb-eyebrow) { max-width: 58ch; font-size: 1.05rem; line-height: 1.6; }
+.rb-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.rb-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 12px 22px; border-radius: var(--rb-radius-md); font-weight: 750; text-decoration: none; }
+.rb-btn-primary { background: #ba1c2b; color: white; }
+.rb-btn-secondary { color: #a71928; background: #fff; border: 1px solid #a71928; }
+.rb-btn:hover { filter: brightness(.94); }
+.rb-hero .rb-note { margin-top: 18px; font-size: .84rem; color: #586474; }
+.rb-hero-art { min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px; background: linear-gradient(130deg, #fff1ef, #f4f6fa); border-radius: 28px; padding: 26px; text-align: center; }
+.rb-hero-art img { max-width: 100%; height: auto; object-fit: contain; }
+.rb-art-mark { font-weight: 700; max-width: 230px; font-size: 1.05rem; line-height: 1.35; }
+.rb-section-intro { margin: clamp(48px, 7vw, 80px) 0 22px; }
+.rb-section-intro h2 { font-size: clamp(1.55rem, 3.2vw, 2.25rem); line-height: 1.25; margin: 8px 0 12px; }
+.rb-section-intro > p:last-child { color: #586474; }
+.rb-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.rb-choice { display: grid; grid-template-columns: 95px 1fr; gap: 16px; padding: 22px; border: 1px solid #e2e5eb; border-radius: 18px; background: white; box-shadow: var(--rb-shadow-sm); }
+.rb-choice img { max-width: 95px; height: auto; }
+.rb-choice h3, .rb-steps h3 { font-size: 1.15rem; margin-bottom: 8px; }
+.rb-choice p, .rb-steps p { line-height: 1.5; color: #586474; }
+.rb-choice-link { grid-column: 1 / -1; color: #a71928; font-weight: 750; text-underline-offset: 4px; }
+.rb-steps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 20px; }
+.rb-steps > div { padding: 22px; background: #f7f8fa; border-radius: 18px; }
+.rb-step-number { display: inline-block; font-weight: 850; margin-bottom: 10px; color: #ba1c2b; }
+.rb-category-item { align-items: center; gap: 12px; flex-wrap: wrap; }
+.rb-category-item img { object-fit: cover; border-radius: 8px; }
+.rb-category-item .categoryItem { min-width: 130px; }
+.rb-empty { padding: 24px; text-align: center; background: #f7f8fa; border-radius: 12px; }
+.rb-form-error { color: #9d1521; font-weight: 700; }
+.rb-logout { padding: 16px; }
+.rb-logout button { cursor: pointer; border-radius: 8px; background: white; border: 1px solid #ad192a; color: #ad192a; padding: 10px 16px; font-weight: 700; }
+@media (max-width: 767px) {
+  .rb-landing { padding-top: 30px; }
+  .rb-hero, .rb-choices, .rb-steps { grid-template-columns: minmax(0, 1fr); }
+  .rb-hero-art { min-height: 180px; }
+  .rb-hero-art img { max-height: 130px; }
+  .rb-choice { grid-template-columns: 75px 1fr; }
+  .rb-choice img { width: 75px; }
+}
+
+/* Menu acessível de telas pequenas */
+.mobileBar { border: 0; background: transparent; padding: 8px 0; color: inherit; }
+.mobileBar svg { width: 25px; height: 25px; }
+@media (max-width: 767px) {
+  nav .bar.rb-nav-open { display: flex; left: 0; }
+  #main-content, .rb-landing, .rb-landing * { min-width: 0; }
+  .rb-landing { overflow-wrap: anywhere; }
+}
+
+#rb-operation-feedback { position: fixed; z-index: 1200; right: 16px; bottom: 16px; max-width: 340px; padding: 14px; background: #fff; border: 2px solid #a71928; border-radius: 10px; color: #7b1320; box-shadow: var(--rb-shadow-sm); }
+@media (max-width: 767px) {
+  #nav nav.rb-mobile-open { left: 0; display: flex; z-index: 1003; }
+  body.rb-menu-open::before { content: ""; position: fixed; inset: 0; background: rgb(0 0 0 / 40%); z-index: 1001; }
+  #nav { position: relative; z-index: 1002; }
+  #showMobile { cursor: pointer; }
+  #flex { min-width: 0; }
+  #flex main { min-width: 0; max-width: 100%; }
+}
+
+/* Formulário progressivo — componentes RB */
+.rb-signup { width: min(760px, 100%); margin: 0 auto; padding: 34px 20px 80px; box-sizing: border-box; }
+.rb-signup-intro h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 12px 0; }
+.rb-signup-intro > p:last-child { color: #586474; line-height: 1.5; margin-bottom: 24px; }
+.rb-signup-form { width: 100%; padding: clamp(18px, 4vw, 30px); background: #fff; border: 1px solid #e2e5eb; border-radius: 18px; box-shadow: var(--rb-shadow-sm); box-sizing: border-box; }
+.rb-progress { display: flex; justify-content: space-between; gap: 7px; padding: 0; list-style: none; margin-bottom: 16px; }
+.rb-progress li { flex: 1; padding: 9px 5px; border-radius: 8px; text-align: center; background: #f0f2f4; font-size: .8rem; font-weight: 700; color: #52606f; }
+.rb-progress .is-current { background: #ba1c2b; color: #fff; }
+.rb-step-status { color: #586474; margin: 12px 0 20px; }
+.rb-form-step { padding: 0; margin: 0; border: 0; min-width: 0; }
+.rb-form-step[hidden] { display: none !important; }
+.rb-form-step legend { font-size: 1.25rem; font-weight: 780; margin-bottom: 20px; }
+.rb-fields { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px 18px; }
+.rb-fields > label { display: flex; flex-direction: column; gap: 6px; font-size: .94rem; font-weight: 700; min-width: 0; }
+.rb-fields input,.rb-fields select { box-sizing: border-box; min-width: 0; max-width: 100%; width: 100%; min-height: 46px; background: #fff; border-radius: 8px; border: 1px solid #8b96a1; padding: 10px 12px; font: inherit; font-weight: 450; }
+.rb-help { grid-column: 1 / -1; font-size: .84rem; font-weight: 400; line-height: 1.45; color: #586474; margin: -9px 0 5px; }
+.rb-help a { color: #a71928; }
+.rb-form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px; flex-wrap: wrap; }
+.rb-form-actions > button[hidden] { display: none; }
+.rb-cep-btn { margin-top: 18px; padding: 11px 14px; background: white; color: #a71928; border: 1px solid currentColor; border-radius: 8px; cursor: pointer; }
+.rb-form-error:not([hidden]) { padding: 12px; background: #fff5f5; border: 1px solid #a71928; border-radius: 8px; margin: 14px 0; }
+@media (max-width: 640px) {
+  .rb-fields { grid-template-columns: minmax(0, 1fr); }
+  .rb-progress li { font-size: .7rem; }
+  .rb-form-actions { flex-direction: column-reverse; }
+  .rb-form-actions > button { width: 100%; }
+}
+
+/* Uma seção com padding deve caber no viewport sem somar 40px extras. */
+.rb-landing { box-sizing: border-box; }
+
+/* Dashboard com dados de catálogo do parceiro autenticado */
+.rb-dashboard { width: min(1100px, 100%); margin: 0 auto; padding: 20px; box-sizing: border-box; }
+.rb-dashboard h1 { font-size: clamp(1.7rem, 3vw, 2.35rem); margin: 10px 0; line-height: 1.2; }
+.rb-dashboard-header > p:last-child { color: #586474; }
+.rb-dashboard-metrics { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin: 28px 0; }
+.rb-dashboard-card { display: flex; flex-direction: column; gap: 8px; padding: 24px; border: 1px solid #e2e5eb; background: #fff; border-radius: 18px; box-shadow: var(--rb-shadow-sm); }
+.rb-dashboard-card p { font-size: .92rem; color: #586474; }
+.rb-dashboard-card strong { font-size: clamp(2rem, 5vw, 3rem); line-height: 1; color: #a71928; font-variant-numeric: tabular-nums; }
+.rb-dashboard-card span { font-size: .82rem; color: #586474; }
+.rb-dashboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.rb-dashboard-actions section { display: flex; align-items: flex-start; flex-direction: column; gap: 14px; padding: 24px; border-radius: 18px; background: #f7f8fa; }
+.rb-dashboard-actions h2 { font-size: 1.2rem; }
+.rb-dashboard-actions p { line-height: 1.55; color: #586474; flex: 1; }
+@media (max-width: 800px) { .rb-dashboard-metrics, .rb-dashboard-actions { grid-template-columns: minmax(0,1fr); } }

@@ -1,108 +1,36 @@
 <?php
-session_start();
-include("../config.php");
-
-if(empty($_SESSION['token'])){
-    echo '<script> window.location = "../"; </script>';
-}
-
-$result = mysqli_query($conn, "SELECT * FROM `client` WHERE id='". $_SESSION['id'] ."' LIMIT 1");
-
-if (!$result){
-} else {
-    if(mysqli_num_rows ($result) > 0 ){
-        $member = mysqli_fetch_assoc($result);
-        if($member['token'] == $_SESSION['token']){
-        } else {
-            echo '<script> window.location = "../; </script>';
-        }
-    } else {
-        echo '<script> window.location = "../; </script>';
+declare(strict_types=1);
+require_once __DIR__ . '/../app/bootstrap.php';
+rb_require_post();
+rb_require_csrf();
+$partnerId = rb_require_partner();
+$stmt = rb_db()->prepare("SELECT id, name FROM category WHERE type = 'sub' AND id_client = ? ORDER BY id");
+$stmt->bind_param('i', $partnerId);
+$stmt->execute();
+$categories = $stmt->get_result();
+$itemStmt = rb_db()->prepare('SELECT id, name, description, sale, img FROM item WHERE id_category = ? AND id_client = ? ORDER BY id');
+echo '<div class="rb-complements">';
+if ($categories->num_rows === 0) echo '<p role="status">Nenhum complemento cadastrado.</p>';
+while ($cat = $categories->fetch_assoc()) {
+    $id = (int) $cat['id'];
+    echo '<section class="categoryBox"><div class="categoryGroupView borderButton">';
+    echo '<h3 class="titleC">' . rb_h($cat['name']) . '</h3>';
+    echo '<button type="button" onclick="categorySubDel(' . $id . ', ' .
+        rb_js_arg($cat['name']) . ')">Remover complemento</button></div>';
+    $itemStmt->bind_param('ii', $id, $partnerId);
+    $itemStmt->execute();
+    $items = $itemStmt->get_result();
+    while ($item = $items->fetch_assoc()) {
+        $src = rb_safe_image($item['img']);
+        echo '<div class="categoryGroup2 rb-category-item">';
+        if ($src !== '') echo '<img loading="lazy" width="56" height="56" src="' . rb_h($src) . '" alt="">';
+        echo '<div class="categoryItem"><strong>' . rb_h($item['name']) . '</strong>';
+        echo '<span>' . rb_h($item['description']) . '</span></div>';
+        echo '<span>R$ ' . rb_h($item['sale']) . '</span>';
+        echo '<button type="button" onclick="categoryDelItem(' . (int) $item['id'] . ', ' .
+            rb_js_arg($item['name']) . ')">Remover item</button></div>';
     }
+    echo '<div class="categoryGroup2"><button type="button" class="categoryButtonItem" onclick="addNewItemCategory(' .
+        $id . ')">+ Adicionar item</button></div></section>';
 }
-
-    $result = mysqli_query($conn, "SELECT * FROM `category` WHERE type='sub' AND id_client='".$_SESSION['id']."'");
-    
-    echo '<div style="overflow: auto; margin: 0;">';
-    while($row = $result->fetch_assoc()) {
-        $result2 = mysqli_query($conn, "SELECT * FROM `item` WHERE id_category='".$row['id']."'");
-        echo '<div class="categoryBox">
-        <div class="categoryGroupView borderButton">
-            <h1 class="titleC">
-                '.$row['name'].'
-            </h1>
-            <div class="categoryMenuControl1">
-                <span class="angle-down">
-                </span>
-                <span class="categoryMenuControlHover">
-                    <span class="bars-staggered">
-                    </span>
-                    <span class="subMainMenu2">
-                        <span onmouseup="categorySubDel(`' .$row['id']. '`,`' .$row['name']. '`)">Remover</span>
-                    </span>
-                </span>
-            </div>
-        </div>
-        <div class="parent">
-                        <div class="categoryGroup2">
-                            <div>
-                            </div>
-                            <div>
-                            </div>
-                            <div>
-                                Item
-                            </div>
-                            <div>
-                                Preço
-                            </div>
-                            <div>
-                            </div>
-                        </div>';
-        while($row2 = $result2->fetch_assoc()) {
-        echo    '
-                        <div class="categoryGroup2">
-                            <div>
-                            </div>
-                            <div>
-                                <img src="'.$row2['img'].'" alt="">
-                            </div>
-                            <div class="categoryItem">
-                                <span>
-                                    '.$row2['name'].'
-                                </span>
-                                <span>
-                                    '.$row2['description'].'
-                                </span>
-                            </div>
-                            <div>
-                                R$ '.$row2['sale'].'
-                            </div>
-
-                            <div class="categoryMenuControl2">
-                                <span class="categoryMenuControlHover">
-                                    <span class="bars-staggered">
-                                    </span>
-                                    <span class="subMainMenu2">
-                                        <span onmouseup="categoryDelItem(`' .$row2['id']. '`,`' .$row2['name']. '`)">Remover</span>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                ';
-        }
-        echo '<div class="categoryGroup2">
-        <span class="categoryGroupButton">
-            <button id="addItem" onmouseup="addNewItemCategory(`' .$row['id']. '`)" class="categoryButtonItem">
-                + Adicionar item
-            </button>
-        </span>
-        </div>
-    </div></div>';
-    }
-
-    echo '</div>';
-    echo    '<div class="newCategoryButton">
-                <span class="newCategoryButtonCancel" onmouseup="closeWindow2()" >Cancelar</span>
-            </div>';
-
-    ?>
+echo '</div><div class="newCategoryButton"><button type="button" onclick="closeWindow2()">Cancelar</button></div>';

@@ -1,43 +1,35 @@
 <?php
-session_start();
-include("./config.php");
-
-$email = $_POST['email'];
-$password = $_POST['password'];
-
-$resultToken = "";
-
-
-$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-$count = mb_strlen($chars);
-
-for ($i = 0; $i < 64; $i++) {
-    $index = Rand(0, $count - 1);
-    $resultToken .= mb_substr($chars, $index, 1);
+declare(strict_types=1);
+require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/app/login-rate-limit.php';
+rb_require_post();
+rb_require_csrf();
+$email = trim((string) ($_POST['email'] ?? ''));
+$password = $_POST['password'] ?? '';
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !is_string($password)) {
+    rb_redirect('./index.html?pag=acess&erro=credentials');
 }
-
-$result = mysqli_query($conn, "SELECT * FROM `client` WHERE email='".$email."' LIMIT 1");
-
-if (!$result){
-    echo '<script> window.location = "index.html?pag=acess"; </script>';
-} else {
-    if(mysqli_num_rows ($result) > 0 ){
-        $member = mysqli_fetch_assoc($result);
-        if (password_verify($password, $member['password']))
-        {
-            $_SESSION['id'] = $member['id'];
-            $_SESSION['token'] = $resultToken;
-            if($member['block'] == "true"){
-                echo '<script> window.location = "index.html?pag=acess&erro=analise"; </script>';
-            } else {
-                mysqli_query($conn, "UPDATE `client` SET `token`='".$resultToken."' WHERE id='".$member['id']."'");
-                echo '<script> window.location = "./portal/index.html"; </script>';
-            }
-        } else {
-            echo '<script> window.location = "index.html?pag=acess&erro=password"; </script>';
-        }
-    } else {
-        echo '<script> window.location = "index.html?pag=acess&erro=email"; </script>';
-    }
+// Limita tentativas por identificador e IP com armazenamento no MySQL.
+rb_limit_login($email);
+$stmt = rb_db()->prepare('SELECT id, password, block FROM client WHERE email = ? LIMIT 1');
+$stmt->bind_param('s', $email);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+if (!$user || !password_verify($password, $user['password'])) {
+    rb_redirect('./index.html?pag=acess&erro=credentials');
 }
-?>
+if ($user['block'] === 'true') {
+    rb_redirect('./index.html?pag=acess&erro=analise');
+}
+rb_reset_login_limit($email);
+rb_start_session();
+session_regenerate_id(true);
+$id = (int) $user['id'];
+$token = bin2hex(random_bytes(32));
+$update = rb_db()->prepare('UPDATE client SET token = ? WHERE id = ?');
+$update->bind_param('si', $token, $id);
+$update->execute();
+$_SESSION['id'] = $id;
+$_SESSION['token'] = $token;
+$_SESSION['csrf'] = bin2hex(random_bytes(32));
+rb_redirect('./portal/index.php');

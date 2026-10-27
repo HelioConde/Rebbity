@@ -1,28 +1,28 @@
 <?php
-session_start();
-include("../config.php");
-
-if(empty($_SESSION['token'])){
-    echo '<script> window.location = "../"; </script>';
+declare(strict_types=1);
+require_once __DIR__ . '/../app/bootstrap.php';
+rb_require_post();
+rb_require_csrf();
+$partnerId = rb_require_partner();
+$id = filter_var($_POST['delNameCategoryID'] ?? null, FILTER_VALIDATE_INT);
+if (!$id) rb_error(422, 'Categoria inválida.');
+$db = rb_db();
+$check = $db->prepare("SELECT id FROM category WHERE id = ? AND id_client = ? AND type = 'sub' LIMIT 1");
+$check->bind_param('ii', $id, $partnerId);
+$check->execute();
+if (!$check->get_result()->fetch_assoc()) rb_error(403, 'Complemento não autorizado.');
+$db->begin_transaction();
+try {
+    $stmt = $db->prepare('DELETE FROM item WHERE id_category = ? AND id_client = ?');
+    $stmt->bind_param('ii', $id, $partnerId);
+    $stmt->execute();
+    $stmt = $db->prepare("DELETE FROM category WHERE id = ? AND id_client = ? AND type = 'sub'");
+    $stmt->bind_param('ii', $id, $partnerId);
+    $stmt->execute();
+    $db->commit();
+} catch (Throwable $error) {
+    $db->rollback();
+    error_log('Subcategory delete failed: ' . $error->getMessage());
+    rb_error(503, 'Erro ao remover complemento.');
 }
-
-$result = mysqli_query($conn, "SELECT * FROM `client` WHERE id='". $_SESSION['id'] ."' LIMIT 1");
-
-if (!$result){
-} else {
-    if(mysqli_num_rows ($result) > 0 ){
-        $member = mysqli_fetch_assoc($result);
-        if($member['token'] == $_SESSION['token']){
-        } else {
-            echo '<script> window.location = "../; </script>';
-        }
-    } else {
-        echo '<script> window.location = "../; </script>';
-    }
-}
-
-echo $_POST['delNameCategoryID'];
-
-mysqli_query($conn, "DELETE FROM category WHERE id=".$_POST['delNameCategoryID']."");
-
-?>
+echo 'OK';

@@ -1,54 +1,22 @@
 <?php
-session_start();
-include("../config.php");
-
-if(empty($_SESSION['token'])){
-    echo '<script> window.location = "../"; </script>';
-}
-
-$result = mysqli_query($conn, "SELECT * FROM `client` WHERE id='". $_SESSION['id'] ."' LIMIT 1");
-
-if (!$result){
-} else {
-    if(mysqli_num_rows ($result) > 0 ){
-        $member = mysqli_fetch_assoc($result);
-        if($member['token'] == $_SESSION['token']){
-        } else {
-            echo '<script> window.location = "../; </script>';
-        }
-    } else {
-        echo '<script> window.location = "../; </script>';
-    }
-}
-
-$path = $_FILES['imgInput2']['tmp_name'];
-$type = pathinfo($path, PATHINFO_EXTENSION);
-$data = file_get_contents($path);
-$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-
-$id_client = $_SESSION['id'];
-$newItemCategoryId = $_POST['newItemCategoryId'];
-$newItemCategoryName  = $_POST['newItemCategoryName'];
-$newItemCategorySale  = $_POST['newItemCategorySale'];
-$newItemCategoryDescription  = $_POST['newItemCategoryDescription'];
-$newItemCategoryPVD = $_POST['newItemCategoryPVD'];
-
-mysqli_query($conn, "INSERT INTO `item` (
-    `id_client`,
-    `id_category`,
-    `name`,
-    `sale`,
-    `description`,
-    `PDV`,
-    `img`
-) VALUES (
-    '$id_client',
-    '$newItemCategoryId',
-    '$newItemCategoryName',
-    '$newItemCategorySale',
-    '$newItemCategoryDescription',
-    '$newItemCategoryPVD',
-    '$base64'
-)");
-
-?>
+declare(strict_types=1);
+require_once __DIR__ . '/../app/bootstrap.php';
+rb_require_post();
+rb_require_csrf();
+$partnerId = rb_require_partner();
+$categoryId = filter_var($_POST['newItemCategoryId'] ?? null, FILTER_VALIDATE_INT);
+if (!$categoryId) rb_error(422, 'Categoria inválida.');
+$check = rb_db()->prepare("SELECT id FROM category WHERE id = ? AND id_client = ? AND type = 'sub' LIMIT 1");
+$check->bind_param('ii', $categoryId, $partnerId);
+$check->execute();
+if (!$check->get_result()->fetch_assoc()) rb_error(403, 'Categoria não autorizada.');
+$name = rb_post_text('newItemCategoryName', 100);
+$sale = rb_post_text('newItemCategorySale', 100);
+$description = rb_post_text('newItemCategoryDescription', 100, false);
+$pdv = rb_post_text('newItemCategoryPVD', 100, false);
+$img = rb_upload_image('imgInput2');
+$stmt = rb_db()->prepare('INSERT INTO item (id_client, id_category, name, sale, description, PDV, img, turn1, turn2, turn3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$empty = '';
+$stmt->bind_param('iissssssss', $partnerId, $categoryId, $name, $sale, $description, $pdv, $img, $empty, $empty, $empty);
+$stmt->execute();
+echo 'OK';

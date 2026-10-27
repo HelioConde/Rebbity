@@ -1,0 +1,21 @@
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+*.local.php
+config.local.php
+portal/config.local.php
+
+# Ferramentas de QA
+node_modules/
+playwright-report/
+test-results/
+
+# Arquivos locais/temporários
+.DS_Store
+Thumbs.db
+
+# Static Pages build / screenshot artifacts
+dist-pages/
+artifacts/
+playwright-report-pages/

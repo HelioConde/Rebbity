@@ -1,7 +1,22 @@
 <?php
-
-foreach ($_POST as $key => $value) {
-    echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-}
-
-?>
+declare(strict_types=1);
+require_once __DIR__ . '/../app/bootstrap.php';
+rb_require_post();
+rb_require_csrf();
+$partnerId = rb_require_partner();
+$categoryId = filter_var($_POST['newItemCategoryIdMain'] ?? null, FILTER_VALIDATE_INT);
+if (!$categoryId) rb_error(422, 'Selecione uma categoria.');
+$stmt = rb_db()->prepare("SELECT id FROM category WHERE id = ? AND id_client = ? AND type = 'main' LIMIT 1");
+$stmt->bind_param('ii', $categoryId, $partnerId);
+$stmt->execute();
+if (!$stmt->get_result()->fetch_assoc()) rb_error(403, 'Categoria não autorizada.');
+$name = rb_post_text('newItemName', 100);
+$sale = rb_post_text('newItemSale', 100);
+$description = rb_post_text('newItemDescription', 100, false);
+$pdv = rb_post_text('newItemPDV', 100, false);
+$image = rb_upload_image('imgInput');
+$empty = '';
+$stmt = rb_db()->prepare('INSERT INTO item (id_client, id_category, name, sale, description, PDV, img, turn1, turn2, turn3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+$stmt->bind_param('iissssssss', $partnerId, $categoryId, $name, $sale, $description, $pdv, $image, $empty, $empty, $empty);
+$stmt->execute();
+echo 'OK';
