@@ -1,268 +1,67 @@
-<div id="mainFo">
-    <div id="mainForm">
-        <form action="./insert_market.php" id="form" method="post">
-            <div class="formTitleCad">
-                <div>
-                    Informações do Mercado
-                </div>
-                <div>
-                    Preencha abaixo as informações sobre o seu futuro mercado na <span class="draft">Rebbity</span>
-                    com os dados do seu negócio
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="cnpj">
-                        CNPJ
-                    </label>
-                    <div>
-                        <input name="cnpj" id="cnpj" placeholder="00.000.000/0000-00">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="corporateName">
-                        Razão Social
-                    </label>
-                    <div>
-                        <input name="corporateName" id="corporateName" placeholder="Preencha a Razão Social">
-                    </div>
-                </div>
-                <div id="erro1" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="name" title="Nome que aparecerá no app">
-                        Nome da loja
-                    </label>
-                    <div class="flexForm2">
-                        <input name="name" id="name" placeholder="Exemplo: Loja da Ana"
-                            title="Nome que aparecerá no app">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="phone" title="Celular que aparecerá no app">
-                        Telefone da loja
-                    </label>
-                    <div class="flexForm2">
-                        <input name="phone" id="phone" placeholder="(00) 00000-0000"
-                            title="Celular que aparecerá no app">
-                    </div>
-                </div>
-                <div id="erro2" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="cep">
-                        CEP
-                    </label>
-                    <div class="flexForm2">
-                        <input name="cep" id="cep" placeholder="79900‑000" maxlength="8" minlength="8">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="state">
-                        Estado
-                    </label>
-                    <div class="flexForm2">
-                        <select name="state" id="state">
-                            <option value="AC"> Acre</option>
-                            <option value="AL"> Alagoas</option>
-                            <option value="AP"> Amapá</option>
-                            <option value="AM"> Amazonas</option>
-                            <option value="BA"> Bahia</option>
-                            <option value="CE"> Ceará</option>
-                            <option value="DF"> Distrito Federal</option>
-                            <option value="ES"> Espírito Santo</option>
-                            <option value="GO"> Goiás</option>
-                            <option value="MA"> Maranhão</option>
-                            <option value="MT"> Mato Grosso</option>
-                            <option value="MS"> Mato Grosso do Sul</option>
-                            <option value="MG"> Minas Gerais</option>
-                            <option value="PA"> Pará</option>
-                            <option value="PB"> Paraíba</option>
-                            <option value="PR"> Paraná</option>
-                            <option value="PE"> Pernambuco</option>
-                            <option value="PI"> Piauí</option>
-                            <option value="RJ"> Rio de Janeiro</option>
-                            <option value="RN"> Rio Grande do Norte</option>
-                            <option value="RS"> Rio Grande do Sul</option>
-                            <option value="RO"> Rondônia</option>
-                            <option value="RR"> Roraima</option>
-                            <option value="SC"> Santa Catarina</option>
-                            <option value="SP"> São Paulo</option>
-                            <option value="SE"> Sergipe</option>
-                            <option value="TO"> Tocantins</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="erro3" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="city">
-                        Cidade
-                    </label>
-                    <div class="flexForm2">
-                        <input name="city" id="city" placeholder="Cidade do seu negócio">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="district">
-                        Bairro
-                    </label>
-                    <div class="flexForm2">
-                        <input name="district" id="district" placeholder="Exemplo: Centro">
-                    </div>
-                </div>
-                <div id="erro4" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="address">
-                        Endereço
-                    </label>
-                    <div class="flexForm2">
-                        <input name="address" id="address" placeholder="Exemplo: Avenida Brasil">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="number">
-                        Número
-                    </label>
-                    <div class="flexForm2">
-                        <input name="number" id="number" placeholder="Exemplo: 123">
-                    </div>
-                </div>
-                <div id="erro5" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="complement">
-                        Complemento (opcional)
-                    </label>
-                    <div class="flexForm2">
-                        <input name="complement" id="complement" placeholder="Exemplo: 2° Andar">
-                    </div>
-                </div>
-                <div class="flexDIV2">
-                    <label for="DeliveryName">
-                        Serviço de Entrega?
-                    </label>
-                    <div>
-                        <div class="flexForm3">
-                            <input type="radio" id="DeliveryTrue" name="Delivery" value="true" checked>
-                            <label for="DeliveryTrue">Sim</label>
-                        </div>
-                        <div class="flexForm3">
-                            <input type="radio" id="DeliveryFalse" name="Delivery" value="false">
-                            <label for="DeliveryFalse">Não</label>
-                        </div>
-                    </div>
-                </div>
-                <div id="erro6" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="class">
-                        Categoria
-                    </label>
-                    <div class="flexForm2">
-                        <select name="class" id="class">
-                            <option value="Hipermercado">Hipermercado</option>
-                            <option value="Supermercado">Supermercado</option>
-                            <option value="Minimercado">Minimercado</option>
-                            <option value="Hortifruti">Hortifruti</option>
-                            <option value="Açougue">Açougue</option>
-                            <option value="Pet shop">Pet shop</option>
-                            <option value="Farmácia">Farmácia</option>
-                            <option value="Produtos Naturais">Produtos Naturais</option>
-                            <option value="Roupas">Roupas</option>
-                            <option value="Calçados">Calçados</option>
-                            <option value="Tecnologia">Tecnologia</option>
-                            <option value="Moveis">Moveis</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="email">
-                        Digite o seu email
-                    </label>
-                    <div class="flexForm2">
-                        <input type="email" name="email" id="email" placeholder="email@email.com">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="email2">
-                        Repita o seu email
-                    </label>
-                    <div class="flexForm2">
-                        <input type="email" name="email2" id="email2" placeholder="email@email.com">
-                    </div>
-                </div>
-                <div id="erro7" class="erro">
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="password">
-                        Digite a sua senha
-                    </label>
-                    <div class="flexForm2">
-                        <input type="password" name="password" id="password" placeholder="Digite aqui sua senha">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="password2">
-                        Repita a sua senha
-                    </label>
-                    <div class="flexForm2">
-                        <input type="password" name="password2" id="password2" placeholder="Repita a sua senha">
-                    </div>
-                </div>
-                <div id="erro8" class="erro">
-                </div>
-            </div>
-            <div class="formTitleCad margin-top">
-                <div>
-                    Informações do Proprietario
-                </div>
-                <div>
-                    Preencha abaixo com as informações do proprietario do mercado
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV">
-                    <label for="porpName">
-                        Nome do proprietario
-                    </label>
-                    <div>
-                        <input name="porpName" id="porpName" placeholder="Nome do proprietario">
-                    </div>
-                </div>
-                <div class="flexDIV">
-                    <label for="cpf">
-                        CPF
-                    </label>
-                    <div>
-                        <input name="cpf" id="cpf" placeholder="000.000.000-00">
-                    </div>
-                </div>
-            </div>
-            <div class="flexForm">
-                <div class="flexDIV auto">
-                    <input type="submit" class="submit" value="Enviar">
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<script src="./js/form.js?V3"></script>
-<script src="./js/bar.js?V3"></script>
+<section class="rb-signup" aria-labelledby="rb-form-title">
+ <div class="rb-signup-intro">
+   <a href="./index.html?pag=market">← Voltar</a>
+   <p class="rb-eyebrow">Cadastro de parceiro</p>
+   <h1 id="rb-form-title">Cadastre seu mercado</h1>
+   <p>Preencha as informações em quatro etapas. Seus dados serão enviados para análise, sem ativação automática.</p>
+ </div>
+ <form action="./insert_market.php" method="post" class="rb-signup-form" id="partner-signup">
+   <ol class="rb-progress" aria-label="Etapas do cadastro">
+     <li class="is-current" aria-current="step">1. Loja</li><li>2. Endereço</li>
+     <li>3. Acesso</li><li>4. Responsável</li>
+   </ol>
+   <p class="rb-step-status" role="status" aria-live="polite">Etapa 1 de 4 — Dados da loja</p>
+   <div id="rb-form-error" class="rb-form-error" role="alert" hidden></div>
+   <fieldset class="rb-form-step" data-step="0">
+     <legend>Informações da loja</legend>
+     <div class="rb-fields">
+       <label>CNPJ <input id="cnpj" name="cnpj" autocomplete="off" inputmode="numeric" placeholder="00.000.000/0000-00" required maxlength="18" aria-describedby="rb-cnpj-help"></label>
+       <p id="rb-cnpj-help" class="rb-help">Informe um CNPJ válido. A validação inicial é feita neste navegador.</p>
+       <label>Razão social <input id="corporateName" name="corporateName" autocomplete="organization" maxlength="120" required></label>
+       <label>Nome da loja <input id="name" name="name" maxlength="100" required></label>
+       <label>Telefone comercial <input id="phone" name="phone" autocomplete="tel" inputmode="tel" required maxlength="25"></label>
+       <label>Categoria <select id="class" name="class" required><option value="">Selecione</option>
+          <option value="market">Mercado</option><option value="pharmacy">Farmácia</option><option value="petshop">Pet shop</option>
+       </select></label>
+     </div>
+   </fieldset>
+   <fieldset class="rb-form-step" data-step="1" hidden>
+     <legend>Endereço comercial</legend>
+     <div class="rb-fields">
+       <label>CEP <input id="cep" name="cep" autocomplete="postal-code" inputmode="numeric" maxlength="9" required aria-describedby="rb-cep-help"></label>
+       <p id="rb-cep-help" class="rb-help">A consulta opcional por CEP utiliza o serviço ViaCEP.</p>
+       <label>Estado <input id="state" name="state" autocomplete="address-level1" maxlength="35" required></label>
+       <label>Cidade <input id="city" name="city" autocomplete="address-level2" maxlength="100" required></label>
+       <label>Bairro <input id="district" name="district" maxlength="100" required></label>
+       <label>Endereço <input id="address" name="address" autocomplete="street-address" maxlength="150" required></label>
+       <label>Número <input id="number" name="number" maxlength="12" required></label>
+       <label>Complemento (opcional) <input id="complement" name="complement" maxlength="100"></label>
+     </div>
+     <button type="button" class="rb-cep-btn" data-action="cep">Preencher endereço pelo CEP</button>
+   </fieldset>
+   <fieldset class="rb-form-step" data-step="2" hidden>
+     <legend>Crie o acesso</legend>
+     <div class="rb-fields">
+       <label>E-mail <input name="email" id="email" type="email" autocomplete="email" maxlength="100" required></label>
+       <label>Confirme o e-mail <input name="email2" id="email2" type="email" autocomplete="email" maxlength="100" required></label>
+       <label>Senha <input name="password" id="password" type="password" autocomplete="new-password" minlength="10" maxlength="200" required></label>
+       <label>Confirme a senha <input name="password2" id="password2" type="password" autocomplete="new-password" minlength="10" maxlength="200" required></label>
+     </div>
+     <p class="rb-help">Use pelo menos 10 caracteres. Nunca compartilhe sua senha.</p>
+   </fieldset>
+   <fieldset class="rb-form-step" data-step="3" hidden>
+     <legend>Responsável e confirmação</legend>
+     <div class="rb-fields">
+       <label>Nome do responsável <input id="porpName" name="porpName" autocomplete="name" maxlength="100"></label>
+       <label>CPF (quando aplicável) <input id="cpf" name="cpf" inputmode="numeric" maxlength="14"></label>
+     </div>
+     <p class="rb-help">Seu cadastro ficará pendente de análise. Antes de enviar, consulte os documentos de <a href="./doc/Aviso%20de%20privacidade%20da%20Rebbity.docx">privacidade</a> e <a href="./doc/TERMOS%20E%20CONDI%C3%87%C3%95ES%20GERAIS%20DA%20REBBITY%20PARA%20EMPRESAS.docx">termos</a> (documentos históricos sujeitos a revisão).</p>
+   </fieldset>
+   <div class="rb-form-actions">
+     <button class="rb-btn rb-btn-secondary" type="button" data-action="back" hidden>Voltar</button>
+     <button class="rb-btn rb-btn-primary" type="button" data-action="next">Continuar</button>
+     <button class="rb-btn rb-btn-primary" type="submit" data-action="submit" hidden>Enviar para análise</button>
+   </div>
+ </form>
+</section>
+<script src="./js/partner-form.js"></script>
