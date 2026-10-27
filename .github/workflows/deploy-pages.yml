@@ -1,0 +1,78 @@
+name: Publicar Rebbity no GitHub Pages
+
+on:
+  push:
+    branches:
+      - chore/modernizacao-auditoria-ux-2026-10
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependências de testes
+        run: npm install --no-audit --no-fund
+      - name: Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Construir site público isolado
+        run: npm run build:pages
+      - name: Playwright — rotas, CRUD, localStorage, acessibilidade e overflow
+        run: npm run test:pages
+      - name: Capturas automáticas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rebbity-pages-screenshots
+          path: |
+            artifacts/pages-screenshots/
+            playwright-report-pages/
+            test-results/
+          if-no-files-found: ignore
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Gerar artefato público sem PHP ou segredos
+        run: node scripts/build-pages.mjs
+      - name: Preparar GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Empacotar site estático
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist-pages
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
