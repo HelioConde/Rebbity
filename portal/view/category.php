@@ -738,7 +738,7 @@ rb_require_partner();
                         <p>Solte a foto</p>
                         <p>ou</p>
                         <p><label class="imgLabel2" for="imgInput2">Click Aqui</label></p>
-                        <input type="file" id="imgInputNewSub2" class="imgInput2" name="imgInput2">
+                        <input type="file" id="imgInput2" class="imgInput2" name="imgInput2">
                     </div>
                 </div>
             </div>
@@ -874,8 +874,8 @@ rb_require_partner();
                             <div id="drag_upload_file2">
                                 <p>Solte a foto</p>
                                 <p>ou</p>
-                                <p><label class="imgLabel2" for="imgInput2">Click Aqui</label></p>
-                                <input type="file" id="imgInput2" class="imgInput2" name="imgInput2">
+                                <p><label class="imgLabel2" for="imgInputSubCategory">Click Aqui</label></p>
+                                <input type="file" id="imgInputSubCategory" class="imgInput2" name="imgInput2">
                             </div>
                         </div>
                     </div>
