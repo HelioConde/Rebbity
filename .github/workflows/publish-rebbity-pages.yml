@@ -25,7 +25,7 @@ jobs:
       - name: Buscar snapshot publico validado sem mesclar backend
         uses: actions/checkout@v4
         with:
-          ref: c84de076422e5bd968ad06148ff182e88489cf28
+          ref: d0bb08d60c68b93bdf203354bc294d0acde7cb90
       - name: Node.js
         uses: actions/setup-node@v4
         with:
