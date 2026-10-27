@@ -53,6 +53,7 @@ register() {
     --data-urlencode "state=DF" \
     --data-urlencode "district=Centro" \
     --data-urlencode "address=Rua teste" \
+    --data-urlencode "number=123" \
     --data-urlencode "class=restaurante" \
     --data-urlencode "corporateName=Empresa teste" \
     --data-urlencode "cnpj=$cnpj" \
